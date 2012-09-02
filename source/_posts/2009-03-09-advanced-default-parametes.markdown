@@ -11,6 +11,7 @@ tags:
 ---
 
 Today I was quite amazed by one of Ruby features. It is about default values of method parameters. For example you can do something like this:
+
 ``` ruby
 def get_current_actions(project_id, status_id = params[:status_id] || DEFAULT_STATUS_ID)    
     # implementation goes here
