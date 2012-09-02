@@ -9,8 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="Back when I was just starting to program, we used to joke about Delphi coders. A Delphi coder wants to build a tool for cheating in games (read/write &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,42 +76,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/testing-octopress/">Testing Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-02T12:25:00+04:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">
-</div>
-  
-  
-
-
-    </article>
   
   
     <article>
@@ -1120,6 +1083,46 @@ Klass.say #=&gt; module
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/02/mongoid-db-system-namespaces-queries/">Mongoid, db.system.namespaces Queries</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-03T20:12:54+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
+
+<p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
+
+<p>I am still not sure what&#8217;s happening here. I&#8217;ll update this post when I discover something.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1135,10 +1138,6 @@ Klass.say #=&gt; module
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/2012/09/testing-octopress/">testing octopress</a>
-      </li>
-    
-      <li class="post">
         <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
       </li>
     
@@ -1152,6 +1151,10 @@ Klass.say #=&gt; module
     
       <li class="post">
         <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/fun-with-classes-find-which-class-is-the-biggest/">Fun with classes: find which class is the biggest :)</a>
       </li>
     
   </ul>
