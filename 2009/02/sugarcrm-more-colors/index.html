@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SugarCRM: More colors! - Rock, Paper, Software</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="When I was implementing previous issue, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://stulentsev.github.com/2009/02/sugarcrm-more-colors/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Rock, Paper, Software" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rock, Paper, Software</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SugarCRM: More Colors!</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-06T18:24:41+03:00" pubdate data-updated="true">Feb 6<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>When I was implementing <a href="http://software.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way it becomes somewhat easier to identify originator of an event. &#8220;Yeah, it would be cool, but it can be tricky and difficult to implement&#8221;, I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn&#8217;t quite enjoyed the experience.</p>
+
+<p>But later at home I was thinking about it and decided that it may not be as hard as it looks. We can divide the task into two subtasks:</p>
+
+<ul>
+<li><p>provide a unique color for each user</p></li>
+<li><p>use this color when generating markup for an event</p></li>
+</ul>
+
+
+<p>The latter subtask was quite easy to implement, I already knew a place where the markup was generated. I was more scared by the former one. If done in &#8220;enterprisey&#8221; way, it could involve new property in User entity, new configuration screens, database alterations, etc. But there is a solution almost as good as abovementioned and much more simple. Let&#8217;s define a function that maps user name to color. md5() is a good candidate :-)</p>
+
+<pre><code>function get_color_by_name($name)
+{
+    $html_color_string = substr(md5($name), 0, 6);
+    return $html_color_string;
+}
+</code></pre>
+
+<p>I also used RGB&lt;=>HSV transformation functions, because I wanted to get lighter colors. Initially I wanted to highlight event&#8217;s name with the color, but it turned out that text is not always readable. I decided not to write functions that calculate good contrasting colors and put a small color rectangle instead of highlight. This rectangle is essentially a span with several &nbsp; &#8216;s as a body.</p>
+
+<p>So, final result looks like this:<a href="http://software.tulentsev.com/wp-content/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
+
+<p>Here is <a href="http://software.tulentsev.com/wp-content/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-06T18:24:41+03:00" pubdate data-updated="true">Feb 6<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sugarcrm/'>SugarCRM</a>, <a class='category' href='/blog/categories/web-development/'>Web development</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2009/02/sugarcrm-more-colors/" data-via="" data-counturl="http://stulentsev.github.com/2009/02/sugarcrm-more-colors/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2009/01/unmount-this-drive-please/" title="Previous Post: Unmount this drive... Please?">&laquo; Unmount this drive... Please?</a>
+      
+      
+        <a class="basic-alignment right" href="/2009/03/making-more-mockups/" title="Next Post: Making more mockups">Making more mockups &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://stulentsev.github.com/2009/02/sugarcrm-more-colors/';
+        var disqus_url = 'http://stulentsev.github.com/2009/02/sugarcrm-more-colors/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

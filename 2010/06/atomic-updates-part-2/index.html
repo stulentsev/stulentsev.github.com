@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Atomic updates, part 2 - Rock, Paper, Software</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="Let&#8217;s review another common scenario: posts and votes. Mongo&#8217;s approach would be to store vote count in the post itself (caching) and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://stulentsev.github.com/2010/06/atomic-updates-part-2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Rock, Paper, Software" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rock, Paper, Software</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Atomic Updates, Part 2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-02T15:12:41+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Let&#8217;s review another common scenario: posts and votes. Mongo&#8217;s approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let&#8217;s assume we want to register a new vote on post. This operation consists of three steps:</p>
+
+<blockquote><ol>
+<li>ensure that the voter hasn&#8217;t voted yet, and, if not,</li>
+<li>increment the number of votes and</li>
+<li>add the new voter to the array.</li>
+</ol>
+</blockquote>
+
+<p>MongoDB&#8217;s query and update features allows us to perform all three actions in a single operation. Here&#8217;s what that would look like from the shell:</p>
+
+<blockquote><pre><code>// Assume that story_id and user_id represent real story and user ids.
+db.stories.update({_id: story_id, voters: {'$ne': user_id}}, 
+  {'$inc': {votes: 1}, '$push': {voters: user_id}});
+</code></pre></blockquote>
+
+<p>What this says is &#8220;get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array.&#8221;</p>
+
+<p>This operation highly efficient; it&#8217;s also reliable. The one caveat is that, because update operations are &#8220;fire and forget,&#8221; you won&#8217;t get a response from the server. But in most cases, this should be a non-issue.</p>
+
+<p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
+
+<p>How would you implement this in your regular SQL database?</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-02T15:12:41+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/database/'>Database</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2010/06/atomic-updates-part-2/" data-via="" data-counturl="http://stulentsev.github.com/2010/06/atomic-updates-part-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2010/06/mongoid-and-atomic-increment/" title="Previous Post: MongoId and atomic increment">&laquo; MongoId and atomic increment</a>
+      
+      
+        <a class="basic-alignment right" href="/2010/08/funny-side-benefit/" title="Next Post: Funny side benefit :-)">Funny side benefit :-) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://stulentsev.github.com/2010/06/atomic-updates-part-2/';
+        var disqus_url = 'http://stulentsev.github.com/2010/06/atomic-updates-part-2/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

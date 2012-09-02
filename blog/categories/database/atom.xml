@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Database | Rock, Paper, Software]]></title>
+  <link href="http://stulentsev.github.com/blog/categories/database/atom.xml" rel="self"/>
+  <link href="http://stulentsev.github.com/"/>
+  <updated>2012-09-02T12:26:39+04:00</updated>
+  <id>http://stulentsev.github.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Atomic updates, part 2]]></title>
+    <link href="http://stulentsev.github.com/2010/06/atomic-updates-part-2/"/>
+    <updated>2010-06-02T15:12:41+04:00</updated>
+    <id>http://stulentsev.github.com/2010/06/atomic-updates-part-2</id>
+    <content type="html"><![CDATA[<p>Let's review another common scenario: posts and votes. Mongo's approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let's assume we want to register a new vote on post. This operation consists of three steps:</p>
+
+<blockquote><ol>
+<li>ensure that the voter hasn't voted yet, and, if not,</li>
+<li>increment the number of votes and</li>
+<li>add the new voter to the array.</li>
+</ol>
+</blockquote>
+
+<p>MongoDB's query and update features allows us to perform all three actions in a single operation. Here's what that would look like from the shell:</p>
+
+<blockquote><pre><code>// Assume that story_id and user_id represent real story and user ids.
+db.stories.update({_id: story_id, voters: {'$ne': user_id}}, 
+  {'$inc': {votes: 1}, '$push': {voters: user_id}});
+</code></pre></blockquote>
+
+<p>What this says is "get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array."</p>
+
+<p>This operation highly efficient; it's also reliable. The one caveat is that, because update operations are "fire and forget," you won't get a response from the server. But in most cases, this should be a non-issue.</p>
+
+<p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
+
+<p>How would you implement this in your regular SQL database?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MongoId and atomic increment]]></title>
+    <link href="http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment/"/>
+    <updated>2010-06-02T00:01:26+04:00</updated>
+    <id>http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment</id>
+    <content type="html"><![CDATA[<p>I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too comfortable. Plus we're all hooked to ORM sweeteners. So people started developing ORM libraries for MongoDB and Ruby (<a href="http://mongoid.org">MongoId</a>, <a href="http://github.com/mongomapper/mongomapper">MongoMapper</a> to name a few).</p>
+
+<p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
+
+<pre><code>update users set spam_count = spam_count + 1;
+</code></pre>
+
+<p>Mongo Ruby driver supports this kind of operation, but MongoId doesn't. So I was trying to get down to the driver. And this is what I couldn't easily find in the docs. If you're like me, I'll save you a couple of hours. Here it is:</p>
+
+<pre><code># assume we know object id already
+User.collection.update({'_id' =&gt; '4c05848e45760182b5000001'}, {'$inc' =&gt; {'spam_count' =&gt; 1}})
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

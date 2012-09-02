@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Email validation done right - Rock, Paper, Software</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like: /[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/ It &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://stulentsev.github.com/2012/01/email-validation-done-right/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Rock, Paper, Software" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rock, Paper, Software</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Email Validation Done Right</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-11T21:48:24+04:00" pubdate data-updated="true">Jan 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like:</p>
+
+<pre><code>    /[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/
+</code></pre>
+
+<p>It works, right? WRONG. Sure it&#8217;ll handle a couple of your test examples. But it&#8217;s not ready for real world usage. Here&#8217;s a standards compliant Perl regex.</p>
+
+<pre><code>/(?(DEFINE)
+   (?&lt;address&gt;         (?&amp;mailbox;) | (?&amp;group;))
+   (?&lt;mailbox&gt;         (?&amp;name;_addr) | (?&amp;addr;_spec))
+   (?&lt;name_addr&gt;       (?&amp;display;_name)? (?&amp;angle;_addr))
+   (?&lt;angle_addr&gt;      (?&amp;CFWS;)? &lt; (?&amp;addr;_spec) &gt; (?&amp;CFWS;)?)
+   (?&lt;group&gt;           (?&amp;display;_name) : (?:(?&amp;mailbox;_list) | (?&amp;CFWS;))? ;
+                                          (?&amp;CFWS;)?)
+   (?&lt;display_name&gt;    (?&amp;phrase;))
+   (?&lt;mailbox_list&gt;    (?&amp;mailbox;) (?: , (?&amp;mailbox;))*)
+
+   (?&lt;addr_spec&gt;       (?&amp;local;_part) \@ (?&amp;domain;))
+   (?&lt;local_part&gt;      (?&amp;dot;_atom) | (?&amp;quoted;_string))
+   (?&lt;domain&gt;          (?&amp;dot;_atom) | (?&amp;domain;_literal))
+   (?&lt;domain_literal&gt;  (?&amp;CFWS;)? \[ (?: (?&amp;FWS;)? (?&amp;dcontent;))* (?&amp;FWS;)?
+                                 \] (?&amp;CFWS;)?)
+   (?&lt;dcontent&gt;        (?&amp;dtext;) | (?&amp;quoted;_pair))
+   (?&lt;dtext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x5a\x5e-\x7e])
+
+   (?&lt;atext&gt;           (?&amp;ALPHA;) | (?&amp;DIGIT;) | [!#\$%&amp;'*+-/=?^_`{|}~])
+   (?&lt;atom&gt;            (?&amp;CFWS;)? (?&amp;atext;)+ (?&amp;CFWS;)?)
+   (?&lt;dot_atom&gt;        (?&amp;CFWS;)? (?&amp;dot;_atom_text) (?&amp;CFWS;)?)
+   (?&lt;dot_atom_text&gt;   (?&amp;atext;)+ (?: \. (?&amp;atext;)+)*)
+
+   (?&lt;text&gt;            [\x01-\x09\x0b\x0c\x0e-\x7f])
+   (?&lt;quoted_pair&gt;     \\ (?&amp;text;))
+
+   (?&lt;qtext&gt;           (?&amp;NO;_WS_CTL) | [\x21\x23-\x5b\x5d-\x7e])
+   (?&lt;qcontent&gt;        (?&amp;qtext;) | (?&amp;quoted;_pair))
+   (?&lt;quoted_string&gt;   (?&amp;CFWS;)? (?&amp;DQUOTE;) (?:(?&amp;FWS;)? (?&amp;qcontent;))*
+                        (?&amp;FWS;)? (?&amp;DQUOTE;) (?&amp;CFWS;)?)
+
+   (?&lt;word&gt;            (?&amp;atom;) | (?&amp;quoted;_string))
+   (?&lt;phrase&gt;          (?&amp;word;)+)
+
+   # Folding white space
+   (?&lt;fws&gt;             (?: (?&amp;WSP;)* (?&amp;CRLF;))? (?&amp;WSP;)+)
+   (?&lt;ctext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x27\x2a-\x5b\x5d-\x7e])
+   (?&lt;ccontent&gt;        (?&amp;ctext;) | (?&amp;quoted;_pair) | (?&amp;comment;))
+   (?&lt;comment&gt;         \( (?: (?&amp;FWS;)? (?&amp;ccontent;))* (?&amp;FWS;)? \) )
+   (?&lt;cfws&gt;            (?: (?&amp;FWS;)? (?&amp;comment;))*
+                       (?: (?:(?&amp;FWS;)? (?&amp;comment;)) | (?&amp;FWS;)))
+
+   # No whitespace control
+   (?&lt;no_ws_ctl&gt;       [\x01-\x08\x0b\x0c\x0e-\x1f\x7f])
+
+   (?&lt;alpha&gt;           [A-Za-z])
+   (?&lt;digit&gt;           [0-9])
+   (?&lt;crlf&gt;            \x0d \x0a)
+   (?&lt;dquote&gt;          ")
+   (?&lt;wsp&gt;             [\x20\x09])
+ )
+
+ (?&amp;address;)/x
+</code></pre>
+
+<p> I couldn&#8217;t even imagine that the matter is <em>this</em> complex.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-11T21:48:24+04:00" pubdate data-updated="true">Jan 11<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2012/01/email-validation-done-right/" data-via="" data-counturl="http://stulentsev.github.com/2012/01/email-validation-done-right/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2010/08/jquery-chaining/" title="Previous Post: jQuery chaining">&laquo; jQuery chaining</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/01/how-to-quickly-lock-screen-in-mac-os-x/" title="Next Post: How to quickly lock screen in Mac OS X?">How to quickly lock screen in Mac OS X? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://stulentsev.github.com/2012/01/email-validation-done-right/';
+        var disqus_url = 'http://stulentsev.github.com/2012/01/email-validation-done-right/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

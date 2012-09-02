@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Deploying with Sinatra + Capistrano + Unicorn - Rock, Paper, Software</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="Today we&#8217;ll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let&#8217;s think of a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://stulentsev.github.com/2012/03/deploying-with-sinatra-capistrano-unicorn/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Rock, Paper, Software" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rock, Paper, Software</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Deploying With Sinatra + Capistrano + Unicorn</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-09T20:02:46+04:00" pubdate data-updated="true">Mar 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Today we&#8217;ll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let&#8217;s think of a stupid name for this project. What about &#8220;sincapun&#8221;? Any objections? Good, let&#8217;s proceed.</p>
+
+<pre><code>mkdir sincapun
+cd sincapun
+</code></pre>
+
+<p>Minimal runnable version:</p>
+
+<pre><code># Gemfile
+gem 'sinatra'
+
+
+# sincapun.rb
+require 'sinatra'
+
+get '/' do
+    "Hello world"
+end
+</code></pre>
+
+<p>Let&#8217;s see if we can run it&#8230;</p>
+
+<pre><code>$ bundle exec ruby sincapun.rb 
+[2012-03-09 16:04:17] INFO  WEBrick 1.3.1
+[2012-03-09 16:04:17] INFO  ruby 1.9.3 (2012-02-16) [x86_64-darwin11.3.0]
+== Sinatra/1.3.2 has taken the stage on 4567 for development with backup from WEBrick
+[2012-03-09 16:04:17] INFO  WEBrick::HTTPServer#start: pid=14871 port=4567
+</code></pre>
+
+<p>So far, so good. Now let&#8217;s convert it to modular app and create a proper rackup file.</p>
+
+<pre><code># sincapun.rb
+require 'sinatra'
+
+class Sincapun &lt; Sinatra::Base
+  get '/' do
+    "Hello world"
+  end
+end
+
+# config.ru
+require './sincapun'
+run Sincapun
+</code></pre>
+
+<p>At this point our app is runnable by every Rack-compatible server (thin, unicorn, &#8230;). Let&#8217;s add some Capistrano to it.</p>
+
+<pre><code># Gemfile
+source :rubygems
+
+gem 'sinatra'
+gem 'unicorn'
+gem 'capistrano'
+
+
+
+
+
+
+
+$ bundle install
+Using highline (1.6.11) 
+Using net-ssh (2.3.0) 
+Using net-scp (1.0.4) 
+Using net-sftp (2.0.5) 
+Using net-ssh-gateway (1.1.0) 
+Using capistrano (2.11.2) 
+Using kgio (2.7.2) 
+Using rack (1.4.1) 
+Using rack-protection (1.2.0) 
+Using raindrops (0.8.0) 
+Using tilt (1.3.3) 
+Using sinatra (1.3.2) 
+Using unicorn (4.2.0) 
+Using bundler (1.0.22) 
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+
+$ capify .
+[add] writing './Capfile'
+[add] making directory './config'
+[add] writing './config/deploy.rb'
+[done] capified!
+</code></pre>
+
+<p>Let&#8217;s improve our capistrano config a little bit.</p>
+
+<pre><code># config/deploy.rb
+# We're using RVM on a server, need this.
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require 'rvm/capistrano'
+set :rvm_ruby_string, '1.9.3'
+set :rvm_type, :user
+
+# Bundler tasks
+require 'bundler/capistrano'
+
+set :application, "sincapun"
+set :repository,  "git@github.com:stulentsev/sincapun.git"
+
+set :scm, :git
+
+# do not use sudo
+set :use_sudo, false
+set(:run_method) { use_sudo ? :sudo : :run }
+
+# This is needed to correctly handle sudo password prompt
+default_run_options[:pty] = true
+
+set :user, "myname"
+set :group, user
+set :runner, user
+
+set :host, "#{user}@myhost" # We need to be able to SSH to that box as this user.
+role :web, host
+role :app, host
+
+set :rails_env, :production
+
+# Where will it be located on a server?
+set :deploy_to, "/srv/#{application}"
+set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
+set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
+
+# Unicorn control tasks
+namespace :deploy do
+  task :restart do
+    run "if [ -f #{unicorn_pid} ]; then kill -USR2 `cat #{unicorn_pid}`; else cd #{deploy_to}/current &amp;&amp; bundle exec unicorn -c #{unicorn_conf} -E #{rails_env} -D; fi"
+  end
+  task :start do
+    run "cd #{deploy_to}/current &amp;&amp; bundle exec unicorn -c #{unicorn_conf} -E #{rails_env} -D"
+  end
+  task :stop do
+    run "if [ -f #{unicorn_pid} ]; then kill -QUIT `cat #{unicorn_pid}`; fi"
+  end
+end
+</code></pre>
+
+<p>We need a config file for Unicorn. Here is what it may look like:</p>
+
+<pre><code># define paths and filenames
+deploy_to = "/srv/sincapun"
+rails_root = "#{deploy_to}/current"
+pid_file = "#{deploy_to}/shared/pids/unicorn.pid"
+socket_file= "#{deploy_to}/shared/unicorn.sock"
+log_file = "#{rails_root}/log/unicorn.log"
+err_log = "#{rails_root}/log/unicorn_error.log"
+old_pid = pid_file + '.oldbin'
+
+timeout 30
+worker_processes 2 # increase or decrease
+listen socket_file, :backlog =&gt; 1024
+
+pid pid_file
+stderr_path err_log
+stdout_path log_file
+
+# make forks faster
+preload_app true 
+
+# make sure that Bundler finds the Gemfile
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = File.expand_path('../Gemfile', File.dirname(__FILE__))
+end
+
+before_fork do |server, worker|
+  defined?(ActiveRecord::Base) and
+      ActiveRecord::Base.connection.disconnect!
+
+  # zero downtime deploy magic:
+  # if unicorn is already running, ask it to start a new process and quit.
+  if File.exists?(old_pid) &amp;&amp; server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      # someone else did our job for us
+    end
+  end
+end
+
+after_fork do |server, worker|
+
+  # re-establish activerecord connections.
+  defined?(ActiveRecord::Base) and
+      ActiveRecord::Base.establish_connection
+end
+</code></pre>
+
+<p>That should do it. Now you can deploy your app, assuming that you have <a href="http://beginrescueend.com/">RVM</a> on the server, you can SSH into it and write to /srv directory.</p>
+
+<pre><code>cap deploy:setup
+cap deploy
+</code></pre>
+
+<p>Deploy should spit a lot of text into the console, and there should be no errors. Verify that our unicorns are launched correctly by logging into the server and running this:</p>
+
+<pre><code>$ ps aux | grep sincapun
+myuser   24851  2.0  0.1  88480 21024 ?        Sl   11:42   0:00 unicorn master -c /srv/sincapun/current/config/unicorn.rb -E production -D                                         
+myuser   24854  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[0] -c /srv/sincapun/current/config/unicorn.rb -E production -D                                      
+myuser   24857  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[1] -c /srv/sincapun/current/config/unicorn.rb -E production -D                                      
+</code></pre>
+
+<p>To access these unicorns from the internet, you need to put a reverse proxy in front of them. But that is another story.</p>
+
+<p>You can get a full copy of this code <a href="https://github.com/stulentsev/sincapun">from Github repo</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-09T20:02:46+04:00" pubdate data-updated="true">Mar 9<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2012/03/deploying-with-sinatra-capistrano-unicorn/" data-via="" data-counturl="http://stulentsev.github.com/2012/03/deploying-with-sinatra-capistrano-unicorn/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/" title="Previous Post: How to keep your system clock synchronized on Ubuntu?">&laquo; How to keep your system clock synchronized on Ubuntu?</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/" title="Next Post: How to dump your MongoDB database partially (only selected tables)">How to dump your MongoDB database partially (only selected tables) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://stulentsev.github.com/2012/03/deploying-with-sinatra-capistrano-unicorn/';
+        var disqus_url = 'http://stulentsev.github.com/2012/03/deploying-with-sinatra-capistrano-unicorn/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

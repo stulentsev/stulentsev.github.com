@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Unmount this drive... Please? - Rock, Paper, Software</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="One thing I dislike in my current Vista installation is how it behaves while trying to unmount USB harddrive. I have a 320 gig external drive, which &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://stulentsev.github.com/2009/01/unmount-this-drive-please/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Rock, Paper, Software" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rock, Paper, Software</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Unmount This Drive... Please?</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-01-08T13:58:18+03:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>One thing I dislike in my current Vista installation is how it behaves while trying to unmount USB harddrive. I have a 320 gig external drive, which serves as a storage for my backups, torrents and videos. Also I store and run different virtual machines from it.</p>
+
+<p>This morning I was about to go to the office. I shut down <a href="http://www.utorrent.com/">uTorrent</a> and clicked &#8220;Safely remove&#8221; on my drive. &#8220;This disk cannot be removed right now. I don&#8217;t know who uses it, but someone surely is.&#8221; was the response. I tried again. The same result. Hmm, maybe some program or explorer window is indeed hanging around. I double-checked all icons on a taskbar, then running processes in Task Manager. Nothing.</p>
+
+<p>&#8220;What&#8217;s wrong with you?&#8221;, I said to the laptop and tried once again. &#8220;Now you can safely remove the hardware&#8221;. Oh, thank you so much! Why couldn&#8217;t you do it the first time I asked you? (And this happens to me on a regular basis, daily. Sometimes, two or three times a day).</p>
+
+<p>As a tech guy I can guess what&#8217;s happening. uTorrent opens a lot of files and it probably takes some time to close them and flush all buffers to the drive (which is not very fast, it is external tiny box). Ok, no problem with that. But couldn&#8217;t it be done synchronously? I think, Windows can easily recognize situations when some program has open file handles on the drive, or just some file buffers need to be flushed. In the latter case it could show a popup &#8220;Removing the drive, please wait&#8230;&#8221; and do its work. That would leave no space for speculations.</p>
+
+<p>In the other case (when a program uses a disk): is it too difficult to point at the culprit? Some installers can do this. And I am pretty sure there is a 3rd party software that does this. This is pure usability issue. I hope they&#8217;ll take care of it in Windows 7.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-01-08T13:58:18+03:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/windows/'>Windows</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2009/01/unmount-this-drive-please/" data-via="" data-counturl="http://stulentsev.github.com/2009/01/unmount-this-drive-please/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2009/01/formatting-with-named-parameters/" title="Previous Post: Formatting with named parameters">&laquo; Formatting with named parameters</a>
+      
+      
+        <a class="basic-alignment right" href="/2009/02/sugarcrm-more-colors/" title="Next Post: SugarCRM: More colors!">SugarCRM: More colors! &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://stulentsev.github.com/2009/01/unmount-this-drive-please/';
+        var disqus_url = 'http://stulentsev.github.com/2009/01/unmount-this-drive-please/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

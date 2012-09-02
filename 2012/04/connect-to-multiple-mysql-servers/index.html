@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Connect to multiple MySQL servers - Rock, Paper, Software</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://stulentsev.github.com/2012/04/connect-to-multiple-mysql-servers/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Rock, Paper, Software" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Rock, Paper, Software</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Connect to Multiple MySQL Servers</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T11:02:36+04:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
+
+<pre><code>def self.use_table_for_app aid
+  config = get_connection_config aid
+  ActiveRecord::Base.establish_connection config
+end
+</code></pre>
+
+<p>This works, but it creates a new connection on every call. Let&#8217;s suppose, we&#8217;re processing a queue and we&#8217;re handling events from different apps (customers). The cost of setting up a connection can easily outweigh the actual work. We need to cache that somehow.</p>
+
+<p>Now, <code>ActiveRecord::Base</code> has a method called <code>connection_config</code> that returns, well, configuration of current connection. We can compare that to what we have on hands and, if they match, do not reconnect. Here&#8217;s how our code looks like now:</p>
+
+<pre><code>def self.use_table_for_app aid
+  config = get_connection_config aid
+
+  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
+    ActiveRecord::Base.establish_connection config
+  end
+end
+
+def can_use_connection? config
+  current_config = ActiveRecord::Base.connection_config
+
+  # current config can have more keys than our config (or vice versa), so simple hash comparison doesn't work.
+  config.each do |k, v|
+    # if even a single parameter is different - can't reuse this connection.
+    if config[k] != current_config[k]
+      # TODO: log warning
+      return false
+    end
+  end
+  true
+end
+</code></pre>
+
+<p>Looks almost good. Now let&#8217;s extract this to a module for ease of re-using. Here&#8217;s the final code.</p>
+
+<pre><code>module SqlModelHelpers
+  def self.included klass
+    klass.send :extend, ClassMethods
+  end
+
+  module ClassMethods
+    def setup_connection aid
+      # TODO: do not reestablish good connections.
+      # 1. get config to connect
+      # 2. compare with current config (ActiveRecord::Base.connection_config)
+      # 3. if configs match and connection is open - do not establish_connection
+      config = get_connection_config aid
+
+      unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
+        ActiveRecord::Base.establish_connection config
+      end
+    end
+
+    def can_use_connection? config
+      current_config = ActiveRecord::Base.connection_config
+
+      config.each do |k, v|
+        if config[k] != current_config[k]
+          # TODO: log warning
+          return false
+        end
+      end
+      true
+    end
+  end
+end
+
+class MyModel &lt; ActiveRecord::Base
+  include SqlModelHelpers
+
+  def self.use_table_for_app aid
+    setup_connection aid
+
+    table_name
+  end
+end
+</code></pre>
+
+<p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T11:02:36+04:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2012/04/connect-to-multiple-mysql-servers/" data-via="" data-counturl="http://stulentsev.github.com/2012/04/connect-to-multiple-mysql-servers/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/04/define-module-programmatically/" title="Previous Post: Define module programmatically">&laquo; Define module programmatically</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/04/can-i-haz-a-gem/" title="Next Post: Can I haz a gem?">Can I haz a gem? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://stulentsev.github.com/2012/04/connect-to-multiple-mysql-servers/';
+        var disqus_url = 'http://stulentsev.github.com/2012/04/connect-to-multiple-mysql-servers/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

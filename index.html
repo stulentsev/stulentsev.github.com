@@ -9,7 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,7 +78,982 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/09/testing-octopress/">Testing Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-02T12:25:00+04:00" pubdate data-updated="true">Sep 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/can-i-haz-a-gem/">Can I Haz a Gem?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T11:23:48+04:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Back when I was just starting to program, we used to joke about Delphi coders.</p>
+
+<blockquote><p>A Delphi coder wants to build a tool for cheating in games (read/write memory of another process). So, before writing a single line of code he goes to a forum and asks: &#8220;Are there ready-made components for building game cheating tools?&#8221;</p></blockquote>
+
+<p>I guess, this happens to every widely adopted technology that has plugins/libraries. <a href="http://stackoverflow.com/questions/10022215/building-an-auction-with-ruby-on-rails">An example</a>.</p>
+
+<p><img src="http://software.tulentsev.com/wp-content/uploads/2012/04/screenshot_2012_04_05_071714.png" alt="Screenshot 2012 04 05 07.17.14" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to Multiple MySQL Servers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T11:02:36+04:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
+
+<pre><code>def self.use_table_for_app aid
+  config = get_connection_config aid
+  ActiveRecord::Base.establish_connection config
+end
+</code></pre>
+
+<p>This works, but it creates a new connection on every call. Let&#8217;s suppose, we&#8217;re processing a queue and we&#8217;re handling events from different apps (customers). The cost of setting up a connection can easily outweigh the actual work. We need to cache that somehow.</p>
+
+<p>Now, <code>ActiveRecord::Base</code> has a method called <code>connection_config</code> that returns, well, configuration of current connection. We can compare that to what we have on hands and, if they match, do not reconnect. Here&#8217;s how our code looks like now:</p>
+
+<pre><code>def self.use_table_for_app aid
+  config = get_connection_config aid
+
+  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
+    ActiveRecord::Base.establish_connection config
+  end
+end
+
+def can_use_connection? config
+  current_config = ActiveRecord::Base.connection_config
+
+  # current config can have more keys than our config (or vice versa), so simple hash comparison doesn't work.
+  config.each do |k, v|
+    # if even a single parameter is different - can't reuse this connection.
+    if config[k] != current_config[k]
+      # TODO: log warning
+      return false
+    end
+  end
+  true
+end
+</code></pre>
+
+<p>Looks almost good. Now let&#8217;s extract this to a module for ease of re-using. Here&#8217;s the final code.</p>
+
+<pre><code>module SqlModelHelpers
+  def self.included klass
+    klass.send :extend, ClassMethods
+  end
+
+  module ClassMethods
+    def setup_connection aid
+      # TODO: do not reestablish good connections.
+      # 1. get config to connect
+      # 2. compare with current config (ActiveRecord::Base.connection_config)
+      # 3. if configs match and connection is open - do not establish_connection
+      config = get_connection_config aid
+
+      unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
+        ActiveRecord::Base.establish_connection config
+      end
+    end
+
+    def can_use_connection? config
+      current_config = ActiveRecord::Base.connection_config
+
+      config.each do |k, v|
+        if config[k] != current_config[k]
+          # TODO: log warning
+          return false
+        end
+      end
+      true
+    end
+  end
+end
+
+class MyModel &lt; ActiveRecord::Base
+  include SqlModelHelpers
+
+  def self.use_table_for_app aid
+    setup_connection aid
+
+    table_name
+  end
+end
+</code></pre>
+
+<p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/define-module-programmatically/">Define Module Programmatically</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-02T03:14:50+04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Given a module <code>Foo</code>, how do you define a nested module <code>Bar</code>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">Bar</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&#8217;s a number of ways. First, most obvious one is to eval a string.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">class_eval</span> <span class="o">&lt;&lt;</span><span class="no">RUBY</span>
+</span><span class='line'><span class="sh">  module #{name}</span>
+</span><span class='line'><span class="sh">  end</span>
+</span><span class='line'><span class="no">RUBY</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While this certainly works and gets job done, it has some flaws. First, it&#8217;s a string, so some editors and IDEs will get confused and lose coloring/completion. Second, there&#8217;s no validation on module name. In best case, you&#8217;ll get compiler error. In worst case, you&#8217;ll get hard to track bugs.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Module</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">const_set</span><span class="p">(</span><span class="ss">:Bar</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This one is better. You clearly state that you&#8217;re going to set a constant, and module name is pretty restricted.</p>
+
+<p>Are there other ways to do this?</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/ruby-forin-loop/">Ruby: for.. In Loop</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-31T11:19:36+04:00" pubdate data-updated="true">Mar 31<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like &#8220;Hey, dude, this is ruby, not javascript!&#8221; in my head. But, apparently, it&#8217;s legal ruby :)</p>
+
+<pre><code>arr = [1, 2, 3]
+
+for a in arr
+  puts "element #{a}"
+end
+
+#=&gt; element 1
+#=&gt; element 2
+#=&gt; element 3  
+</code></pre>
+
+<p>You can put ranges in there also.</p>
+
+<pre><code>for a in (1..10)
+  puts a
+end
+</code></pre>
+
+<p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/fun-with-classes-find-which-class-is-the-biggest/">Fun With Classes: Find Which Class Is the Biggest :)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-30T05:13:27+04:00" pubdate data-updated="true">Mar 30<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). Observe:</p>
+
+<pre><code>class A
+end
+
+class B &lt; A
+end
+
+class C &lt; A
+end
+
+class D &lt; B
+end
+
+A &lt; B # false
+A &gt; B # true
+D &lt; A # true
+D &lt; B # true
+D &lt; C # nil
+C &gt; D # nil
+</code></pre>
+
+<p>This operator returns a boolean value (as one would expect), so you can write code like this:</p>
+
+<pre><code>puts "B inherits from A" if B &lt; A
+</code></pre>
+
+<p>Note how it resembles the class definition syntax. I think that this is simply brilliant (not very intuitive, though. I wouldn&#8217;t think of writing this code).</p>
+
+<p>Now that we know this fact, let&#8217;s try to sort the classes :)</p>
+
+<pre><code>class A
+end
+
+class B &lt; A
+end
+
+class C &lt; A
+end
+
+class D &lt; B
+end
+
+class E &lt; A
+end
+
+class Class
+  # we need to define the spaceship operator for classes, since it's not defined yet.
+  def &lt;=&gt; other
+    return 0 if self == other
+    return -1 if self &lt; other
+    1
+  end
+end
+
+klasses = [A, B, C, D, E]
+
+klasses.sort # [E, C, D, B, A]
+</code></pre>
+
+<p>Now this class hierarchy is sorted, with children first and parents last. Homework: come up with a practical application for this :)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/">How to Dump Your MongoDB Database Partially (Only Selected Tables)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-21T19:15:22+04:00" pubdate data-updated="true">Mar 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, <strong>mongodump</strong>.</p>
+
+<pre><code>mongodump
+</code></pre>
+
+<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you&#8217;re interested in and it will dump just this database.</p>
+
+<pre><code>mongodump -d mydb
+</code></pre>
+
+<p>But in some cases you don&#8217;t want to dump the whole database. In my case, it&#8217;s an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, &#8230;). I am interested only in a small number of &#8220;important&#8221; collections. But <strong>mongodump</strong> doesn&#8217;t provide us with an option to specify several collections. You can only dump one collection at a time. If you don&#8217;t mind some typing, that&#8217;s easy.</p>
+
+<pre><code>mongodump -d mydb -c mycoll1
+mongodump -d mydb -c mycoll2
+mongodump -d mydb -c mycoll5
+</code></pre>
+
+<p>But we&#8217;re all programmers, so let&#8217;s automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let&#8217;s do it.</p>
+
+<pre><code>colls=( mycoll1 mycoll2 mycoll5 )
+
+for c in ${colls[@]}
+do
+  mongodump -d mydb -c $c
+done
+</code></pre>
+
+<p>First line defines a bash array literal. <strong>Don&#8217;t use commas to delimit array elements</strong>, they&#8217;ll become part of the element. The <strong>${colls[@]}</strong> string means &#8220;all array elements&#8221; and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/deploying-with-sinatra-capistrano-unicorn/">Deploying With Sinatra + Capistrano + Unicorn</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-09T20:02:46+04:00" pubdate data-updated="true">Mar 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today we&#8217;ll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let&#8217;s think of a stupid name for this project. What about &#8220;sincapun&#8221;? Any objections? Good, let&#8217;s proceed.</p>
+
+<pre><code>mkdir sincapun
+cd sincapun
+</code></pre>
+
+<p>Minimal runnable version:</p>
+
+<pre><code># Gemfile
+gem 'sinatra'
+
+
+# sincapun.rb
+require 'sinatra'
+
+get '/' do
+    "Hello world"
+end
+</code></pre>
+
+<p>Let&#8217;s see if we can run it&#8230;</p>
+
+<pre><code>$ bundle exec ruby sincapun.rb 
+[2012-03-09 16:04:17] INFO  WEBrick 1.3.1
+[2012-03-09 16:04:17] INFO  ruby 1.9.3 (2012-02-16) [x86_64-darwin11.3.0]
+== Sinatra/1.3.2 has taken the stage on 4567 for development with backup from WEBrick
+[2012-03-09 16:04:17] INFO  WEBrick::HTTPServer#start: pid=14871 port=4567
+</code></pre>
+
+<p>So far, so good. Now let&#8217;s convert it to modular app and create a proper rackup file.</p>
+
+<pre><code># sincapun.rb
+require 'sinatra'
+
+class Sincapun &lt; Sinatra::Base
+  get '/' do
+    "Hello world"
+  end
+end
+
+# config.ru
+require './sincapun'
+run Sincapun
+</code></pre>
+
+<p>At this point our app is runnable by every Rack-compatible server (thin, unicorn, &#8230;). Let&#8217;s add some Capistrano to it.</p>
+
+<pre><code># Gemfile
+source :rubygems
+
+gem 'sinatra'
+gem 'unicorn'
+gem 'capistrano'
+
+
+
+
+
+
+
+$ bundle install
+Using highline (1.6.11) 
+Using net-ssh (2.3.0) 
+Using net-scp (1.0.4) 
+Using net-sftp (2.0.5) 
+Using net-ssh-gateway (1.1.0) 
+Using capistrano (2.11.2) 
+Using kgio (2.7.2) 
+Using rack (1.4.1) 
+Using rack-protection (1.2.0) 
+Using raindrops (0.8.0) 
+Using tilt (1.3.3) 
+Using sinatra (1.3.2) 
+Using unicorn (4.2.0) 
+Using bundler (1.0.22) 
+Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
+
+$ capify .
+[add] writing './Capfile'
+[add] making directory './config'
+[add] writing './config/deploy.rb'
+[done] capified!
+</code></pre>
+
+<p>Let&#8217;s improve our capistrano config a little bit.</p>
+
+<pre><code># config/deploy.rb
+# We're using RVM on a server, need this.
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require 'rvm/capistrano'
+set :rvm_ruby_string, '1.9.3'
+set :rvm_type, :user
+
+# Bundler tasks
+require 'bundler/capistrano'
+
+set :application, "sincapun"
+set :repository,  "git@github.com:stulentsev/sincapun.git"
+
+set :scm, :git
+
+# do not use sudo
+set :use_sudo, false
+set(:run_method) { use_sudo ? :sudo : :run }
+
+# This is needed to correctly handle sudo password prompt
+default_run_options[:pty] = true
+
+set :user, "myname"
+set :group, user
+set :runner, user
+
+set :host, "#{user}@myhost" # We need to be able to SSH to that box as this user.
+role :web, host
+role :app, host
+
+set :rails_env, :production
+
+# Where will it be located on a server?
+set :deploy_to, "/srv/#{application}"
+set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
+set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
+
+# Unicorn control tasks
+namespace :deploy do
+  task :restart do
+    run "if [ -f #{unicorn_pid} ]; then kill -USR2 `cat #{unicorn_pid}`; else cd #{deploy_to}/current &amp;&amp; bundle exec unicorn -c #{unicorn_conf} -E #{rails_env} -D; fi"
+  end
+  task :start do
+    run "cd #{deploy_to}/current &amp;&amp; bundle exec unicorn -c #{unicorn_conf} -E #{rails_env} -D"
+  end
+  task :stop do
+    run "if [ -f #{unicorn_pid} ]; then kill -QUIT `cat #{unicorn_pid}`; fi"
+  end
+end
+</code></pre>
+
+<p>We need a config file for Unicorn. Here is what it may look like:</p>
+
+<pre><code># define paths and filenames
+deploy_to = "/srv/sincapun"
+rails_root = "#{deploy_to}/current"
+pid_file = "#{deploy_to}/shared/pids/unicorn.pid"
+socket_file= "#{deploy_to}/shared/unicorn.sock"
+log_file = "#{rails_root}/log/unicorn.log"
+err_log = "#{rails_root}/log/unicorn_error.log"
+old_pid = pid_file + '.oldbin'
+
+timeout 30
+worker_processes 2 # increase or decrease
+listen socket_file, :backlog =&gt; 1024
+
+pid pid_file
+stderr_path err_log
+stdout_path log_file
+
+# make forks faster
+preload_app true 
+
+# make sure that Bundler finds the Gemfile
+before_exec do |server|
+  ENV['BUNDLE_GEMFILE'] = File.expand_path('../Gemfile', File.dirname(__FILE__))
+end
+
+before_fork do |server, worker|
+  defined?(ActiveRecord::Base) and
+      ActiveRecord::Base.connection.disconnect!
+
+  # zero downtime deploy magic:
+  # if unicorn is already running, ask it to start a new process and quit.
+  if File.exists?(old_pid) &amp;&amp; server.pid != old_pid
+    begin
+      Process.kill("QUIT", File.read(old_pid).to_i)
+    rescue Errno::ENOENT, Errno::ESRCH
+      # someone else did our job for us
+    end
+  end
+end
+
+after_fork do |server, worker|
+
+  # re-establish activerecord connections.
+  defined?(ActiveRecord::Base) and
+      ActiveRecord::Base.establish_connection
+end
+</code></pre>
+
+<p>That should do it. Now you can deploy your app, assuming that you have <a href="http://beginrescueend.com/">RVM</a> on the server, you can SSH into it and write to /srv directory.</p>
+
+<pre><code>cap deploy:setup
+cap deploy
+</code></pre>
+
+<p>Deploy should spit a lot of text into the console, and there should be no errors. Verify that our unicorns are launched correctly by logging into the server and running this:</p>
+
+<pre><code>$ ps aux | grep sincapun
+myuser   24851  2.0  0.1  88480 21024 ?        Sl   11:42   0:00 unicorn master -c /srv/sincapun/current/config/unicorn.rb -E production -D                                         
+myuser   24854  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[0] -c /srv/sincapun/current/config/unicorn.rb -E production -D                                      
+myuser   24857  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[1] -c /srv/sincapun/current/config/unicorn.rb -E production -D                                      
+</code></pre>
+
+<p>To access these unicorns from the internet, you need to put a reverse proxy in front of them. But that is another story.</p>
+
+<p>You can get a full copy of this code <a href="https://github.com/stulentsev/sincapun">from Github repo</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/">How to Keep Your System Clock Synchronized on Ubuntu?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-09T12:10:18+04:00" pubdate data-updated="true">Mar 9<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There&#8217;s a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It&#8217;s called ntpdate</p>
+
+<pre><code>$ sudo ntpdate ntp.ubuntu.com
+ 9 Mar 03:59:12 ntpdate[7225]: step time server 91.189.94.4 offset 179.440440 sec
+</code></pre>
+
+<p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let&#8217;s add an hourly cron job. Create a file called &#8216;ntpdate&#8217; (for example) at &#8216;/etc/cron.hourly&#8217; with this content:</p>
+
+<pre><code>#! /bin/sh
+
+ntpdate ntp.ubuntu.com
+</code></pre>
+
+<p>We don&#8217;t need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
+
+<pre><code>sudo chmod +x /etc/cron.hourly/ntpdate
+</code></pre>
+
+<p>We&#8217;re all set now. Come back a few days later and verify that clock doesn&#8217;t deviate as much anymore.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/02/ruby-how-to-override-class-method-with-a-module/">Ruby: How to Override Class Method With a Module</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-03T21:09:00+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This seems to be a popular interview question. It indeed requires advanced knowledge of ruby.</p>
+
+<blockquote><p>You have a class with a class method. Write a module that, when included, will override that class method.</p></blockquote>
+
+<h3>Explanation of the problem</h3>
+
+<p>Now classic way of mixing in class methods is this (and it doesn&#8217;t solve the problem, of course).</p>
+
+<pre><code>module FooModule
+  def self.included base
+    base.extend ClassMethods
+  end
+
+  module ClassMethods
+    def bar
+      puts "module"
+    end
+  end
+end
+
+class Klass
+  include FooModule
+
+  def self.bar
+    puts 'class'
+  end
+end
+
+
+Klass.bar #=&gt; class
+</code></pre>
+
+<p>When modules are included or extended into a class, its methods are placed right above this class&#8217; methods in inheritance chain. This means that if we were to call <code>super</code> in that class method, it would print &#8220;module&#8221;. But we don&#8217;t want to touch original class definition, we want to alter it from outside.</p>
+
+<h3>So, can we do something?</h3>
+
+<p>Good for us, ruby has a concept of <a href="http://www.google.ru/search?ix=hca&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=ruby+open+classes">&#8220;open classes&#8221;</a>. This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can &#8220;opened&#8221; and new methods can be added to it, or old methods can be redefined. Let&#8217;s look how it works.</p>
+
+<pre><code>class Klass
+  def self.bar
+    puts 'class'
+  end
+end
+
+class Klass
+  def self.bar
+    puts 'class 2'
+  end
+end
+
+Klass.bar #=&gt; class 2
+</code></pre>
+
+<p>The second class definition does not overwrite previous one, it opens and alters it. In this case, it happened to define a method with the same name. This resulted in old method being overwritten by the new one. This works with any classes, even base library classes.</p>
+
+<pre><code>puts [1, 2, 3].to_s #=&gt; [1, 2, 3]
+
+class Array
+  def to_s
+    "an array: #{join ', '}"
+  end
+end
+
+puts [1, 2, 3].to_s #=&gt; an array: 1, 2, 3
+</code></pre>
+
+<p>Or the same code can be rewritten as</p>
+
+<pre><code>puts [1, 2, 3].to_s #=&gt; [1, 2, 3]
+
+Array.class_eval do
+  def to_s
+    "an array: #{join ', '}"
+  end
+end
+
+puts [1, 2, 3].to_s #=&gt; an array: 1, 2, 3
+</code></pre>
+
+<h3>Applying the knowledge</h3>
+
+<p>Let&#8217;s start with simpler things, like overriding an instance method.</p>
+
+<pre><code>class Klass
+  def say
+    puts 'class'
+  end
+end
+
+module FooModule
+  def self.included base
+    base.class_eval do
+      def say
+        puts "module"
+      end
+    end
+  end
+end
+
+
+Klass.send(:include, FooModule)
+
+Klass.new.say #=&gt; module
+</code></pre>
+
+<p>Modules have a special callback that gets called every time a module is included in a class. We can use that to call class_eval on that class and redefine a method.</p>
+
+<p>Replacing a class method is done in a similar way.</p>
+
+<pre><code>class Klass
+  def self.say
+    puts 'class'
+  end
+end
+
+module FooModule
+  def self.included base
+    base.instance_eval do
+      def say
+        puts "module"
+      end
+    end
+  end
+end
+
+
+Klass.send(:include, FooModule)
+
+Klass.say #=&gt; module
+</code></pre>
+
+<p>The only difference here is that we call instance_eval instead of class_eval. This can be a very confusing part. In short, class_eval creates instance methods and instance_eval creates class methods.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -88,6 +1064,26 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/09/testing-octopress/">testing octopress</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/04/define-module-programmatically/">Define module programmatically</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/03/ruby-forin-loop/">Ruby: for..in loop</a>
+      </li>
     
   </ul>
 </section>
