@@ -104,83 +104,152 @@
 
 <div class="entry-content"><p>You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
 
-<pre><code>def self.use_table_for_app aid
-  config = get_connection_config aid
-  ActiveRecord::Base.establish_connection config
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span>
+</span><span class='line'>  <span class="n">config</span> <span class="o">=</span> <span class="n">get_connection_config</span> <span class="n">aid</span>
+</span><span class='line'>  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span> <span class="n">config</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This works, but it creates a new connection on every call. Let&#8217;s suppose, we&#8217;re processing a queue and we&#8217;re handling events from different apps (customers). The cost of setting up a connection can easily outweigh the actual work. We need to cache that somehow.</p>
 
 <p>Now, <code>ActiveRecord::Base</code> has a method called <code>connection_config</code> that returns, well, configuration of current connection. We can compare that to what we have on hands and, if they match, do not reconnect. Here&#8217;s how our code looks like now:</p>
 
-<pre><code>def self.use_table_for_app aid
-  config = get_connection_config aid
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span>
+</span><span class='line'>  <span class="n">config</span> <span class="o">=</span> <span class="n">get_connection_config</span> <span class="n">aid</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">unless</span> <span class="n">can_use_connection?</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">active?</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span> <span class="n">config</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">can_use_connection?</span> <span class="n">config</span>
+</span><span class='line'>  <span class="n">current_config</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection_config</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># current config can have more keys than our config (or vice versa), so simple hash comparison doesn&#39;t work.</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># if even a single parameter is different - can&#39;t reuse this connection.</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">!=</span> <span class="n">current_config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span>
+</span><span class='line'>      <span class="c1"># TODO: log warning</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
-    ActiveRecord::Base.establish_connection config
-  end
-end
-
-def can_use_connection? config
-  current_config = ActiveRecord::Base.connection_config
-
-  # current config can have more keys than our config (or vice versa), so simple hash comparison doesn't work.
-  config.each do |k, v|
-    # if even a single parameter is different - can't reuse this connection.
-    if config[k] != current_config[k]
-      # TODO: log warning
-      return false
-    end
-  end
-  true
-end
-</code></pre>
 
 <p>Looks almost good. Now let&#8217;s extract this to a module for ease of re-using. Here&#8217;s the final code.</p>
 
-<pre><code>module SqlModelHelpers
-  def self.included klass
-    klass.send :extend, ClassMethods
-  end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SqlModelHelpers</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">klass</span>
+</span><span class='line'>    <span class="n">klass</span><span class="o">.</span><span class="n">send</span> <span class="ss">:extend</span><span class="p">,</span> <span class="no">ClassMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">setup_connection</span> <span class="n">aid</span>
+</span><span class='line'>      <span class="c1"># TODO: do not reestablish good connections.</span>
+</span><span class='line'>      <span class="c1"># 1. get config to connect</span>
+</span><span class='line'>      <span class="c1"># 2. compare with current config (ActiveRecord::Base.connection_config)</span>
+</span><span class='line'>      <span class="c1"># 3. if configs match and connection is open - do not establish_connection</span>
+</span><span class='line'>      <span class="n">config</span> <span class="o">=</span> <span class="n">get_connection_config</span> <span class="n">aid</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">can_use_connection?</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">active?</span>
+</span><span class='line'>        <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span> <span class="n">config</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">can_use_connection?</span> <span class="n">config</span>
+</span><span class='line'>      <span class="n">current_config</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection_config</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">!=</span> <span class="n">current_config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span>
+</span><span class='line'>          <span class="c1"># TODO: log warning</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">MyModel</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">SqlModelHelpers</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span>
+</span><span class='line'>    <span class="n">setup_connection</span> <span class="n">aid</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">table_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  module ClassMethods
-    def setup_connection aid
-      # TODO: do not reestablish good connections.
-      # 1. get config to connect
-      # 2. compare with current config (ActiveRecord::Base.connection_config)
-      # 3. if configs match and connection is open - do not establish_connection
-      config = get_connection_config aid
-
-      unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
-        ActiveRecord::Base.establish_connection config
-      end
-    end
-
-    def can_use_connection? config
-      current_config = ActiveRecord::Base.connection_config
-
-      config.each do |k, v|
-        if config[k] != current_config[k]
-          # TODO: log warning
-          return false
-        end
-      end
-      true
-    end
-  end
-end
-
-class MyModel &lt; ActiveRecord::Base
-  include SqlModelHelpers
-
-  def self.use_table_for_app aid
-    setup_connection aid
-
-    table_name
-  end
-end
-</code></pre>
 
 <p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
 </div>
