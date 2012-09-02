@@ -17,7 +17,7 @@ Recently I had to fix some ancient program. It is written in Turbo Pascal 5. The
 
 In some recent versions it acquired so-called "smart highting". This feature highlights all occurrences of a word when you select one of them. Very handy. BUT! it is case sensitive.
 
-[![image](http://software.tulentsev.com/images/uploads/2008/12/image-thumb3.png)](http://software.tulentsev.com/images/uploads/2008/12/image3.png)
+[![image](http://tech.tulentsev.com/images/uploads/2008/12/image-thumb3.png)](http://tech.tulentsev.com/images/uploads/2008/12/image3.png)
 
 Take a look at the screenshot. You can see two occurrences of _valor_ highlighted with green color, but another occurrence is not highlighted, it has different casing. This makes analysis of this source code somewhat harder.
 

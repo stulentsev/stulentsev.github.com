@@ -27,7 +27,7 @@ So, what options do we have?
 
 Recently I discovered an excellent piece of software, called Balsamiq Mockups. It is simple, effective and nice looking. It requires zero learning time. For example, I tried to create something for my personal project, yet another photo gallery. And I got this mockup ready in exactly 6 minutes after I started the demo:
 
-[![image](http://software.tulentsev.com/images/uploads/2009/01/image-thumb5.png)](http://software.tulentsev.com/images/uploads/2009/01/image5.png)
+[![image](http://tech.tulentsev.com/images/uploads/2009/01/image-thumb5.png)](http://tech.tulentsev.com/images/uploads/2009/01/image5.png)
 
 Impressions: product - great, support - fast and fully satisfying, overall - have to get one.
 

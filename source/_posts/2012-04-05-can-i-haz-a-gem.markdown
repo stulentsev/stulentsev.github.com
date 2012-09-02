@@ -15,7 +15,7 @@ Back when I was just starting to program, we used to joke about Delphi coders.
 
 I guess, this happens to every widely adopted technology that has plugins/libraries. [An example](http://stackoverflow.com/questions/10022215/building-an-auction-with-ruby-on-rails).
 
-![Screenshot 2012 04 05 07.17.14](http://software.tulentsev.com/images/uploads/2012/04/screenshot_2012_04_05_071714.png)
+![Screenshot 2012 04 05 07.17.14](http://tech.tulentsev.com/images/uploads/2012/04/screenshot_2012_04_05_071714.png)
 
 
 

@@ -2,9 +2,9 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://stulentsev.github.com
+url: http://tech.tulentsev.com
 title: Rock, Paper, Software
-subtitle: A blogging framework for hackers.
+subtitle: cat /dev/head | blog.
 author: Sergio Tulentsev
 simple_search: http://google.com/search
 description:
