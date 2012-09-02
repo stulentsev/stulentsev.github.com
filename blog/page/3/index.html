@@ -105,7 +105,7 @@
   </header>
 
 
-  <div class="entry-content"><p>When I was implementing <a href="http://software.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way it becomes somewhat easier to identify originator of an event. &#8220;Yeah, it would be cool, but it can be tricky and difficult to implement&#8221;, I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn&#8217;t quite enjoyed the experience.</p>
+  <div class="entry-content"><p>When I was implementing <a href="http://tech.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way it becomes somewhat easier to identify originator of an event. &#8220;Yeah, it would be cool, but it can be tricky and difficult to implement&#8221;, I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn&#8217;t quite enjoyed the experience.</p>
 
 <p>But later at home I was thinking about it and decided that it may not be as hard as it looks. We can divide the task into two subtasks:</p>
 
@@ -132,9 +132,9 @@
 
 <p>I also used RGB&lt;=>HSV transformation functions, because I wanted to get lighter colors. Initially I wanted to highlight event&#8217;s name with the color, but it turned out that text is not always readable. I decided not to write functions that calculate good contrasting colors and put a small color rectangle instead of highlight. This rectangle is essentially a span with several &nbsp; &#8216;s as a body.</p>
 
-<p>So, final result looks like this:<a href="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
+<p>So, final result looks like this:<a href="http://tech.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://tech.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
 
-<p>Here is <a href="http://software.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
+<p>Here is <a href="http://tech.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
 </div>
   
   
@@ -218,7 +218,7 @@
 
 <p>The &#8220;official&#8221; way to format strings in .NET BCL is to use <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">String.Format</a> method (and wrappers for it, like <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">Console.Write</a>).</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
 
 <p>This is not very reliable method. You can forget to include parameter into the format string or confuse one parameter with another. And your IDE does not offer any help here.</p>
 
@@ -226,7 +226,7 @@
 
 <p>People feel that this is not right and try to invent some more convenient methods. One of which is formatting with named parameters (using names instead of ordinals). Yesterday I read <a href="http://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx">this blog post</a>. There are several implementations of formatting with named parameters and author makes more reliable and efficient implementation just for fun. But you know what? It still doesn&#8217;t seem right.</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image1.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image1.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
 
 <p><a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">Anonymous type</a> here is supposed to protect us from renaming issue, but it clutters the code. And again, we do not get any help from IDE (warnings about non-existing elements, highlighting, etc).</p>
 
@@ -236,15 +236,15 @@
 
 <p>One picture is worth a thousand words. So look at these code samples</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image2.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image2.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image3.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image3.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
 
 <p>Feel the difference! What can possibly go wrong here (except for <a href="http://msdn.microsoft.com/en-us/library/system.nullreferenceexception.aspx">NullReferenceException</a>, but <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">string.Format</a> is also vulnerable to it). Also, this code is very efficient. Essentially it is transformed to a series of <a href="http://msdn.microsoft.com/en-us/library/system.string.concat.aspx">string.Concat</a> or <a href="http://msdn.microsoft.com/en-us/library/system.text.stringbuilder.append.aspx">StringBuilder.Append</a> calls.</p>
 
 <p>P.S.: One more thousand-words-picture.</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
 </div>
   
   
@@ -288,7 +288,7 @@
 
 <p>In some recent versions it acquired so-called &#8220;smart highting&#8221;. This feature highlights all occurrences of a word when you select one of them. Very handy. BUT! it is case sensitive.</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2008/12/image3.png"><img src="http://software.tulentsev.com/images/uploads/2008/12/image-thumb3.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2008/12/image3.png"><img src="http://tech.tulentsev.com/images/uploads/2008/12/image-thumb3.png" alt="image" /></a></p>
 
 <p>Take a look at the screenshot. You can see two occurrences of <em>valor</em> highlighted with green color, but another occurrence is not highlighted, it has different casing. This makes analysis of this source code somewhat harder.</p>
 
@@ -346,7 +346,7 @@
 
 <p>Recently I discovered an excellent piece of software, called Balsamiq Mockups. It is simple, effective and nice looking. It requires zero learning time. For example, I tried to create something for my personal project, yet another photo gallery. And I got this mockup ready in exactly 6 minutes after I started the demo:</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image5.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb5.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image5.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb5.png" alt="image" /></a></p>
 
 <p>Impressions: product - great, support - fast and fully satisfying, overall - have to get one.</p>
 
@@ -398,7 +398,7 @@
 
 <p>I tried many things, but in the end it turned to be some mistreatment of a connection string. Mine looks this way:</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2008/12/image1.png"><img src="http://software.tulentsev.com/images/uploads/2008/12/image-thumb1.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2008/12/image1.png"><img src="http://tech.tulentsev.com/images/uploads/2008/12/image-thumb1.png" alt="image" /></a></p>
 
 <p>The problem goes away when I put a backslash instead of slash in &#8220;./SQLEXPRESS&#8221;. It looks pretty weird, because they always used forward slash in such autogenerated connection strings, didn&#8217;t they?</p>
 
@@ -440,7 +440,7 @@
 
   <div class="entry-content"><p>Sometimes, you may get not-very-descriptive <em>System.Security.SecurityException</em>. Stack trace tells you that something bad happened somewhere inside <em>EndGetResponse</em>, and that&#8217;s it, no more details. One possible cause is this: in a Silverlight project you may tell it to generate a temporary page that will host your application.</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2008/11/image.png"><img src="http://localhost:4000/images/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2008/11/image.png"><img src="http://tech.tulentsev.com/images/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
 
 <p>And if your application sends requests to some host (a linux virtual box, in my case), this will be the source of pain. The dynamically generated page gets loaded to Internet Explorer as <a href="file://your_path/TestPage.html">file://your_path/TestPage.html</a>. And you are trying to reach HTTP(S) host. This cross-scheme behavior is not allowed.</p>
 

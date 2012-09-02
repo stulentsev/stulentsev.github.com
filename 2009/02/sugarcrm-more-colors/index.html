@@ -102,7 +102,7 @@
   </header>
 
 
-<div class="entry-content"><p>When I was implementing <a href="http://software.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way it becomes somewhat easier to identify originator of an event. &#8220;Yeah, it would be cool, but it can be tricky and difficult to implement&#8221;, I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn&#8217;t quite enjoyed the experience.</p>
+<div class="entry-content"><p>When I was implementing <a href="http://tech.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way it becomes somewhat easier to identify originator of an event. &#8220;Yeah, it would be cool, but it can be tricky and difficult to implement&#8221;, I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn&#8217;t quite enjoyed the experience.</p>
 
 <p>But later at home I was thinking about it and decided that it may not be as hard as it looks. We can divide the task into two subtasks:</p>
 
@@ -129,9 +129,9 @@
 
 <p>I also used RGB&lt;=>HSV transformation functions, because I wanted to get lighter colors. Initially I wanted to highlight event&#8217;s name with the color, but it turned out that text is not always readable. I decided not to write functions that calculate good contrasting colors and put a small color rectangle instead of highlight. This rectangle is essentially a span with several &nbsp; &#8216;s as a body.</p>
 
-<p>So, final result looks like this:<a href="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
+<p>So, final result looks like this:<a href="http://tech.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://tech.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
 
-<p>Here is <a href="http://software.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
+<p>Here is <a href="http://tech.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
 </div>
 
 

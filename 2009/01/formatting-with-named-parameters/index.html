@@ -106,7 +106,7 @@
 
 <p>The &#8220;official&#8221; way to format strings in .NET BCL is to use <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">String.Format</a> method (and wrappers for it, like <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">Console.Write</a>).</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
 
 <p>This is not very reliable method. You can forget to include parameter into the format string or confuse one parameter with another. And your IDE does not offer any help here.</p>
 
@@ -114,7 +114,7 @@
 
 <p>People feel that this is not right and try to invent some more convenient methods. One of which is formatting with named parameters (using names instead of ordinals). Yesterday I read <a href="http://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx">this blog post</a>. There are several implementations of formatting with named parameters and author makes more reliable and efficient implementation just for fun. But you know what? It still doesn&#8217;t seem right.</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image1.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image1.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
 
 <p><a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">Anonymous type</a> here is supposed to protect us from renaming issue, but it clutters the code. And again, we do not get any help from IDE (warnings about non-existing elements, highlighting, etc).</p>
 
@@ -124,15 +124,15 @@
 
 <p>One picture is worth a thousand words. So look at these code samples</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image2.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image2.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image3.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image3.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
 
 <p>Feel the difference! What can possibly go wrong here (except for <a href="http://msdn.microsoft.com/en-us/library/system.nullreferenceexception.aspx">NullReferenceException</a>, but <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">string.Format</a> is also vulnerable to it). Also, this code is very efficient. Essentially it is transformed to a series of <a href="http://msdn.microsoft.com/en-us/library/system.string.concat.aspx">string.Concat</a> or <a href="http://msdn.microsoft.com/en-us/library/system.text.stringbuilder.append.aspx">StringBuilder.Append</a> calls.</p>
 
 <p>P.S.: One more thousand-words-picture.</p>
 
-<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
+<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
 </div>
 
 
