@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -106,14 +106,19 @@
 
 <p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
 
-<pre><code>update users set spam_count = spam_count + 1;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">spam_count</span> <span class="o">=</span> <span class="n">spam_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Mongo Ruby driver supports this kind of operation, but MongoId doesn&#8217;t. So I was trying to get down to the driver. And this is what I couldn&#8217;t easily find in the docs. If you&#8217;re like me, I&#8217;ll save you a couple of hours. Here it is:</p>
 
-<pre><code># assume we know object id already
-User.collection.update({'_id' =&gt; '4c05848e45760182b5000001'}, {'$inc' =&gt; {'spam_count' =&gt; 1}})
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assume we know object id already</span>
+</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -150,7 +155,7 @@ User.collection.update({'_id' =&gt; '4c05848e45760182b5000001'}, {'$inc' =&gt; {
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment/" data-via="" data-counturl="http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/" data-via="" data-counturl="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/" >Tweet</a>
   
   
   
@@ -229,8 +234,8 @@ User.collection.update({'_id' =&gt; '4c05848e45760182b5000001'}, {'$inc' =&gt; {
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment/';
-        var disqus_url = 'http://stulentsev.github.com/2010/06/mongoid-and-atomic-increment/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/';
+        var disqus_url = 'http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -104,21 +104,30 @@
 
 <div class="entry-content"><p>Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There&#8217;s a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It&#8217;s called ntpdate</p>
 
-<pre><code>$ sudo ntpdate ntp.ubuntu.com
- 9 Mar 03:59:12 ntpdate[7225]: step time server 91.189.94.4 offset 179.440440 sec
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo ntpdate ntp.ubuntu.com
+</span><span class='line'> 9 Mar 03:59:12 ntpdate<span class="o">[</span>7225<span class="o">]</span>: step <span class="nb">time </span>server 91.189.94.4 offset 179.440440 sec
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let&#8217;s add an hourly cron job. Create a file called &#8216;ntpdate&#8217; (for example) at &#8216;/etc/cron.hourly&#8217; with this content:</p>
 
-<pre><code>#! /bin/sh
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/sh</span>
+</span><span class='line'>
+</span><span class='line'>ntpdate ntp.ubuntu.com
+</span></code></pre></td></tr></table></div></figure>
 
-ntpdate ntp.ubuntu.com
-</code></pre>
 
 <p>We don&#8217;t need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
 
-<pre><code>sudo chmod +x /etc/cron.hourly/ntpdate
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/cron.hourly/ntpdate
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>We&#8217;re all set now. Come back a few days later and verify that clock doesn&#8217;t deviate as much anymore.</p>
 </div>
@@ -151,7 +160,7 @@ ntpdate ntp.ubuntu.com
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/" data-via="" data-counturl="http://stulentsev.github.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/" data-via="" data-counturl="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/" >Tweet</a>
   
   
   
@@ -230,8 +239,8 @@ ntpdate ntp.ubuntu.com
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://stulentsev.github.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/';
-        var disqus_url = 'http://stulentsev.github.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/';
         var disqus_script = 'embed.js';
       
     (function () {

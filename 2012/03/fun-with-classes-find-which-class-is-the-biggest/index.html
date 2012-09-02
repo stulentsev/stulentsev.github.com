@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -104,63 +104,112 @@
 
 <div class="entry-content"><p>Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). Observe:</p>
 
-<pre><code>class A
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">A</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># false</span>
+</span><span class='line'><span class="n">A</span> <span class="o">&gt;</span> <span class="n">B</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">A</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">C</span> <span class="c1"># nil</span>
+</span><span class='line'><span class="n">C</span> <span class="o">&gt;</span> <span class="n">D</span> <span class="c1"># nil</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class B &lt; A
-end
-
-class C &lt; A
-end
-
-class D &lt; B
-end
-
-A &lt; B # false
-A &gt; B # true
-D &lt; A # true
-D &lt; B # true
-D &lt; C # nil
-C &gt; D # nil
-</code></pre>
 
 <p>This operator returns a boolean value (as one would expect), so you can write code like this:</p>
 
-<pre><code>puts "B inherits from A" if B &lt; A
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;B inherits from A&quot;</span> <span class="k">if</span> <span class="n">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Note how it resembles the class definition syntax. I think that this is simply brilliant (not very intuitive, though. I wouldn&#8217;t think of writing this code).</p>
 
 <p>Now that we know this fact, let&#8217;s try to sort the classes :)</p>
 
-<pre><code>class A
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">E</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Class</span>
+</span><span class='line'>  <span class="c1"># we need to define the spaceship operator for classes, since it&#39;s not defined yet.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">&lt;=&gt;</span> <span class="n">other</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">==</span> <span class="n">other</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">&lt;</span> <span class="n">other</span>
+</span><span class='line'>    <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">klasses</span> <span class="o">=</span> <span class="o">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">E</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">klasses</span><span class="o">.</span><span class="n">sort</span> <span class="c1"># [E, C, D, B, A]</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class B &lt; A
-end
-
-class C &lt; A
-end
-
-class D &lt; B
-end
-
-class E &lt; A
-end
-
-class Class
-  # we need to define the spaceship operator for classes, since it's not defined yet.
-  def &lt;=&gt; other
-    return 0 if self == other
-    return -1 if self &lt; other
-    1
-  end
-end
-
-klasses = [A, B, C, D, E]
-
-klasses.sort # [E, C, D, B, A]
-</code></pre>
 
 <p>Now this class hierarchy is sorted, with children first and parents last. Homework: come up with a practical application for this :)</p>
 </div>
@@ -193,7 +242,7 @@ klasses.sort # [E, C, D, B, A]
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" data-via="" data-counturl="http://stulentsev.github.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" data-via="" data-counturl="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" >Tweet</a>
   
   
   
@@ -272,8 +321,8 @@ klasses.sort # [E, C, D, B, A]
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://stulentsev.github.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/';
-        var disqus_url = 'http://stulentsev.github.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/';
         var disqus_script = 'embed.js';
       
     (function () {

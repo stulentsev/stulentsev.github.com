@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -108,11 +108,16 @@
 
 <p>when trying to make simple POST request to a PHP page. I&#8217;ve spent half a day diagnosing this problem. And solution was found entirely by chance, because exception messages weren&#8217;t helping in any way. I mean, I was always getting abovementioned error message, without any details (what host, what page, request parameters, etc). But enough of complaints, let&#8217;s proceed to the solution. The troublesome code was this one:</p>
 
-<pre><code>var _request = (HttpWebRequest)WebRequest.Create(_svcUri);
-_request.Method = "POST";
-_request.ContentType = "application/json";
-_request.Headers["sid"] = SessionID ; // &lt;==== this line
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">var _request = (HttpWebRequest)WebRequest.Create(_svcUri);</span>
+</span><span class='line'><span class="x">_request.Method = &quot;POST&quot;;</span>
+</span><span class='line'><span class="x">_request.ContentType = &quot;application/json&quot;;</span>
+</span><span class='line'><span class="x">_request.Headers[&quot;sid&quot;] = SessionID ; // &lt;==== this line</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>SessionID was null at the moment and this made HttpWebRequest so pissed off that it even wouldn&#8217;t send request header to the server ! And because of this, Fiddler was completely useless here. After adding necessary check, everything started working like a charm.</p>
 </div>
@@ -151,7 +156,7 @@ _request.Headers["sid"] = SessionID ; // &lt;==== this line
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/" data-via="" data-counturl="http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/" data-via="" data-counturl="http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/" >Tweet</a>
   
   
   
@@ -230,8 +235,8 @@ _request.Headers["sid"] = SessionID ; // &lt;==== this line
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/';
-        var disqus_url = 'http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/';
+        var disqus_url = 'http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/';
         var disqus_script = 'embed.js';
       
     (function () {

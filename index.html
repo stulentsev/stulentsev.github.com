@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/">
+  <link rel="canonical" href="http://tech.tulentsev.com/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -111,7 +111,7 @@
 
 <p>I guess, this happens to every widely adopted technology that has plugins/libraries. <a href="http://stackoverflow.com/questions/10022215/building-an-auction-with-ruby-on-rails">An example</a>.</p>
 
-<p><img src="http://software.tulentsev.com/wp-content/uploads/2012/04/screenshot_2012_04_05_071714.png" alt="Screenshot 2012 04 05 07.17.14" /></p>
+<p><img src="http://software.tulentsev.com/images/uploads/2012/04/screenshot_2012_04_05_071714.png" alt="Screenshot 2012 04 05 07.17.14" /></p>
 </div>
   
   
@@ -438,23 +438,37 @@
 
   <div class="entry-content"><p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like &#8220;Hey, dude, this is ruby, not javascript!&#8221; in my head. But, apparently, it&#8217;s legal ruby :)</p>
 
-<pre><code>arr = [1, 2, 3]
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="n">arr</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;element </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; element 1</span>
+</span><span class='line'><span class="c1">#=&gt; element 2</span>
+</span><span class='line'><span class="c1">#=&gt; element 3  </span>
+</span></code></pre></td></tr></table></div></figure>
 
-for a in arr
-  puts "element #{a}"
-end
-
-#=&gt; element 1
-#=&gt; element 2
-#=&gt; element 3  
-</code></pre>
 
 <p>You can put ranges in there also.</p>
 
-<pre><code>for a in (1..10)
-  puts a
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
 </div>
@@ -494,63 +508,112 @@ end
 
   <div class="entry-content"><p>Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). Observe:</p>
 
-<pre><code>class A
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">A</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># false</span>
+</span><span class='line'><span class="n">A</span> <span class="o">&gt;</span> <span class="n">B</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">A</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">C</span> <span class="c1"># nil</span>
+</span><span class='line'><span class="n">C</span> <span class="o">&gt;</span> <span class="n">D</span> <span class="c1"># nil</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class B &lt; A
-end
-
-class C &lt; A
-end
-
-class D &lt; B
-end
-
-A &lt; B # false
-A &gt; B # true
-D &lt; A # true
-D &lt; B # true
-D &lt; C # nil
-C &gt; D # nil
-</code></pre>
 
 <p>This operator returns a boolean value (as one would expect), so you can write code like this:</p>
 
-<pre><code>puts "B inherits from A" if B &lt; A
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;B inherits from A&quot;</span> <span class="k">if</span> <span class="n">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Note how it resembles the class definition syntax. I think that this is simply brilliant (not very intuitive, though. I wouldn&#8217;t think of writing this code).</p>
 
 <p>Now that we know this fact, let&#8217;s try to sort the classes :)</p>
 
-<pre><code>class A
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">E</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Class</span>
+</span><span class='line'>  <span class="c1"># we need to define the spaceship operator for classes, since it&#39;s not defined yet.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">&lt;=&gt;</span> <span class="n">other</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">==</span> <span class="n">other</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">&lt;</span> <span class="n">other</span>
+</span><span class='line'>    <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">klasses</span> <span class="o">=</span> <span class="o">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">E</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">klasses</span><span class="o">.</span><span class="n">sort</span> <span class="c1"># [E, C, D, B, A]</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class B &lt; A
-end
-
-class C &lt; A
-end
-
-class D &lt; B
-end
-
-class E &lt; A
-end
-
-class Class
-  # we need to define the spaceship operator for classes, since it's not defined yet.
-  def &lt;=&gt; other
-    return 0 if self == other
-    return -1 if self &lt; other
-    1
-  end
-end
-
-klasses = [A, B, C, D, E]
-
-klasses.sort # [E, C, D, B, A]
-</code></pre>
 
 <p>Now this class hierarchy is sorted, with children first and parents last. Homework: come up with a practical application for this :)</p>
 </div>
@@ -590,30 +653,45 @@ klasses.sort # [E, C, D, B, A]
 
   <div class="entry-content"><p>Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, <strong>mongodump</strong>.</p>
 
-<pre><code>mongodump
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you&#8217;re interested in and it will dump just this database.</p>
 
-<pre><code>mongodump -d mydb
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>But in some cases you don&#8217;t want to dump the whole database. In my case, it&#8217;s an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, &#8230;). I am interested only in a small number of &#8220;important&#8221; collections. But <strong>mongodump</strong> doesn&#8217;t provide us with an option to specify several collections. You can only dump one collection at a time. If you don&#8217;t mind some typing, that&#8217;s easy.</p>
 
-<pre><code>mongodump -d mydb -c mycoll1
-mongodump -d mydb -c mycoll2
-mongodump -d mydb -c mycoll5
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb -c mycoll1
+</span><span class='line'>mongodump -d mydb -c mycoll2
+</span><span class='line'>mongodump -d mydb -c mycoll5
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>But we&#8217;re all programmers, so let&#8217;s automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let&#8217;s do it.</p>
 
-<pre><code>colls=( mycoll1 mycoll2 mycoll5 )
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">colls</span><span class="o">=(</span> mycoll1 mycoll2 mycoll5 <span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>c in <span class="k">${</span><span class="nv">colls</span><span class="p">[@]</span><span class="k">}</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">  </span>mongodump -d mydb -c <span class="nv">$c</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
 
-for c in ${colls[@]}
-do
-  mongodump -d mydb -c $c
-done
-</code></pre>
 
 <p>First line defines a bash array literal. <strong>Don&#8217;t use commas to delimit array elements</strong>, they&#8217;ll become part of the element. The <strong>${colls[@]}</strong> string means &#8220;all array elements&#8221; and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
 </div>
@@ -653,204 +731,369 @@ done
 
   <div class="entry-content"><p>Today we&#8217;ll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let&#8217;s think of a stupid name for this project. What about &#8220;sincapun&#8221;? Any objections? Good, let&#8217;s proceed.</p>
 
-<pre><code>mkdir sincapun
-cd sincapun
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir sincapun
+</span><span class='line'><span class="nb">cd </span>sincapun
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Minimal runnable version:</p>
 
-<pre><code># Gemfile
-gem 'sinatra'
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># sincapun.rb</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello world&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-
-# sincapun.rb
-require 'sinatra'
-
-get '/' do
-    "Hello world"
-end
-</code></pre>
 
 <p>Let&#8217;s see if we can run it&#8230;</p>
 
-<pre><code>$ bundle exec ruby sincapun.rb 
-[2012-03-09 16:04:17] INFO  WEBrick 1.3.1
-[2012-03-09 16:04:17] INFO  ruby 1.9.3 (2012-02-16) [x86_64-darwin11.3.0]
-== Sinatra/1.3.2 has taken the stage on 4567 for development with backup from WEBrick
-[2012-03-09 16:04:17] INFO  WEBrick::HTTPServer#start: pid=14871 port=4567
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle <span class="nb">exec </span>ruby sincapun.rb
+</span><span class='line'><span class="o">[</span>2012-03-09 16:04:17<span class="o">]</span> INFO  WEBrick 1.3.1
+</span><span class='line'><span class="o">[</span>2012-03-09 16:04:17<span class="o">]</span> INFO  ruby 1.9.3 <span class="o">(</span>2012-02-16<span class="o">)</span> <span class="o">[</span>x86_64-darwin11.3.0<span class="o">]</span>
+</span><span class='line'><span class="o">==</span> Sinatra/1.3.2 has taken the stage on 4567 <span class="k">for </span>development with backup from WEBrick
+</span><span class='line'><span class="o">[</span>2012-03-09 16:04:17<span class="o">]</span> INFO  WEBrick::HTTPServer#start: <span class="nv">pid</span><span class="o">=</span>14871 <span class="nv">port</span><span class="o">=</span>4567
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>So far, so good. Now let&#8217;s convert it to modular app and create a proper rackup file.</p>
 
-<pre><code># sincapun.rb
-require 'sinatra'
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sincapun.rb</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Sincapun</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello world&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># config.ru</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./sincapun&#39;</span>
+</span><span class='line'><span class="n">run</span> <span class="no">Sincapun</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class Sincapun &lt; Sinatra::Base
-  get '/' do
-    "Hello world"
-  end
-end
-
-# config.ru
-require './sincapun'
-run Sincapun
-</code></pre>
 
 <p>At this point our app is runnable by every Rack-compatible server (thin, unicorn, &#8230;). Let&#8217;s add some Capistrano to it.</p>
 
-<pre><code># Gemfile
-source :rubygems
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
+</span><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;unicorn&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;capistrano&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-gem 'sinatra'
-gem 'unicorn'
-gem 'capistrano'
 
 
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle install
+</span><span class='line'>Using highline <span class="o">(</span>1.6.11<span class="o">)</span>
+</span><span class='line'>Using net-ssh <span class="o">(</span>2.3.0<span class="o">)</span>
+</span><span class='line'>Using net-scp <span class="o">(</span>1.0.4<span class="o">)</span>
+</span><span class='line'>Using net-sftp <span class="o">(</span>2.0.5<span class="o">)</span>
+</span><span class='line'>Using net-ssh-gateway <span class="o">(</span>1.1.0<span class="o">)</span>
+</span><span class='line'>Using capistrano <span class="o">(</span>2.11.2<span class="o">)</span>
+</span><span class='line'>Using kgio <span class="o">(</span>2.7.2<span class="o">)</span>
+</span><span class='line'>Using rack <span class="o">(</span>1.4.1<span class="o">)</span>
+</span><span class='line'>Using rack-protection <span class="o">(</span>1.2.0<span class="o">)</span>
+</span><span class='line'>Using raindrops <span class="o">(</span>0.8.0<span class="o">)</span>
+</span><span class='line'>Using tilt <span class="o">(</span>1.3.3<span class="o">)</span>
+</span><span class='line'>Using sinatra <span class="o">(</span>1.3.2<span class="o">)</span>
+</span><span class='line'>Using unicorn <span class="o">(</span>4.2.0<span class="o">)</span>
+</span><span class='line'>Using bundler <span class="o">(</span>1.0.22<span class="o">)</span>
+</span><span class='line'>Your bundle is <span class="nb">complete</span>! Use <span class="sb">`</span>bundle show <span class="o">[</span>gemname<span class="o">]</span><span class="sb">`</span> to see where a bundled gem is installed.
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>capify .
+</span><span class='line'><span class="o">[</span>add<span class="o">]</span> writing <span class="s1">&#39;./Capfile&#39;</span>
+</span><span class='line'><span class="o">[</span>add<span class="o">]</span> making directory <span class="s1">&#39;./config&#39;</span>
+</span><span class='line'><span class="o">[</span>add<span class="o">]</span> writing <span class="s1">&#39;./config/deploy.rb&#39;</span>
+</span><span class='line'><span class="o">[</span><span class="k">done</span><span class="o">]</span> capified!
+</span></code></pre></td></tr></table></div></figure>
 
-
-
-
-$ bundle install
-Using highline (1.6.11) 
-Using net-ssh (2.3.0) 
-Using net-scp (1.0.4) 
-Using net-sftp (2.0.5) 
-Using net-ssh-gateway (1.1.0) 
-Using capistrano (2.11.2) 
-Using kgio (2.7.2) 
-Using rack (1.4.1) 
-Using rack-protection (1.2.0) 
-Using raindrops (0.8.0) 
-Using tilt (1.3.3) 
-Using sinatra (1.3.2) 
-Using unicorn (4.2.0) 
-Using bundler (1.0.22) 
-Your bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.
-
-$ capify .
-[add] writing './Capfile'
-[add] making directory './config'
-[add] writing './config/deploy.rb'
-[done] capified!
-</code></pre>
 
 <p>Let&#8217;s improve our capistrano config a little bit.</p>
 
-<pre><code># config/deploy.rb
-# We're using RVM on a server, need this.
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-require 'rvm/capistrano'
-set :rvm_ruby_string, '1.9.3'
-set :rvm_type, :user
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/deploy.rb</span>
+</span><span class='line'><span class="c1"># We&#39;re using RVM on a server, need this.</span>
+</span><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;./lib&#39;</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;rvm_path&#39;</span><span class="o">]</span><span class="p">))</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rvm/capistrano&#39;</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:rvm_ruby_string</span><span class="p">,</span> <span class="s1">&#39;1.9.3&#39;</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:rvm_type</span><span class="p">,</span> <span class="ss">:user</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Bundler tasks</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler/capistrano&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s2">&quot;sincapun&quot;</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>  <span class="s2">&quot;git@github.com:stulentsev/sincapun.git&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span> <span class="ss">:git</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># do not use sudo</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:use_sudo</span><span class="p">,</span> <span class="kp">false</span>
+</span><span class='line'><span class="n">set</span><span class="p">(</span><span class="ss">:run_method</span><span class="p">)</span> <span class="p">{</span> <span class="n">use_sudo</span> <span class="p">?</span> <span class="ss">:sudo</span> <span class="p">:</span> <span class="ss">:run</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># This is needed to correctly handle sudo password prompt</span>
+</span><span class='line'><span class="n">default_run_options</span><span class="o">[</span><span class="ss">:pty</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set</span> <span class="ss">:user</span><span class="p">,</span> <span class="s2">&quot;myname&quot;</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:group</span><span class="p">,</span> <span class="n">user</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:runner</span><span class="p">,</span> <span class="n">user</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set</span> <span class="ss">:host</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">@myhost&quot;</span> <span class="c1"># We need to be able to SSH to that box as this user.</span>
+</span><span class='line'><span class="n">role</span> <span class="ss">:web</span><span class="p">,</span> <span class="n">host</span>
+</span><span class='line'><span class="n">role</span> <span class="ss">:app</span><span class="p">,</span> <span class="n">host</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">set</span> <span class="ss">:rails_env</span><span class="p">,</span> <span class="ss">:production</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Where will it be located on a server?</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s2">&quot;/srv/</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:unicorn_conf</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current/config/unicorn.rb&quot;</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:unicorn_pid</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/shared/pids/unicorn.pid&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Unicorn control tasks</span>
+</span><span class='line'><span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:restart</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;if [ -f </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2"> ]; then kill -USR2 `cat </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2">`; else cd </span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current &amp;&amp; bundle exec unicorn -c </span><span class="si">#{</span><span class="n">unicorn_conf</span><span class="si">}</span><span class="s2"> -E </span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2"> -D; fi&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:start</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;cd </span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current &amp;&amp; bundle exec unicorn -c </span><span class="si">#{</span><span class="n">unicorn_conf</span><span class="si">}</span><span class="s2"> -E </span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2"> -D&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:stop</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;if [ -f </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2"> ]; then kill -QUIT `cat </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2">`; fi&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-# Bundler tasks
-require 'bundler/capistrano'
-
-set :application, "sincapun"
-set :repository,  "git@github.com:stulentsev/sincapun.git"
-
-set :scm, :git
-
-# do not use sudo
-set :use_sudo, false
-set(:run_method) { use_sudo ? :sudo : :run }
-
-# This is needed to correctly handle sudo password prompt
-default_run_options[:pty] = true
-
-set :user, "myname"
-set :group, user
-set :runner, user
-
-set :host, "#{user}@myhost" # We need to be able to SSH to that box as this user.
-role :web, host
-role :app, host
-
-set :rails_env, :production
-
-# Where will it be located on a server?
-set :deploy_to, "/srv/#{application}"
-set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
-set :unicorn_pid, "#{deploy_to}/shared/pids/unicorn.pid"
-
-# Unicorn control tasks
-namespace :deploy do
-  task :restart do
-    run "if [ -f #{unicorn_pid} ]; then kill -USR2 `cat #{unicorn_pid}`; else cd #{deploy_to}/current &amp;&amp; bundle exec unicorn -c #{unicorn_conf} -E #{rails_env} -D; fi"
-  end
-  task :start do
-    run "cd #{deploy_to}/current &amp;&amp; bundle exec unicorn -c #{unicorn_conf} -E #{rails_env} -D"
-  end
-  task :stop do
-    run "if [ -f #{unicorn_pid} ]; then kill -QUIT `cat #{unicorn_pid}`; fi"
-  end
-end
-</code></pre>
 
 <p>We need a config file for Unicorn. Here is what it may look like:</p>
 
-<pre><code># define paths and filenames
-deploy_to = "/srv/sincapun"
-rails_root = "#{deploy_to}/current"
-pid_file = "#{deploy_to}/shared/pids/unicorn.pid"
-socket_file= "#{deploy_to}/shared/unicorn.sock"
-log_file = "#{rails_root}/log/unicorn.log"
-err_log = "#{rails_root}/log/unicorn_error.log"
-old_pid = pid_file + '.oldbin'
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># define paths and filenames</span>
+</span><span class='line'><span class="n">deploy_to</span> <span class="o">=</span> <span class="s2">&quot;/srv/sincapun&quot;</span>
+</span><span class='line'><span class="n">rails_root</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current&quot;</span>
+</span><span class='line'><span class="n">pid_file</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/shared/pids/unicorn.pid&quot;</span>
+</span><span class='line'><span class="n">socket_file</span><span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/shared/unicorn.sock&quot;</span>
+</span><span class='line'><span class="n">log_file</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">rails_root</span><span class="si">}</span><span class="s2">/log/unicorn.log&quot;</span>
+</span><span class='line'><span class="n">err_log</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">rails_root</span><span class="si">}</span><span class="s2">/log/unicorn_error.log&quot;</span>
+</span><span class='line'><span class="n">old_pid</span> <span class="o">=</span> <span class="n">pid_file</span> <span class="o">+</span> <span class="s1">&#39;.oldbin&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">timeout</span> <span class="mi">30</span>
+</span><span class='line'><span class="n">worker_processes</span> <span class="mi">2</span> <span class="c1"># increase or decrease</span>
+</span><span class='line'><span class="n">listen</span> <span class="n">socket_file</span><span class="p">,</span> <span class="ss">:backlog</span> <span class="o">=&gt;</span> <span class="mi">1024</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">pid</span> <span class="n">pid_file</span>
+</span><span class='line'><span class="n">stderr_path</span> <span class="n">err_log</span>
+</span><span class='line'><span class="n">stdout_path</span> <span class="n">log_file</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># make forks faster</span>
+</span><span class='line'><span class="n">preload_app</span> <span class="kp">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># make sure that Bundler finds the Gemfile</span>
+</span><span class='line'><span class="n">before_exec</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;BUNDLE_GEMFILE&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../Gemfile&#39;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
+</span><span class='line'>      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># zero downtime deploy magic:</span>
+</span><span class='line'>  <span class="c1"># if unicorn is already running, ask it to start a new process and quit.</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">server</span><span class="o">.</span><span class="n">pid</span> <span class="o">!=</span> <span class="n">old_pid</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="s2">&quot;QUIT&quot;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">,</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span>
+</span><span class='line'>      <span class="c1"># someone else did our job for us</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># re-establish activerecord connections.</span>
+</span><span class='line'>  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
+</span><span class='line'>      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-timeout 30
-worker_processes 2 # increase or decrease
-listen socket_file, :backlog =&gt; 1024
-
-pid pid_file
-stderr_path err_log
-stdout_path log_file
-
-# make forks faster
-preload_app true 
-
-# make sure that Bundler finds the Gemfile
-before_exec do |server|
-  ENV['BUNDLE_GEMFILE'] = File.expand_path('../Gemfile', File.dirname(__FILE__))
-end
-
-before_fork do |server, worker|
-  defined?(ActiveRecord::Base) and
-      ActiveRecord::Base.connection.disconnect!
-
-  # zero downtime deploy magic:
-  # if unicorn is already running, ask it to start a new process and quit.
-  if File.exists?(old_pid) &amp;&amp; server.pid != old_pid
-    begin
-      Process.kill("QUIT", File.read(old_pid).to_i)
-    rescue Errno::ENOENT, Errno::ESRCH
-      # someone else did our job for us
-    end
-  end
-end
-
-after_fork do |server, worker|
-
-  # re-establish activerecord connections.
-  defined?(ActiveRecord::Base) and
-      ActiveRecord::Base.establish_connection
-end
-</code></pre>
 
 <p>That should do it. Now you can deploy your app, assuming that you have <a href="http://beginrescueend.com/">RVM</a> on the server, you can SSH into it and write to /srv directory.</p>
 
-<pre><code>cap deploy:setup
-cap deploy
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>cap deploy:setup
+</span><span class='line'>cap deploy
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Deploy should spit a lot of text into the console, and there should be no errors. Verify that our unicorns are launched correctly by logging into the server and running this:</p>
 
-<pre><code>$ ps aux | grep sincapun
-myuser   24851  2.0  0.1  88480 21024 ?        Sl   11:42   0:00 unicorn master -c /srv/sincapun/current/config/unicorn.rb -E production -D                                         
-myuser   24854  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[0] -c /srv/sincapun/current/config/unicorn.rb -E production -D                                      
-myuser   24857  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[1] -c /srv/sincapun/current/config/unicorn.rb -E production -D                                      
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ps aux | grep sincapun
+</span><span class='line'>myuser   24851  2.0  0.1  88480 21024 ?        Sl   11:42   0:00 unicorn master -c /srv/sincapun/current/config/unicorn.rb -E production -D
+</span><span class='line'>myuser   24854  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker<span class="o">[</span>0<span class="o">]</span> -c /srv/sincapun/current/config/unicorn.rb -E production -D
+</span><span class='line'>myuser   24857  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker<span class="o">[</span>1<span class="o">]</span> -c /srv/sincapun/current/config/unicorn.rb -E production -D
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>To access these unicorns from the internet, you need to put a reverse proxy in front of them. But that is another story.</p>
 
@@ -892,21 +1135,30 @@ myuser   24857  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker[
 
   <div class="entry-content"><p>Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There&#8217;s a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It&#8217;s called ntpdate</p>
 
-<pre><code>$ sudo ntpdate ntp.ubuntu.com
- 9 Mar 03:59:12 ntpdate[7225]: step time server 91.189.94.4 offset 179.440440 sec
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo ntpdate ntp.ubuntu.com
+</span><span class='line'> 9 Mar 03:59:12 ntpdate<span class="o">[</span>7225<span class="o">]</span>: step <span class="nb">time </span>server 91.189.94.4 offset 179.440440 sec
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let&#8217;s add an hourly cron job. Create a file called &#8216;ntpdate&#8217; (for example) at &#8216;/etc/cron.hourly&#8217; with this content:</p>
 
-<pre><code>#! /bin/sh
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/sh</span>
+</span><span class='line'>
+</span><span class='line'>ntpdate ntp.ubuntu.com
+</span></code></pre></td></tr></table></div></figure>
 
-ntpdate ntp.ubuntu.com
-</code></pre>
 
 <p>We don&#8217;t need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
 
-<pre><code>sudo chmod +x /etc/cron.hourly/ntpdate
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/cron.hourly/ntpdate
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>We&#8217;re all set now. Come back a few days later and verify that clock doesn&#8217;t deviate as much anymore.</p>
 </div>
@@ -952,29 +1204,52 @@ ntpdate ntp.ubuntu.com
 
 <p>Now classic way of mixing in class methods is this (and it doesn&#8217;t solve the problem, of course).</p>
 
-<pre><code>module FooModule
-  def self.included base
-    base.extend ClassMethods
-  end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">FooModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">base</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">bar</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;module&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">FooModule</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">bar</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">bar</span> <span class="c1">#=&gt; class</span>
+</span></code></pre></td></tr></table></div></figure>
 
-  module ClassMethods
-    def bar
-      puts "module"
-    end
-  end
-end
-
-class Klass
-  include FooModule
-
-  def self.bar
-    puts 'class'
-  end
-end
-
-
-Klass.bar #=&gt; class
-</code></pre>
 
 <p>When modules are included or extended into a class, its methods are placed right above this class&#8217; methods in inheritance chain. This means that if we were to call <code>super</code> in that class method, it would print &#8220;module&#8221;. But we don&#8217;t want to touch original class definition, we want to alter it from outside.</p>
 
@@ -982,98 +1257,174 @@ Klass.bar #=&gt; class
 
 <p>Good for us, ruby has a concept of <a href="http://www.google.ru/search?ix=hca&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=ruby+open+classes">&#8220;open classes&#8221;</a>. This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can &#8220;opened&#8221; and new methods can be added to it, or old methods can be redefined. Let&#8217;s look how it works.</p>
 
-<pre><code>class Klass
-  def self.bar
-    puts 'class'
-  end
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">bar</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">bar</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class 2&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">bar</span> <span class="c1">#=&gt; class 2</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class Klass
-  def self.bar
-    puts 'class 2'
-  end
-end
-
-Klass.bar #=&gt; class 2
-</code></pre>
 
 <p>The second class definition does not overwrite previous one, it opens and alters it. In this case, it happened to define a method with the same name. This resulted in old method being overwritten by the new one. This works with any classes, even base library classes.</p>
 
-<pre><code>puts [1, 2, 3].to_s #=&gt; [1, 2, 3]
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; [1, 2, 3]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Array</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="s2">&quot;an array: </span><span class="si">#{</span><span class="n">join</span> <span class="s1">&#39;, &#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; an array: 1, 2, 3</span>
+</span></code></pre></td></tr></table></div></figure>
 
-class Array
-  def to_s
-    "an array: #{join ', '}"
-  end
-end
-
-puts [1, 2, 3].to_s #=&gt; an array: 1, 2, 3
-</code></pre>
 
 <p>Or the same code can be rewritten as</p>
 
-<pre><code>puts [1, 2, 3].to_s #=&gt; [1, 2, 3]
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; [1, 2, 3]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">Array</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="s2">&quot;an array: </span><span class="si">#{</span><span class="n">join</span> <span class="s1">&#39;, &#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; an array: 1, 2, 3</span>
+</span></code></pre></td></tr></table></div></figure>
 
-Array.class_eval do
-  def to_s
-    "an array: #{join ', '}"
-  end
-end
-
-puts [1, 2, 3].to_s #=&gt; an array: 1, 2, 3
-</code></pre>
 
 <h3>Applying the knowledge</h3>
 
 <p>Let&#8217;s start with simpler things, like overriding an instance method.</p>
 
-<pre><code>class Klass
-  def say
-    puts 'class'
-  end
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">FooModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">base</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;module&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">FooModule</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">say</span> <span class="c1">#=&gt; module</span>
+</span></code></pre></td></tr></table></div></figure>
 
-module FooModule
-  def self.included base
-    base.class_eval do
-      def say
-        puts "module"
-      end
-    end
-  end
-end
-
-
-Klass.send(:include, FooModule)
-
-Klass.new.say #=&gt; module
-</code></pre>
 
 <p>Modules have a special callback that gets called every time a module is included in a class. We can use that to call class_eval on that class and redefine a method.</p>
 
 <p>Replacing a class method is done in a similar way.</p>
 
-<pre><code>class Klass
-  def self.say
-    puts 'class'
-  end
-end
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">say</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">FooModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">base</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">instance_eval</span> <span class="k">do</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;module&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">FooModule</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">say</span> <span class="c1">#=&gt; module</span>
+</span></code></pre></td></tr></table></div></figure>
 
-module FooModule
-  def self.included base
-    base.instance_eval do
-      def say
-        puts "module"
-      end
-    end
-  end
-end
-
-
-Klass.send(:include, FooModule)
-
-Klass.say #=&gt; module
-</code></pre>
 
 <p>The only difference here is that we call instance_eval instead of class_eval. This can be a very confusing part. In short, class_eval creates instance methods and instance_eval creates class methods.</p>
 </div>

@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/2012/03/ruby-forin-loop/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/03/ruby-forin-loop/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -104,23 +104,37 @@
 
 <div class="entry-content"><p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like &#8220;Hey, dude, this is ruby, not javascript!&#8221; in my head. But, apparently, it&#8217;s legal ruby :)</p>
 
-<pre><code>arr = [1, 2, 3]
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="n">arr</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;element </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; element 1</span>
+</span><span class='line'><span class="c1">#=&gt; element 2</span>
+</span><span class='line'><span class="c1">#=&gt; element 3  </span>
+</span></code></pre></td></tr></table></div></figure>
 
-for a in arr
-  puts "element #{a}"
-end
-
-#=&gt; element 1
-#=&gt; element 2
-#=&gt; element 3  
-</code></pre>
 
 <p>You can put ranges in there also.</p>
 
-<pre><code>for a in (1..10)
-  puts a
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
 </div>
@@ -153,7 +167,7 @@ end
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2012/03/ruby-forin-loop/" data-via="" data-counturl="http://stulentsev.github.com/2012/03/ruby-forin-loop/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/03/ruby-forin-loop/" data-via="" data-counturl="http://tech.tulentsev.com/2012/03/ruby-forin-loop/" >Tweet</a>
   
   
   
@@ -232,8 +246,8 @@ end
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://stulentsev.github.com/2012/03/ruby-forin-loop/';
-        var disqus_url = 'http://stulentsev.github.com/2012/03/ruby-forin-loop/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/03/ruby-forin-loop/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/03/ruby-forin-loop/';
         var disqus_script = 'embed.js';
       
     (function () {

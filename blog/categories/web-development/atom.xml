@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Web development | Rock, Paper, Software]]></title>
-  <link href="http://stulentsev.github.com/blog/categories/web-development/atom.xml" rel="self"/>
-  <link href="http://stulentsev.github.com/"/>
-  <updated>2012-09-02T12:59:41+04:00</updated>
-  <id>http://stulentsev.github.com/</id>
+  <link href="http://tech.tulentsev.com/blog/categories/web-development/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-09-02T18:13:18+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
     
@@ -15,58 +15,66 @@
   
   <entry>
     <title type="html"><![CDATA[jQuery chaining]]></title>
-    <link href="http://stulentsev.github.com/2010/08/jquery-chaining/"/>
+    <link href="http://tech.tulentsev.com/2010/08/jquery-chaining/"/>
     <updated>2010-08-24T17:00:13+04:00</updated>
-    <id>http://stulentsev.github.com/2010/08/jquery-chaining</id>
+    <id>http://tech.tulentsev.com/2010/08/jquery-chaining</id>
     <content type="html"><![CDATA[<p>I am beginning to fall in love with jQuery. Screw you, <a href="http://vkontakte.ru">bicycle inventors</a>! :-)</p>
 
-<pre><code>    function next_step() {
-        // note how elegant and self-explanatory this code is.
-        var cl = 'step_selected';
-        $('.' + cl).removeClass(cl).next().addClass(cl);
+<p>``` javascript
+function next_step() {</p>
 
-        // Also look at previous version of the code,
-        // before I remembered about chaining methods.
+<pre><code>// note how elegant and self-explanatory this code is.
+var cl = 'step_selected';
+$('.' + cl).removeClass(cl).next().addClass(cl);
 
-        // var li = $('.step_selected');
-        // li.removeClass('step_selected');
-        // li.next().addClass('step_selected');
+// Also look at previous version of the code,
+// before I remembered about chaining methods.
 
-        // Not as sexy, right? :-)
-    }
+// var li = $('.step_selected');
+// li.removeClass('step_selected');
+// li.next().addClass('step_selected');
+
+// Not as sexy, right? :-)
 </code></pre>
+
+<p>}
+```</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[SugarCRM: More colors!]]></title>
-    <link href="http://stulentsev.github.com/2009/02/sugarcrm-more-colors/"/>
+    <link href="http://tech.tulentsev.com/2009/02/sugarcrm-more-colors/"/>
     <updated>2009-02-06T18:24:41+03:00</updated>
-    <id>http://stulentsev.github.com/2009/02/sugarcrm-more-colors</id>
+    <id>http://tech.tulentsev.com/2009/02/sugarcrm-more-colors</id>
     <content type="html"><![CDATA[<p>When I was implementing <a href="http://software.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: "Can we also mark meetings with colors, corresponding to users?". This way it becomes somewhat easier to identify originator of an event. "Yeah, it would be cool, but it can be tricky and difficult to implement", I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn't quite enjoyed the experience.</p>
 
 <p>But later at home I was thinking about it and decided that it may not be as hard as it looks. We can divide the task into two subtasks:</p>
 
 <ul>
-<li><p>provide a unique color for each user</p></li>
-<li><p>use this color when generating markup for an event</p></li>
+<li>provide a unique color for each user</li>
+<li>use this color when generating markup for an event</li>
 </ul>
 
 
 <p>The latter subtask was quite easy to implement, I already knew a place where the markup was generated. I was more scared by the former one. If done in "enterprisey" way, it could involve new property in User entity, new configuration screens, database alterations, etc. But there is a solution almost as good as abovementioned and much more simple. Let's define a function that maps user name to color. md5() is a good candidate :-)</p>
 
-<pre><code>function get_color_by_name($name)
-{
-    $html_color_string = substr(md5($name), 0, 6);
-    return $html_color_string;
-}
+<p>``` php
+function get_color_by_name($name)
+{</p>
+
+<pre><code>$html_color_string = substr(md5($name), 0, 6);
+return $html_color_string;
 </code></pre>
+
+<p>}
+```</p>
 
 <p>I also used RGB&lt;=>HSV transformation functions, because I wanted to get lighter colors. Initially I wanted to highlight event's name with the color, but it turned out that text is not always readable. I decided not to write functions that calculate good contrasting colors and put a small color rectangle instead of highlight. This rectangle is essentially a span with several &nbsp; 's as a body.</p>
 
-<p>So, final result looks like this:<a href="http://software.tulentsev.com/wp-content/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
+<p>So, final result looks like this:<a href="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
 
-<p>Here is <a href="http://software.tulentsev.com/wp-content/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
+<p>Here is <a href="http://software.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
 ]]></content>
   </entry>
   

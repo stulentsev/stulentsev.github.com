@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/2010/06/atomic-updates-part-2/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2010/06/atomic-updates-part-2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -113,10 +113,14 @@
 
 <p>MongoDB&#8217;s query and update features allows us to perform all three actions in a single operation. Here&#8217;s what that would look like from the shell:</p>
 
-<blockquote><pre><code>// Assume that story_id and user_id represent real story and user ids.
-db.stories.update({_id: story_id, voters: {'$ne': user_id}}, 
-  {'$inc': {votes: 1}, '$push': {voters: user_id}});
-</code></pre></blockquote>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Assume that story_id and user_id represent real story and user ids.</span>
+</span><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">stories</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="nx">story_id</span><span class="p">,</span> <span class="nx">voters</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}},</span>
+</span><span class='line'>                  <span class="p">{</span><span class="s1">&#39;$inc&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">votes</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;$push&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">voters</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}});</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>What this says is &#8220;get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array.&#8221;</p>
 
@@ -161,7 +165,7 @@ db.stories.update({_id: story_id, voters: {'$ne': user_id}},
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://stulentsev.github.com/2010/06/atomic-updates-part-2/" data-via="" data-counturl="http://stulentsev.github.com/2010/06/atomic-updates-part-2/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2010/06/atomic-updates-part-2/" data-via="" data-counturl="http://tech.tulentsev.com/2010/06/atomic-updates-part-2/" >Tweet</a>
   
   
   
@@ -240,8 +244,8 @@ db.stories.update({_id: story_id, voters: {'$ne': user_id}},
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://stulentsev.github.com/2010/06/atomic-updates-part-2/';
-        var disqus_url = 'http://stulentsev.github.com/2010/06/atomic-updates-part-2/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2010/06/atomic-updates-part-2/';
+        var disqus_url = 'http://tech.tulentsev.com/2010/06/atomic-updates-part-2/';
         var disqus_script = 'embed.js';
       
     (function () {

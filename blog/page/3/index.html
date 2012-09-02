@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/blog/page/3/">
+  <link rel="canonical" href="http://tech.tulentsev.com/blog/page/3/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -110,25 +110,31 @@
 <p>But later at home I was thinking about it and decided that it may not be as hard as it looks. We can divide the task into two subtasks:</p>
 
 <ul>
-<li><p>provide a unique color for each user</p></li>
-<li><p>use this color when generating markup for an event</p></li>
+<li>provide a unique color for each user</li>
+<li>use this color when generating markup for an event</li>
 </ul>
 
 
 <p>The latter subtask was quite easy to implement, I already knew a place where the markup was generated. I was more scared by the former one. If done in &#8220;enterprisey&#8221; way, it could involve new property in User entity, new configuration screens, database alterations, etc. But there is a solution almost as good as abovementioned and much more simple. Let&#8217;s define a function that maps user name to color. md5() is a good candidate :-)</p>
 
-<pre><code>function get_color_by_name($name)
-{
-    $html_color_string = substr(md5($name), 0, 6);
-    return $html_color_string;
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">function get_color_by_name($name)</span>
+</span><span class='line'><span class="x">{</span>
+</span><span class='line'><span class="x">    $html_color_string = substr(md5($name), 0, 6);</span>
+</span><span class='line'><span class="x">    return $html_color_string;</span>
+</span><span class='line'><span class="x">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>I also used RGB&lt;=>HSV transformation functions, because I wanted to get lighter colors. Initially I wanted to highlight event&#8217;s name with the color, but it turned out that text is not always readable. I decided not to write functions that calculate good contrasting colors and put a small color rectangle instead of highlight. This rectangle is essentially a span with several &nbsp; &#8216;s as a body.</p>
 
-<p>So, final result looks like this:<a href="http://software.tulentsev.com/wp-content/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
+<p>So, final result looks like this:<a href="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://software.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
 
-<p>Here is <a href="http://software.tulentsev.com/wp-content/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
+<p>Here is <a href="http://software.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
 </div>
   
   
@@ -212,7 +218,7 @@
 
 <p>The &#8220;official&#8221; way to format strings in .NET BCL is to use <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">String.Format</a> method (and wrappers for it, like <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">Console.Write</a>).</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
 
 <p>This is not very reliable method. You can forget to include parameter into the format string or confuse one parameter with another. And your IDE does not offer any help here.</p>
 
@@ -220,7 +226,7 @@
 
 <p>People feel that this is not right and try to invent some more convenient methods. One of which is formatting with named parameters (using names instead of ordinals). Yesterday I read <a href="http://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx">this blog post</a>. There are several implementations of formatting with named parameters and author makes more reliable and efficient implementation just for fun. But you know what? It still doesn&#8217;t seem right.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image1.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image1.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
 
 <p><a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">Anonymous type</a> here is supposed to protect us from renaming issue, but it clutters the code. And again, we do not get any help from IDE (warnings about non-existing elements, highlighting, etc).</p>
 
@@ -230,15 +236,15 @@
 
 <p>One picture is worth a thousand words. So look at these code samples</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image2.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image2.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image3.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image3.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
 
 <p>Feel the difference! What can possibly go wrong here (except for <a href="http://msdn.microsoft.com/en-us/library/system.nullreferenceexception.aspx">NullReferenceException</a>, but <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">string.Format</a> is also vulnerable to it). Also, this code is very efficient. Essentially it is transformed to a series of <a href="http://msdn.microsoft.com/en-us/library/system.string.concat.aspx">string.Concat</a> or <a href="http://msdn.microsoft.com/en-us/library/system.text.stringbuilder.append.aspx">StringBuilder.Append</a> calls.</p>
 
 <p>P.S.: One more thousand-words-picture.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image4.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
 </div>
   
   
@@ -282,7 +288,7 @@
 
 <p>In some recent versions it acquired so-called &#8220;smart highting&#8221;. This feature highlights all occurrences of a word when you select one of them. Very handy. BUT! it is case sensitive.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2008/12/image3.png"><img src="http://software.tulentsev.com/wp-content/uploads/2008/12/image-thumb3.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2008/12/image3.png"><img src="http://software.tulentsev.com/images/uploads/2008/12/image-thumb3.png" alt="image" /></a></p>
 
 <p>Take a look at the screenshot. You can see two occurrences of <em>valor</em> highlighted with green color, but another occurrence is not highlighted, it has different casing. This makes analysis of this source code somewhat harder.</p>
 
@@ -340,7 +346,7 @@
 
 <p>Recently I discovered an excellent piece of software, called Balsamiq Mockups. It is simple, effective and nice looking. It requires zero learning time. For example, I tried to create something for my personal project, yet another photo gallery. And I got this mockup ready in exactly 6 minutes after I started the demo:</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image5.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb5.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image5.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb5.png" alt="image" /></a></p>
 
 <p>Impressions: product - great, support - fast and fully satisfying, overall - have to get one.</p>
 
@@ -392,7 +398,7 @@
 
 <p>I tried many things, but in the end it turned to be some mistreatment of a connection string. Mine looks this way:</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2008/12/image1.png"><img src="http://software.tulentsev.com/wp-content/uploads/2008/12/image-thumb1.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2008/12/image1.png"><img src="http://software.tulentsev.com/images/uploads/2008/12/image-thumb1.png" alt="image" /></a></p>
 
 <p>The problem goes away when I put a backslash instead of slash in &#8220;./SQLEXPRESS&#8221;. It looks pretty weird, because they always used forward slash in such autogenerated connection strings, didn&#8217;t they?</p>
 
@@ -434,7 +440,7 @@
 
   <div class="entry-content"><p>Sometimes, you may get not-very-descriptive <em>System.Security.SecurityException</em>. Stack trace tells you that something bad happened somewhere inside <em>EndGetResponse</em>, and that&#8217;s it, no more details. One possible cause is this: in a Silverlight project you may tell it to generate a temporary page that will host your application.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2008/11/image.png"><img src="http://software.tulentsev.com/wp-content/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2008/11/image.png"><img src="http://localhost:4000/images/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
 
 <p>And if your application sends requests to some host (a linux virtual box, in my case), this will be the source of pain. The dynamically generated page gets loaded to Internet Explorer as <a href="file://your_path/TestPage.html">file://your_path/TestPage.html</a>. And you are trying to reach HTTP(S) host. This cross-scheme behavior is not allowed.</p>
 
@@ -480,11 +486,16 @@
 
 <p>when trying to make simple POST request to a PHP page. I&#8217;ve spent half a day diagnosing this problem. And solution was found entirely by chance, because exception messages weren&#8217;t helping in any way. I mean, I was always getting abovementioned error message, without any details (what host, what page, request parameters, etc). But enough of complaints, let&#8217;s proceed to the solution. The troublesome code was this one:</p>
 
-<pre><code>var _request = (HttpWebRequest)WebRequest.Create(_svcUri);
-_request.Method = "POST";
-_request.ContentType = "application/json";
-_request.Headers["sid"] = SessionID ; // &lt;==== this line
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">var _request = (HttpWebRequest)WebRequest.Create(_svcUri);</span>
+</span><span class='line'><span class="x">_request.Method = &quot;POST&quot;;</span>
+</span><span class='line'><span class="x">_request.ContentType = &quot;application/json&quot;;</span>
+</span><span class='line'><span class="x">_request.Headers[&quot;sid&quot;] = SessionID ; // &lt;==== this line</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>SessionID was null at the moment and this made HttpWebRequest so pissed off that it even wouldn&#8217;t send request header to the server ! And because of this, Fiddler was completely useless here. After adding necessary check, everything started working like a charm.</p>
 </div>

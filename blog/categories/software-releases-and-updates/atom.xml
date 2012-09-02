@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Software releases and updates | Rock, Paper, Software]]></title>
-  <link href="http://stulentsev.github.com/blog/categories/software-releases-and-updates/atom.xml" rel="self"/>
-  <link href="http://stulentsev.github.com/"/>
-  <updated>2012-09-02T12:59:41+04:00</updated>
-  <id>http://stulentsev.github.com/</id>
+  <link href="http://tech.tulentsev.com/blog/categories/software-releases-and-updates/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-09-02T18:13:18+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[MS Visual Studio 10 CTP]]></title>
-    <link href="http://stulentsev.github.com/2008/10/ms-visual-studio-10-ctp/"/>
+    <link href="http://tech.tulentsev.com/2008/10/ms-visual-studio-10-ctp/"/>
     <updated>2008-10-30T22:28:50+03:00</updated>
-    <id>http://stulentsev.github.com/2008/10/ms-visual-studio-10-ctp</id>
+    <id>http://tech.tulentsev.com/2008/10/ms-visual-studio-10-ctp</id>
     <content type="html"><![CDATA[<p>It was released yesterday. It includes C# 4.0, .NET 4.0, new editor and some other things.</p>
 
 <p>Go and grab it here: <a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=922B4655-93D0-4476-BDA4-94CF5F8D4814&amp;displaylang=en">MS download center</a></p>

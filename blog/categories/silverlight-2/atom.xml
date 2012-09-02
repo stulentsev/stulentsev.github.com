@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Silverlight 2 | Rock, Paper, Software]]></title>
-  <link href="http://stulentsev.github.com/blog/categories/silverlight-2/atom.xml" rel="self"/>
-  <link href="http://stulentsev.github.com/"/>
-  <updated>2012-09-02T12:59:41+04:00</updated>
-  <id>http://stulentsev.github.com/</id>
+  <link href="http://tech.tulentsev.com/blog/categories/silverlight-2/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-09-02T18:13:18+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
     
@@ -15,12 +15,12 @@
   
   <entry>
     <title type="html"><![CDATA[Silverlight: Security Error]]></title>
-    <link href="http://stulentsev.github.com/2008/11/silverlight-security-error/"/>
+    <link href="http://tech.tulentsev.com/2008/11/silverlight-security-error/"/>
     <updated>2008-11-24T10:18:17+03:00</updated>
-    <id>http://stulentsev.github.com/2008/11/silverlight-security-error</id>
+    <id>http://tech.tulentsev.com/2008/11/silverlight-security-error</id>
     <content type="html"><![CDATA[<p>Sometimes, you may get not-very-descriptive <em>System.Security.SecurityException</em>. Stack trace tells you that something bad happened somewhere inside <em>EndGetResponse</em>, and that's it, no more details. One possible cause is this: in a Silverlight project you may tell it to generate a temporary page that will host your application.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2008/11/image.png"><img src="http://software.tulentsev.com/wp-content/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2008/11/image.png"><img src="http://localhost:4000/images/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
 
 <p>And if your application sends requests to some host (a linux virtual box, in my case), this will be the source of pain. The dynamically generated page gets loaded to Internet Explorer as <a href="file://your_path/TestPage.html">file://your_path/TestPage.html</a>. And you are trying to reach HTTP(S) host. This cross-scheme behavior is not allowed.</p>
 
@@ -30,20 +30,21 @@
   
   <entry>
     <title type="html"><![CDATA[Silverlight 2: trouble with POST requests]]></title>
-    <link href="http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/"/>
+    <link href="http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/"/>
     <updated>2008-11-24T01:04:30+03:00</updated>
-    <id>http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests</id>
+    <id>http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests</id>
     <content type="html"><![CDATA[<p>I am trying to make a small Silverlight control that talks to PHP server. Sometimes problems arise and I have to deal with them myself, since there's not much information on this topic in the internet. Trouble of the day is:</p>
 
 <p><strong>The remote server returned an error: NotFound</strong></p>
 
 <p>when trying to make simple POST request to a PHP page. I've spent half a day diagnosing this problem. And solution was found entirely by chance, because exception messages weren't helping in any way. I mean, I was always getting abovementioned error message, without any details (what host, what page, request parameters, etc). But enough of complaints, let's proceed to the solution. The troublesome code was this one:</p>
 
-<pre><code>var _request = (HttpWebRequest)WebRequest.Create(_svcUri);
+<p><code>php    
+var _request = (HttpWebRequest)WebRequest.Create(_svcUri);
 _request.Method = "POST";
 _request.ContentType = "application/json";
 _request.Headers["sid"] = SessionID ; // &lt;==== this line
-</code></pre>
+</code></p>
 
 <p>SessionID was null at the moment and this made HttpWebRequest so pissed off that it even wouldn't send request header to the server ! And because of this, Fiddler was completely useless here. After adding necessary check, everything started working like a charm.</p>
 ]]></content>

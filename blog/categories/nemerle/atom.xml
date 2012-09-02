@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Nemerle | Rock, Paper, Software]]></title>
-  <link href="http://stulentsev.github.com/blog/categories/nemerle/atom.xml" rel="self"/>
-  <link href="http://stulentsev.github.com/"/>
-  <updated>2012-09-02T12:59:41+04:00</updated>
-  <id>http://stulentsev.github.com/</id>
+  <link href="http://tech.tulentsev.com/blog/categories/nemerle/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-09-02T18:13:18+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
     
@@ -15,14 +15,14 @@
   
   <entry>
     <title type="html"><![CDATA[Formatting with named parameters]]></title>
-    <link href="http://stulentsev.github.com/2009/01/formatting-with-named-parameters/"/>
+    <link href="http://tech.tulentsev.com/2009/01/formatting-with-named-parameters/"/>
     <updated>2009-01-05T13:45:17+03:00</updated>
-    <id>http://stulentsev.github.com/2009/01/formatting-with-named-parameters</id>
+    <id>http://tech.tulentsev.com/2009/01/formatting-with-named-parameters</id>
     <content type="html"><![CDATA[<h3>Problems with formatting</h3>
 
 <p>The "official" way to format strings in .NET BCL is to use <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">String.Format</a> method (and wrappers for it, like <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">Console.Write</a>).</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb.png" alt="image" /></a></p>
 
 <p>This is not very reliable method. You can forget to include parameter into the format string or confuse one parameter with another. And your IDE does not offer any help here.</p>
 
@@ -30,7 +30,7 @@
 
 <p>People feel that this is not right and try to invent some more convenient methods. One of which is formatting with named parameters (using names instead of ordinals). Yesterday I read <a href="http://haacked.com/archive/2009/01/04/fun-with-named-formats-string-parsing-and-edge-cases.aspx">this blog post</a>. There are several implementations of formatting with named parameters and author makes more reliable and efficient implementation just for fun. But you know what? It still doesn't seem right.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image1.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image1.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb1.png" alt="image" /></a></p>
 
 <p><a href="http://msdn.microsoft.com/en-us/library/bb397696.aspx">Anonymous type</a> here is supposed to protect us from renaming issue, but it clutters the code. And again, we do not get any help from IDE (warnings about non-existing elements, highlighting, etc).</p>
 
@@ -40,23 +40,23 @@
 
 <p>One picture is worth a thousand words. So look at these code samples</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image2.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image2.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb2.png" alt="image" /></a></p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image3.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image3.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb3.png" alt="image" /></a></p>
 
 <p>Feel the difference! What can possibly go wrong here (except for <a href="http://msdn.microsoft.com/en-us/library/system.nullreferenceexception.aspx">NullReferenceException</a>, but <a href="http://msdn.microsoft.com/en-us/library/system.string.format.aspx">string.Format</a> is also vulnerable to it). Also, this code is very efficient. Essentially it is transformed to a series of <a href="http://msdn.microsoft.com/en-us/library/system.string.concat.aspx">string.Concat</a> or <a href="http://msdn.microsoft.com/en-us/library/system.text.stringbuilder.append.aspx">StringBuilder.Append</a> calls.</p>
 
 <p>P.S.: One more thousand-words-picture.</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/01/image4.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://software.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Special comments]]></title>
-    <link href="http://stulentsev.github.com/2007/04/special-comments/"/>
+    <link href="http://tech.tulentsev.com/2007/04/special-comments/"/>
     <updated>2007-04-07T18:44:39+04:00</updated>
-    <id>http://stulentsev.github.com/2007/04/special-comments</id>
+    <id>http://tech.tulentsev.com/2007/04/special-comments</id>
     <content type="html"><![CDATA[<p>Yesterday night I had a dream about how it would be cool to highlight special kinds of comments, like TODOs and BUGs.
 But when I came to office, it turned out that JetBrains stole this idea a few days before. :-)
 Their solution is extensible and customizable, but all those customizations don't work at the moment.

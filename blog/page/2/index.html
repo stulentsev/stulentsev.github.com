@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://stulentsev.github.com/blog/page/2/">
+  <link rel="canonical" href="http://tech.tulentsev.com/blog/page/2/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Rock, Paper, Software</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>cat /dev/head | blog.</h2>
   
 </hgroup>
 
@@ -61,7 +61,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:stulentsev.github.com" />
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -147,65 +147,121 @@
 
   <div class="entry-content"><p>Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like:</p>
 
-<pre><code>    /[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>It works, right? WRONG. Sure it&#8217;ll handle a couple of your test examples. But it&#8217;s not ready for real world usage. Here&#8217;s a standards compliant Perl regex.</p>
 
-<pre><code>/(?(DEFINE)
-   (?&lt;address&gt;         (?&amp;mailbox;) | (?&amp;group;))
-   (?&lt;mailbox&gt;         (?&amp;name;_addr) | (?&amp;addr;_spec))
-   (?&lt;name_addr&gt;       (?&amp;display;_name)? (?&amp;angle;_addr))
-   (?&lt;angle_addr&gt;      (?&amp;CFWS;)? &lt; (?&amp;addr;_spec) &gt; (?&amp;CFWS;)?)
-   (?&lt;group&gt;           (?&amp;display;_name) : (?:(?&amp;mailbox;_list) | (?&amp;CFWS;))? ;
-                                          (?&amp;CFWS;)?)
-   (?&lt;display_name&gt;    (?&amp;phrase;))
-   (?&lt;mailbox_list&gt;    (?&amp;mailbox;) (?: , (?&amp;mailbox;))*)
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/(?(DEFINE)</span>
+</span><span class='line'><span class="sr">   (?&lt;address&gt;         (?&amp;mailbox;) | (?&amp;group;))</span>
+</span><span class='line'><span class="sr">   (?&lt;mailbox&gt;         (?&amp;name;_addr) | (?&amp;addr;_spec))</span>
+</span><span class='line'><span class="sr">   (?&lt;name_addr&gt;       (?&amp;display;_name)? (?&amp;angle;_addr))</span>
+</span><span class='line'><span class="sr">   (?&lt;angle_addr&gt;      (?&amp;CFWS;)? &lt; (?&amp;addr;_spec) &gt; (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sr">   (?&lt;group&gt;           (?&amp;display;_name) : (?:(?&amp;mailbox;_list) | (?&amp;CFWS;))? ;</span>
+</span><span class='line'><span class="sr">                                          (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sr">   (?&lt;display_name&gt;    (?&amp;phrase;))</span>
+</span><span class='line'><span class="sr">   (?&lt;mailbox_list&gt;    (?&amp;mailbox;) (?: , (?&amp;mailbox;))*)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">   (?&lt;addr_spec&gt;       (?&amp;local;_part) \@ (?&amp;domain;))</span>
+</span><span class='line'><span class="sr">   (?&lt;local_part&gt;      (?&amp;dot;_atom) | (?&amp;quoted;_string))</span>
+</span><span class='line'><span class="sr">   (?&lt;domain&gt;          (?&amp;dot;_atom) | (?&amp;domain;_literal))</span>
+</span><span class='line'><span class="sr">   (?&lt;domain_literal&gt;  (?&amp;CFWS;)? \[ (?: (?&amp;FWS;)? (?&amp;dcontent;))* (?&amp;FWS;)?</span>
+</span><span class='line'><span class="sr">                                 \] (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sr">   (?&lt;dcontent&gt;        (?&amp;dtext;) | (?&amp;quoted;_pair))</span>
+</span><span class='line'><span class="sr">   (?&lt;dtext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x5a\x5e-\x7e])</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">   (?&lt;atext&gt;           (?&amp;ALPHA;) | (?&amp;DIGIT;) | [!#\$%&amp;&#39;*+-/</span><span class="o">=</span><span class="p">?</span><span class="o">^</span><span class="n">_</span><span class="sb">`{|}~])</span>
+</span><span class='line'><span class="sb">   (?&lt;atom&gt;            (?&amp;CFWS;)? (?&amp;atext;)+ (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sb">   (?&lt;dot_atom&gt;        (?&amp;CFWS;)? (?&amp;dot;_atom_text) (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sb">   (?&lt;dot_atom_text&gt;   (?&amp;atext;)+ (?: \. (?&amp;atext;)+)*)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;text&gt;            [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x09\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x7f</span><span class="sb">])</span>
+</span><span class='line'><span class="sb">   (?&lt;quoted_pair&gt;     </span><span class="se">\\</span><span class="sb"> (?&amp;text;))</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;qtext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21\x23</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
+</span><span class='line'><span class="sb">   (?&lt;qcontent&gt;        (?&amp;qtext;) | (?&amp;quoted;_pair))</span>
+</span><span class='line'><span class="sb">   (?&lt;quoted_string&gt;   (?&amp;CFWS;)? (?&amp;DQUOTE;) (?:(?&amp;FWS;)? (?&amp;qcontent;))*</span>
+</span><span class='line'><span class="sb">                        (?&amp;FWS;)? (?&amp;DQUOTE;) (?&amp;CFWS;)?)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;word&gt;            (?&amp;atom;) | (?&amp;quoted;_string))</span>
+</span><span class='line'><span class="sb">   (?&lt;phrase&gt;          (?&amp;word;)+)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   # Folding white space</span>
+</span><span class='line'><span class="sb">   (?&lt;fws&gt;             (?: (?&amp;WSP;)* (?&amp;CRLF;))? (?&amp;WSP;)+)</span>
+</span><span class='line'><span class="sb">   (?&lt;ctext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21</span><span class="sb">-</span><span class="se">\x27\x2a</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
+</span><span class='line'><span class="sb">   (?&lt;ccontent&gt;        (?&amp;ctext;) | (?&amp;quoted;_pair) | (?&amp;comment;))</span>
+</span><span class='line'><span class="sb">   (?&lt;comment&gt;         \( (?: (?&amp;FWS;)? (?&amp;ccontent;))* (?&amp;FWS;)? \) )</span>
+</span><span class='line'><span class="sb">   (?&lt;cfws&gt;            (?: (?&amp;FWS;)? (?&amp;comment;))*</span>
+</span><span class='line'><span class="sb">                       (?: (?:(?&amp;FWS;)? (?&amp;comment;)) | (?&amp;FWS;)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   # No whitespace control</span>
+</span><span class='line'><span class="sb">   (?&lt;no_ws_ctl&gt;       [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x08\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x1f\x7f</span><span class="sb">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;alpha&gt;           [A-Za-z])</span>
+</span><span class='line'><span class="sb">   (?&lt;digit&gt;           [0-9])</span>
+</span><span class='line'><span class="sb">   (?&lt;crlf&gt;            </span><span class="se">\x0d</span><span class="sb"> </span><span class="se">\x0a</span><span class="sb">)</span>
+</span><span class='line'><span class="sb">   (?&lt;dquote&gt;          &quot;)</span>
+</span><span class='line'><span class="sb">   (?&lt;wsp&gt;             [</span><span class="se">\x20\x09</span><span class="sb">])</span>
+</span><span class='line'><span class="sb"> )</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb"> (?&amp;address;)/x</span>
+</span></code></pre></td></tr></table></div></figure>
 
-   (?&lt;addr_spec&gt;       (?&amp;local;_part) \@ (?&amp;domain;))
-   (?&lt;local_part&gt;      (?&amp;dot;_atom) | (?&amp;quoted;_string))
-   (?&lt;domain&gt;          (?&amp;dot;_atom) | (?&amp;domain;_literal))
-   (?&lt;domain_literal&gt;  (?&amp;CFWS;)? \[ (?: (?&amp;FWS;)? (?&amp;dcontent;))* (?&amp;FWS;)?
-                                 \] (?&amp;CFWS;)?)
-   (?&lt;dcontent&gt;        (?&amp;dtext;) | (?&amp;quoted;_pair))
-   (?&lt;dtext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x5a\x5e-\x7e])
-
-   (?&lt;atext&gt;           (?&amp;ALPHA;) | (?&amp;DIGIT;) | [!#\$%&amp;'*+-/=?^_`{|}~])
-   (?&lt;atom&gt;            (?&amp;CFWS;)? (?&amp;atext;)+ (?&amp;CFWS;)?)
-   (?&lt;dot_atom&gt;        (?&amp;CFWS;)? (?&amp;dot;_atom_text) (?&amp;CFWS;)?)
-   (?&lt;dot_atom_text&gt;   (?&amp;atext;)+ (?: \. (?&amp;atext;)+)*)
-
-   (?&lt;text&gt;            [\x01-\x09\x0b\x0c\x0e-\x7f])
-   (?&lt;quoted_pair&gt;     \\ (?&amp;text;))
-
-   (?&lt;qtext&gt;           (?&amp;NO;_WS_CTL) | [\x21\x23-\x5b\x5d-\x7e])
-   (?&lt;qcontent&gt;        (?&amp;qtext;) | (?&amp;quoted;_pair))
-   (?&lt;quoted_string&gt;   (?&amp;CFWS;)? (?&amp;DQUOTE;) (?:(?&amp;FWS;)? (?&amp;qcontent;))*
-                        (?&amp;FWS;)? (?&amp;DQUOTE;) (?&amp;CFWS;)?)
-
-   (?&lt;word&gt;            (?&amp;atom;) | (?&amp;quoted;_string))
-   (?&lt;phrase&gt;          (?&amp;word;)+)
-
-   # Folding white space
-   (?&lt;fws&gt;             (?: (?&amp;WSP;)* (?&amp;CRLF;))? (?&amp;WSP;)+)
-   (?&lt;ctext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x27\x2a-\x5b\x5d-\x7e])
-   (?&lt;ccontent&gt;        (?&amp;ctext;) | (?&amp;quoted;_pair) | (?&amp;comment;))
-   (?&lt;comment&gt;         \( (?: (?&amp;FWS;)? (?&amp;ccontent;))* (?&amp;FWS;)? \) )
-   (?&lt;cfws&gt;            (?: (?&amp;FWS;)? (?&amp;comment;))*
-                       (?: (?:(?&amp;FWS;)? (?&amp;comment;)) | (?&amp;FWS;)))
-
-   # No whitespace control
-   (?&lt;no_ws_ctl&gt;       [\x01-\x08\x0b\x0c\x0e-\x1f\x7f])
-
-   (?&lt;alpha&gt;           [A-Za-z])
-   (?&lt;digit&gt;           [0-9])
-   (?&lt;crlf&gt;            \x0d \x0a)
-   (?&lt;dquote&gt;          ")
-   (?&lt;wsp&gt;             [\x20\x09])
- )
-
- (?&amp;address;)/x
-</code></pre>
 
 <p> I couldn&#8217;t even imagine that the matter is <em>this</em> complex.</p>
 </div>
@@ -245,21 +301,36 @@
 
   <div class="entry-content"><p>I am beginning to fall in love with jQuery. Screw you, <a href="http://vkontakte.ru">bicycle inventors</a>! :-)</p>
 
-<pre><code>    function next_step() {
-        // note how elegant and self-explanatory this code is.
-        var cl = 'step_selected';
-        $('.' + cl).removeClass(cl).next().addClass(cl);
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">next_step</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// note how elegant and self-explanatory this code is.</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="s1">&#39;step_selected&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">cl</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">cl</span><span class="p">).</span><span class="nx">next</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">cl</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Also look at previous version of the code,</span>
+</span><span class='line'>    <span class="c1">// before I remembered about chaining methods.</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// var li = $(&#39;.step_selected&#39;);</span>
+</span><span class='line'>    <span class="c1">// li.removeClass(&#39;step_selected&#39;);</span>
+</span><span class='line'>    <span class="c1">// li.next().addClass(&#39;step_selected&#39;);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Not as sexy, right? :-)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-        // Also look at previous version of the code,
-        // before I remembered about chaining methods.
-
-        // var li = $('.step_selected');
-        // li.removeClass('step_selected');
-        // li.next().addClass('step_selected');
-
-        // Not as sexy, right? :-)
-    }
-</code></pre>
 </div>
   
   
@@ -344,10 +415,14 @@
 
 <p>MongoDB&#8217;s query and update features allows us to perform all three actions in a single operation. Here&#8217;s what that would look like from the shell:</p>
 
-<blockquote><pre><code>// Assume that story_id and user_id represent real story and user ids.
-db.stories.update({_id: story_id, voters: {'$ne': user_id}}, 
-  {'$inc': {votes: 1}, '$push': {voters: user_id}});
-</code></pre></blockquote>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Assume that story_id and user_id represent real story and user ids.</span>
+</span><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">stories</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="nx">story_id</span><span class="p">,</span> <span class="nx">voters</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}},</span>
+</span><span class='line'>                  <span class="p">{</span><span class="s1">&#39;$inc&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">votes</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;$push&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">voters</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}});</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>What this says is &#8220;get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array.&#8221;</p>
 
@@ -395,14 +470,19 @@ db.stories.update({_id: story_id, voters: {'$ne': user_id}},
 
 <p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
 
-<pre><code>update users set spam_count = spam_count + 1;
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">spam_count</span> <span class="o">=</span> <span class="n">spam_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Mongo Ruby driver supports this kind of operation, but MongoId doesn&#8217;t. So I was trying to get down to the driver. And this is what I couldn&#8217;t easily find in the docs. If you&#8217;re like me, I&#8217;ll save you a couple of hours. Here it is:</p>
 
-<pre><code># assume we know object id already
-User.collection.update({'_id' =&gt; '4c05848e45760182b5000001'}, {'$inc' =&gt; {'spam_count' =&gt; 1}})
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assume we know object id already</span>
+</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
   
   
@@ -562,11 +642,11 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
 <p>So, prototype it is. I fired up my <a href="http://balsamiq.com/products/mockups/desktop">Balsamiq for Desktop </a>and in under ten minutes mockups of two pages were ready. This is one of them:</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/03/manager_view.png"><img src="http://software.tulentsev.com/wp-content/uploads/2009/03/manager_view.png" alt="manager_view" /></a></p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/03/manager_view.png"><img src="http://software.tulentsev.com/images/uploads/2009/03/manager_view.png" alt="manager_view" /></a></p>
 
 <p>But when I sent them to Elen, I thought that maybe she meant some real code, or HTML stubs in real system, because there was a mockup attached to her original email. Here it is:</p>
 
-<p><a href="http://software.tulentsev.com/wp-content/uploads/2009/03/reembolso.jpg"><img src="http://software.tulentsev.com/wp-content/uploads/2009/03/reembolso-300x159.jpg" alt="reembolso" /></a>According to her, she made it in Paint (<strong>duh!</strong>). And it took her approximately 30 minutes to make this one, because she had to printscreen some real pages and cut pieces from them. What a tedious work! :-) And it must be a hell to modify such mockup!</p>
+<p><a href="http://software.tulentsev.com/images/uploads/2009/03/reembolso.jpg"><img src="http://software.tulentsev.com/images/uploads/2009/03/reembolso-300x159.jpg" alt="reembolso" /></a>According to her, she made it in Paint (<strong>duh!</strong>). And it took her approximately 30 minutes to make this one, because she had to printscreen some real pages and cut pieces from them. What a tedious work! :-) And it must be a hell to modify such mockup!</p>
 
 <p>When I told her about <a href="http://balsamiq.com/">Balsamiq Mockups</a>, she became very interested and decided to give it a try. Another happy story. Thank you, Peldi :-)</p>
 

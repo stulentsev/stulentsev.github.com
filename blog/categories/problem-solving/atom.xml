@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Problem solving | Rock, Paper, Software]]></title>
-  <link href="http://stulentsev.github.com/blog/categories/problem-solving/atom.xml" rel="self"/>
-  <link href="http://stulentsev.github.com/"/>
-  <updated>2012-09-02T12:59:41+04:00</updated>
-  <id>http://stulentsev.github.com/</id>
+  <link href="http://tech.tulentsev.com/blog/categories/problem-solving/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-09-02T18:13:18+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
     
@@ -15,20 +15,21 @@
   
   <entry>
     <title type="html"><![CDATA[Silverlight 2: trouble with POST requests]]></title>
-    <link href="http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests/"/>
+    <link href="http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/"/>
     <updated>2008-11-24T01:04:30+03:00</updated>
-    <id>http://stulentsev.github.com/2008/11/silverlight-2-trouble-with-post-requests</id>
+    <id>http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests</id>
     <content type="html"><![CDATA[<p>I am trying to make a small Silverlight control that talks to PHP server. Sometimes problems arise and I have to deal with them myself, since there's not much information on this topic in the internet. Trouble of the day is:</p>
 
 <p><strong>The remote server returned an error: NotFound</strong></p>
 
 <p>when trying to make simple POST request to a PHP page. I've spent half a day diagnosing this problem. And solution was found entirely by chance, because exception messages weren't helping in any way. I mean, I was always getting abovementioned error message, without any details (what host, what page, request parameters, etc). But enough of complaints, let's proceed to the solution. The troublesome code was this one:</p>
 
-<pre><code>var _request = (HttpWebRequest)WebRequest.Create(_svcUri);
+<p><code>php    
+var _request = (HttpWebRequest)WebRequest.Create(_svcUri);
 _request.Method = "POST";
 _request.ContentType = "application/json";
 _request.Headers["sid"] = SessionID ; // &lt;==== this line
-</code></pre>
+</code></p>
 
 <p>SessionID was null at the moment and this made HttpWebRequest so pissed off that it even wouldn't send request header to the server ! And because of this, Fiddler was completely useless here. After adding necessary check, everything started working like a charm.</p>
 ]]></content>
@@ -36,9 +37,9 @@ _request.Headers["sid"] = SessionID ; // &lt;==== this line
   
   <entry>
     <title type="html"><![CDATA[Windows Live Writer + Wordpress problems]]></title>
-    <link href="http://stulentsev.github.com/2008/10/windows-live-writer-wordpress-problems/"/>
+    <link href="http://tech.tulentsev.com/2008/10/windows-live-writer-wordpress-problems/"/>
     <updated>2008-10-31T00:37:23+03:00</updated>
-    <id>http://stulentsev.github.com/2008/10/windows-live-writer-wordpress-problems</id>
+    <id>http://tech.tulentsev.com/2008/10/windows-live-writer-wordpress-problems</id>
     <content type="html"><![CDATA[<p>I installed this copy of Wordpress this evening and decided to add to Live Writer. But I've ran into problem almost immediately. While trying to auto-detect my editing style, blog name and who knows what else, Live Writer kept annoying me with this message: "<strong>Invalid Server Response - The response to the blogger.getUsersBlogs method received from the weblog server was invalid</strong>".</p>
 
 <p>I hit Ctrl-Ctrl (very handy shortcut of Google Desktop, that summons search bar) and pasted the error text there. First, I came across <a href="http://kannan.jumbledthoughts.com/index.php/windows-live-writer-problems-with-wordpress-how-to-fix/">this article</a>. I followed every step in it (some of them twice :-) ), but it didn't help. So I kept searching.</p>
