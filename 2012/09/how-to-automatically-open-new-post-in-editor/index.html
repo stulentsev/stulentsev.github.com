@@ -5,25 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>jQuery chaining - Electrobroom</title>
+  <title>How to automatically open new post in editor? - Electrobroom</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am beginning to fall in love with jQuery. Screw you, bicycle inventors! :-) 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-function next_step() { // note how &hellip;">
+  <meta name="description" content="Recently I discovered Octopress and instead of writing another
+article on how to migrate to it from Wordpress, I decided to do something else. And, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,7 +19,7 @@ function next_step() { // note how &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2010/08/jquery-chaining/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -93,7 +80,7 @@ function next_step() { // note how &hellip;">
   
   <header>
     
-      <h1 class="entry-title">jQuery Chaining</h1>
+      <h1 class="entry-title">How to Automatically Open New Post in Editor?</h1>
     
     
       <p class="meta">
@@ -109,16 +96,35 @@ function next_step() { // note how &hellip;">
   
 
 
-<time datetime="2010-08-24T17:00:13+04:00" pubdate data-updated="true">Aug 24<span>th</span>, 2010</time>
+<time datetime="2012-09-03T15:51:00+04:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>I am beginning to fall in love with jQuery. Screw you, <a href="http://vkontakte.ru">bicycle inventors</a>! :-)</p>
+<div class="entry-content"><p>Recently I discovered <a href="http://octopress.org">Octopress</a> and instead of writing another
+article on how to migrate to it from Wordpress, I decided to do something else. And,
+fortunately enough, the topic presented itself. :)</p>
+
+<p>So, Octopress is not your conventional blog engine. You create new posts by running
+a command in the terminal. I&#8217;m quite comfortable with creating new posts with a rake task.
+What I didn&#8217;t like is that I needed to run another command to actually open the post in my
+editor. Here&#8217;s my fix to that. It patches the <code>new_post</code> command, by adding new optional
+parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code>, then the post will be opened in
+TextMate. Now the creation of new post can look like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_post<span class="o">[</span><span class="s1">&#39;How to automatically open new post in editor?&#39;</span>,true<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>And, finally, the diff of this change:</p>
+
+<figure class='code'><figcaption><span>Diff </span><a href='http://pastie.org/pastes/4655877/download?key=fo7n7oda8y2vz43qm5s7kg'>Download this snippet </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -132,20 +138,46 @@ function next_step() { // note how &hellip;">
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">next_step</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// note how elegant and self-explanatory this code is.</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="s1">&#39;step_selected&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">cl</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">cl</span><span class="p">).</span><span class="nx">next</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">cl</span><span class="p">);</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Rakefile b/Rakefile</span>
+</span><span class='line'><span class="gh">index 58e1925..df8ff7e 100644</span>
+</span><span class='line'><span class="gd">--- a/Rakefile</span>
+</span><span class='line'><span class="gi">+++ b/Rakefile</span>
+</span><span class='line'><span class="gu">@@ -90,10 +90,10 @@ end</span>
 </span><span class='line'>
-</span><span class='line'>    <span class="c1">// Also look at previous version of the code,</span>
-</span><span class='line'>    <span class="c1">// before I remembered about chaining methods.</span>
+</span><span class='line'> # usage rake new_post[my-new-post] or rake new_post[&#39;my new post&#39;] or rake new_post (defaults to &quot;new-post&quot;)
+</span><span class='line'> desc &quot;Begin a new post in #{source_dir}/#{posts_dir}&quot;
+</span><span class='line'><span class="gd">-task :new_post, :title do |t, args|</span>
+</span><span class='line'><span class="gi">+task :new_post, :title, :open_in_editor do |t, args|</span>
+</span><span class='line'>   raise &quot;### You haven&#39;t set anything up yet. First run `rake install` to set up an Octopress theme.&quot; unless File.directory?(source_dir)
+</span><span class='line'>   mkdir_p &quot;#{source_dir}/#{posts_dir}&quot;
+</span><span class='line'><span class="gd">-  args.with_defaults(:title =&gt; &#39;new-post&#39;)</span>
+</span><span class='line'><span class="gi">+  args.with_defaults(:title =&gt; &#39;new-post&#39;, :open_in_editor =&gt; false)</span>
+</span><span class='line'>   title = args.title
+</span><span class='line'>   filename = &quot;#{source_dir}/#{posts_dir}/#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{title.to_url}.#{new_post_ext}&quot;
+</span><span class='line'>   if File.exist?(filename)
+</span><span class='line'><span class="gu">@@ -109,6 +109,9 @@ task :new_post, :title do |t, args|</span>
+</span><span class='line'>     post.puts &quot;categories: &quot;
+</span><span class='line'>     post.puts &quot;---&quot;
+</span><span class='line'>   end
+</span><span class='line'><span class="gi">+  if args[:open_in_editor]</span>
+</span><span class='line'><span class="gi">+    `mate #{filename}`</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span><span class='line'> end
 </span><span class='line'>
-</span><span class='line'>    <span class="c1">// var li = $(&#39;.step_selected&#39;);</span>
-</span><span class='line'>    <span class="c1">// li.removeClass(&#39;step_selected&#39;);</span>
-</span><span class='line'>    <span class="c1">// li.next().addClass(&#39;step_selected&#39;);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Not as sexy, right? :-)</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'> # usage rake new_page[my-new-page] or rake new_page[my-new-page.html] or rake new_page (defaults to &quot;new-page.markdown&quot;)
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
@@ -170,12 +202,12 @@ function next_step() { // note how &hellip;">
   
 
 
-<time datetime="2010-08-24T17:00:13+04:00" pubdate data-updated="true">Aug 24<span>th</span>, 2010</time>
+<time datetime="2012-09-03T15:51:00+04:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/web-development/'>Web development</a>
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
   
 </span>
 
@@ -184,7 +216,7 @@ function next_step() { // note how &hellip;">
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2010/08/jquery-chaining/" data-via="" data-counturl="http://tech.tulentsev.com/2010/08/jquery-chaining/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/" data-via="" data-counturl="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/" >Tweet</a>
   
   
   
@@ -193,10 +225,8 @@ function next_step() { // note how &hellip;">
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2010/08/funny-side-benefit/" title="Previous Post: Funny side benefit :-)">&laquo; Funny side benefit :-)</a>
+        <a class="basic-alignment left" href="/2012/04/can-i-haz-a-gem/" title="Previous Post: Can I haz a gem?">&laquo; Can I haz a gem?</a>
       
-      
-        <a class="basic-alignment right" href="/2012/01/email-validation-done-right/" title="Next Post: Email validation done right">Email validation done right &raquo;</a>
       
     </p>
   </footer>
@@ -263,8 +293,8 @@ function next_step() { // note how &hellip;">
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2010/08/jquery-chaining/';
-        var disqus_url = 'http://tech.tulentsev.com/2010/08/jquery-chaining/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/';
         var disqus_script = 'embed.js';
       
     (function () {

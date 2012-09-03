@@ -4,7 +4,7 @@
   <title><![CDATA[Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-02T23:35:42+04:00</updated>
+  <updated>2012-09-03T16:22:40+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to automatically open new post in editor?]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/"/>
+    <updated>2012-09-03T15:51:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor</id>
+    <content type="html"><![CDATA[<p>Recently I discovered <a href="http://octopress.org">Octopress</a> and instead of writing another
+article on how to migrate to it from Wordpress, I decided to do something else. And,
+fortunately enough, the topic presented itself. :)</p>
+
+<p>So, Octopress is not your conventional blog engine. You create new posts by running
+a command in the terminal. I&#8217;m quite comfortable with creating new posts with a rake task.
+What I didn&#8217;t like is that I needed to run another command to actually open the post in my
+editor. Here&#8217;s my fix to that. It patches the <code>new_post</code> command, by adding new optional
+parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code>, then the post will be opened in
+TextMate. Now the creation of new post can look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_post<span class="o">[</span><span class="s1">&#39;How to automatically open new post in editor?&#39;</span>,true<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<p>And, finally, the diff of this change:</p>
+
+<figure class='code'><figcaption><span>Diff </span><a href='http://pastie.org/pastes/4655877/download?key=fo7n7oda8y2vz43qm5s7kg'>Download this snippet </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/Rakefile b/Rakefile</span>
+</span><span class='line'><span class="gh">index 58e1925..df8ff7e 100644</span>
+</span><span class='line'><span class="gd">--- a/Rakefile</span>
+</span><span class='line'><span class="gi">+++ b/Rakefile</span>
+</span><span class='line'><span class="gu">@@ -90,10 +90,10 @@ end</span>
+</span><span class='line'>
+</span><span class='line'> # usage rake new_post[my-new-post] or rake new_post[&#39;my new post&#39;] or rake new_post (defaults to &quot;new-post&quot;)
+</span><span class='line'> desc &quot;Begin a new post in #{source_dir}/#{posts_dir}&quot;
+</span><span class='line'><span class="gd">-task :new_post, :title do |t, args|</span>
+</span><span class='line'><span class="gi">+task :new_post, :title, :open_in_editor do |t, args|</span>
+</span><span class='line'>   raise &quot;### You haven&#39;t set anything up yet. First run `rake install` to set up an Octopress theme.&quot; unless File.directory?(source_dir)
+</span><span class='line'>   mkdir_p &quot;#{source_dir}/#{posts_dir}&quot;
+</span><span class='line'><span class="gd">-  args.with_defaults(:title =&gt; &#39;new-post&#39;)</span>
+</span><span class='line'><span class="gi">+  args.with_defaults(:title =&gt; &#39;new-post&#39;, :open_in_editor =&gt; false)</span>
+</span><span class='line'>   title = args.title
+</span><span class='line'>   filename = &quot;#{source_dir}/#{posts_dir}/#{Time.now.strftime(&#39;%Y-%m-%d&#39;)}-#{title.to_url}.#{new_post_ext}&quot;
+</span><span class='line'>   if File.exist?(filename)
+</span><span class='line'><span class="gu">@@ -109,6 +109,9 @@ task :new_post, :title do |t, args|</span>
+</span><span class='line'>     post.puts &quot;categories: &quot;
+</span><span class='line'>     post.puts &quot;---&quot;
+</span><span class='line'>   end
+</span><span class='line'><span class="gi">+  if args[:open_in_editor]</span>
+</span><span class='line'><span class="gi">+    `mate #{filename}`</span>
+</span><span class='line'><span class="gi">+  end</span>
+</span><span class='line'> end
+</span><span class='line'>
+</span><span class='line'> # usage rake new_page[my-new-page] or rake new_page[my-new-page.html] or rake new_page (defaults to &quot;new-page.markdown&quot;)
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Can I haz a gem?]]></title>
@@ -1427,27 +1512,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     <updated>2009-03-04T19:11:47+03:00</updated>
     <id>http://tech.tulentsev.com/2009/03/iterations-are-good</id>
     <content type="html"><![CDATA[<p>Iterations in software development. Tried to implement proper solution on the first try? I bet you failed. It&#8217;s like in Google Earth zooming in your house from the planet view. To achieve your goal, you&#8217;ve got to advance a little bit, adjust your position, advance further. Iterate until done.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Making more mockups]]></title>
-    <link href="http://tech.tulentsev.com/2009/03/making-more-mockups/"/>
-    <updated>2009-03-03T19:29:10+03:00</updated>
-    <id>http://tech.tulentsev.com/2009/03/making-more-mockups</id>
-    <content type="html"><![CDATA[<p>Today Elen, my manager, approached me and asked to make a prototype of a new functionality in our project management system. This is a reimbursement management module: employees spend some money (taxi from airport, for example), then they create requests for reimbursements and if they are lucky and management approves the requests, they get the money back :-)</p>
-
-<p>So, prototype it is. I fired up my <a href="http://balsamiq.com/products/mockups/desktop">Balsamiq for Desktop </a>and in under ten minutes mockups of two pages were ready. This is one of them:</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2009/03/manager_view.png"><img src="http://tech.tulentsev.com/images/uploads/2009/03/manager_view.png" alt="manager_view" /></a></p>
-
-<p>But when I sent them to Elen, I thought that maybe she meant some real code, or HTML stubs in real system, because there was a mockup attached to her original email. Here it is:</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2009/03/reembolso.jpg"><img src="http://tech.tulentsev.com/images/uploads/2009/03/reembolso-300x159.jpg" alt="reembolso" /></a>According to her, she made it in Paint (<strong>duh!</strong>). And it took her approximately 30 minutes to make this one, because she had to printscreen some real pages and cut pieces from them. What a tedious work! :-) And it must be a hell to modify such mockup!</p>
-
-<p>When I told her about <a href="http://balsamiq.com/">Balsamiq Mockups</a>, she became very interested and decided to give it a try. Another happy story. Thank you, Peldi :-)</p>
-
-<p>Related posts: <a href="http://tech.tulentsev.com/2008/12/creating-ui-mockups-with-balsamiq/">Creating UI mockups with Balsamiq</a></p>
 ]]></content>
   </entry>
   
