@@ -1,0 +1,145 @@
+diff --git a/sugarcrm/include/utils/color_utils.php b/sugarcrm/include/utils/color_utils.php
+new file mode 100644
+index 0000000..76bc53c
+--- /dev/null
++++ b/sugarcrm/include/utils/color_utils.php
+@@ -0,0 +1,94 @@
++<?php
++function RGB_TO_HSV ($R, $G, $B) // RGB Values:Number 0-255
++{
++    // HSV Results:Number 0-1
++    $HSL = array();
++
++    $var_R = ($R / 255);
++    $var_G = ($G / 255);
++    $var_B = ($B / 255);
++
++    $var_Min = min($var_R, $var_G, $var_B);
++    $var_Max = max($var_R, $var_G, $var_B);
++    $del_Max = $var_Max - $var_Min;
++
++    $V = $var_Max;
++
++    if ($del_Max == 0)
++    {
++        $H = 0;
++        $S = 0;
++    }
++    else
++    {
++        $S = $del_Max / $var_Max;
++
++        $del_R = ( ( ( $max - $var_R ) / 6 ) + ( $del_Max / 2 ) ) / $del_Max;
++        $del_G = ( ( ( $max - $var_G ) / 6 ) + ( $del_Max / 2 ) ) / $del_Max;
++        $del_B = ( ( ( $max - $var_B ) / 6 ) + ( $del_Max / 2 ) ) / $del_Max;
++
++        if ($var_R == $var_Max) $H = $del_B - $del_G;
++        else if ($var_G == $var_Max) $H = ( 1 / 3 ) + $del_R - $del_B;
++        else if ($var_B == $var_Max) $H = ( 2 / 3 ) + $del_G - $del_R;
++
++        if (H<0) $H++;
++        if (H>1) $H--;
++    }
++
++    $HSL['H'] = $H;
++    $HSL['S'] = $S;
++    $HSL['V'] = $V;
++
++    return $HSL;
++}
++
++function HSV_TO_RGB ($H, $S, $V) // HSV Values:Number 0-1
++{
++    // RGB Results:Number 0-255
++    $RGB = array();
++
++    if($S == 0)
++    {
++        $R = $G = $B = $V * 255;
++    }
++    else
++    {
++        $var_H = $H * 6;
++        $var_i = floor( $var_H );
++        $var_1 = $V * ( 1 - $S );
++        $var_2 = $V * ( 1 - $S * ( $var_H - $var_i ) );
++        $var_3 = $V * ( 1 - $S * (1 - ( $var_H - $var_i ) ) );
++
++        if ($var_i == 0) { $var_R = $V ; $var_G = $var_3 ; $var_B = $var_1 ; }
++        else if ($var_i == 1) { $var_R = $var_2 ; $var_G = $V ; $var_B = $var_1 ; }
++        else if ($var_i == 2) { $var_R = $var_1 ; $var_G = $V ; $var_B = $var_3 ; }
++        else if ($var_i == 3) { $var_R = $var_1 ; $var_G = $var_2 ; $var_B = $V ; }
++        else if ($var_i == 4) { $var_R = $var_3 ; $var_G = $var_1 ; $var_B = $V ; }
++        else { $var_R = $V ; $var_G = $var_1 ; $var_B = $var_2 ; }
++
++        $R = $var_R * 255;
++        $G = $var_G * 255;
++        $B = $var_B * 255;
++    }
++
++    $RGB['R'] = $R;
++    $RGB['G'] = $G;
++    $RGB['B'] = $B;
++
++    return $RGB;
++}
++
++function get_color_by_name($nome)
++{
++    $html_color_string = substr(md5($nome), 0, 6);
++
++    $R = hexdec(substr($html_color_string, 0, 2));
++    $G = hexdec(substr($html_color_string, 2, 2));
++    $B = hexdec(substr($html_color_string, 4, 2));
++
++    $hsv_arr = RGB_TO_HSV($R, $G, $B);
++    $hsv_arr['V'] = 1.0;
++    $rgb_arr = HSV_TO_RGB($hsv_arr['H'], $hsv_arr['S'], $hsv_arr['V']);
++    return dechex($rgb_arr['R']).dechex($rgb_arr['G']).dechex($rgb_arr['B']);
++}
++?>
+diff --git a/sugarcrm/modules/Calendar/index.php b/sugarcrm/modules/Calendar/index.php
+index bab5874..a1786f8 100755
+--- a/sugarcrm/modules/Calendar/index.php
++++ b/sugarcrm/modules/Calendar/index.php
+@@ -40,6 +40,7 @@ $image_path=$theme_path."images/";
+ require_once ($theme_path."layout_utils.php");
+ 
+ require_once('include/utils.php');
++require_once('include/utils/color_utils.php');
+ require_once('modules/Calendar/templates/templates_calendar.php');
+ require_once('modules/Calendar/Calendar.php');
+ setlocale( LC_TIME ,$current_language);
+diff --git a/sugarcrm/modules/Calendar/templates/templates_calendar.php b/sugarcrm/modules/Calendar/templates/templates_calendar.php
+index f6c2c35..c2e6a44 100755
+--- a/sugarcrm/modules/Calendar/templates/templates_calendar.php
++++ b/sugarcrm/modules/Calendar/templates/templates_calendar.php
+@@ -147,8 +147,8 @@ function template_cal_tabs(& $args) {
+ 						$act->sugar_bean->id . '" class="monthCalBodyDayItemLink">' . $app_list_strings['call_status_dom'][$act->sugar_bean->status] . ': ' . $act->sugar_bean->name . '</a></td>';
+ 			} else if($act->sugar_bean->object_name == 'Meeting') { 
+ 				$out = '<td class="monthCalBodyDayIconTd">' . get_image($image_path.'Meetings','alt="'.$app_list_strings['meeting_status_dom'][$act->sugar_bean->status].': '.$act->sugar_bean->name.'"') . '</td>
+-						<td class="monthCalBodyDayItemTd" width="100%"><a ' . $extra . ' href="index.php?module=Meetings&action=DetailView&record=' . 
+-						$act->sugar_bean->id . '" class="monthCalBodyDayItemLink">' . $app_list_strings['meeting_status_dom'][$act->sugar_bean->status] . ': ' . $act->sugar_bean->name .'</a>';
++						<td class="monthCalBodyDayItemTd" width="100%"><span style="background:#'.get_color_by_name($fields['ASSIGNED_USER_NAME']).'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<a ' . $extra . ' href="index.php?module=Meetings&action=DetailView&record=' . 
++						$act->sugar_bean->id . '" class="monthCalBodyDayItemLink" >' . $app_list_strings['meeting_status_dom'][$act->sugar_bean->status] . ': ' . $act->sugar_bean->name .'</a>';
+ 				
+ 				///////////////////////////////////////////////////////////////
+ 				////	MEETING INTEGRATION
+diff --git a/sugarcrm/modules/Meetings/metadata/additionalDetails.php b/sugarcrm/modules/Meetings/metadata/additionalDetails.php
+index a41b481..a73e1fc 100755
+--- a/sugarcrm/modules/Meetings/metadata/additionalDetails.php
++++ b/sugarcrm/modules/Meetings/metadata/additionalDetails.php
+@@ -45,9 +45,11 @@ function additionalDetailsMeeting($fields) {
+ 	$overlib_string = '';
+ 	
+ 	//Modify by jchi 6/27/2008 1515pm china time , bug 20626.
+-	if(!empty($fields['ASSIGNED_USER_ID'])) 
+-		$overlib_string .= '<b>'. $mod_strings['LBL_ASSIGNED_TO_NAME'] . '</b> ' . $fields['ASSIGNED_USER_NAME'] . ' <br>';
++	if(!empty($fields['ASSIGNED_USER_ID'])) {
++        $name = $fields['ASSIGNED_USER_NAME'];
+ 
++		$overlib_string .= '<b>'. $mod_strings['LBL_ASSIGNED_TO_NAME'] . '</b> ' . $name . '&nbsp;<span style=\'background:#'.get_color_by_name($name).'\'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <br>';
++    }
+ 	if(!empty($fields['DATE_START'])) 
+ 		$overlib_string .= '<b>'. $mod_strings['LBL_DATE_TIME'] . '</b> ' . $fields['DATE_START'] . ' <br>';
+ 	if(isset($fields['DURATION_HOURS']) || isset($fields['DURATION_MINUTES'])) {
