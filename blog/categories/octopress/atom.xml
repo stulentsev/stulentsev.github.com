@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-03T16:22:40+04:00</updated>
+  <updated>2012-09-03T16:24:18+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -30,7 +30,7 @@ parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code>, th
 TextMate. Now the creation of new post can look like this:</p>
 
 <p><code>bash
-rake new_post['How to automatically open new post in editor?',true]
+rake new_post['How to automatically open new post in editor?',:open]
 </code></p>
 
 <!-- more -->

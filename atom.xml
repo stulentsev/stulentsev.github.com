@@ -4,7 +4,7 @@
   <title><![CDATA[Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-03T16:22:40+04:00</updated>
+  <updated>2012-09-03T16:24:18+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -30,7 +30,7 @@ parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code>, th
 TextMate. Now the creation of new post can look like this:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_post<span class="o">[</span><span class="s1">&#39;How to automatically open new post in editor?&#39;</span>,true<span class="o">]</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_post<span class="o">[</span><span class="s1">&#39;How to automatically open new post in editor?&#39;</span>,:open<span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
