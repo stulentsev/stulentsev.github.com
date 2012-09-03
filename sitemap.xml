@@ -139,11 +139,17 @@
         <lastmod>2012-09-03T16:23:53+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/
+        </loc>
+        <lastmod>2012-09-03T17:31:01+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://tech.tulentsev.com/blog/archives/</loc>
-        <lastmod>2012-09-03T16:23:53+04:00</lastmod>
+        <lastmod>2012-09-03T17:31:01+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/</loc>
-        <lastmod>2012-09-03T16:23:53+04:00</lastmod>
+        <lastmod>2012-09-03T17:31:01+04:00</lastmod>
     </url>
 </urlset>

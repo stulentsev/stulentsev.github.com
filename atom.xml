@@ -4,7 +4,7 @@
   <title><![CDATA[Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-03T16:24:18+04:00</updated>
+  <updated>2012-09-03T17:31:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/"/>
+    <updated>2012-09-03T17:00:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects</id>
+    <content type="html"><![CDATA[<p>Okay, I probably can&#8217;t avoid writing the obligatory migration article :) If in the
+migration process you decided to also change the domain name, then this article is for you.
+If your domain name is the same, only the hosting is different, then you should set up a
+<a href="http://octopress.org/docs/deploying/github/">CNAME</a>. If you wiped Wordpress and installed
+Octopress in its stead, then this article is useless to you, move on.</p>
+
+<!-- more -->
+
+
+<p>We want to set up a good 301 redirect, such that will take links to old blog posts and
+redirect them to corresponding posts on the new domain. Redirection is good. It keeps
+search visitors happy (bots or humans).</p>
+
+<p>We can implement it using <code>mod_rewrite</code>. Wordpress already requires <code>mod_rewrite</code>, so
+we can count on its presence. Navigate to blog&#8217;s root and look for file named <code>.htaccess</code>.
+It should have this (or similar) content:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># BEGIN WordPress
+</span><span class='line'>&lt;IfModule mod_rewrite.c>
+</span><span class='line'>RewriteEngine On
+</span><span class='line'>RewriteBase /blog/
+</span><span class='line'>RewriteRule ^index\.php$ - [L]
+</span><span class='line'>RewriteCond %{REQUEST_FILENAME} !-f
+</span><span class='line'>RewriteCond %{REQUEST_FILENAME} !-d
+</span><span class='line'>RewriteRule . /blog/index.php [L]
+</span><span class='line'>&lt;/IfModule>
+</span><span class='line'>
+</span><span class='line'># END WordPress</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We don&#8217;t need all this, because we won&#8217;t be using Wordpress anymore. Replace it with this
+snippet</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;IfModule mod_rewrite.c>
+</span><span class='line'>Options +FollowSymlinks
+</span><span class='line'>RewriteEngine On
+</span><span class='line'>RewriteCond %{HTTP_HOST} ^example.com [NC]
+</span><span class='line'>RewriteRule ^(.*)$ http://blog.example2.com/$1 [L,R=301]
+</span><span class='line'>
+</span><span class='line'>RewriteCond %{HTTP_HOST} ^www.example.com [NC]
+</span><span class='line'>RewriteRule ^(.*)$ http://blog.example2.com/$1 [L,R=301]
+</span><span class='line'>&lt;/IfModule></span></code></pre></td></tr></table></div></figure>
+
+
+<p>In short, these two rules take any URL from the old domain (with or without <code>www</code>) and
+replace domain name to a new one.</p>
+
+<p>If your octopress blog is functioning on the new domain, no more actions are required. It
+should work already.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to automatically open new post in editor?]]></title>
@@ -1503,15 +1580,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
 
 <p>The code is saying basically this: &#8220;if status_id is not passed explicitly, try to take its value from <strong>params</strong> array. If it doesn&#8217;t contain specified key, then fall back to a constant&#8221;. This feature (as almost all the rest of Ruby magic) made avaiable by Ruby&#8217;s nature: it is interpreted language. This type of code is totally unusual to guys like me, who come from the world of static typing and compiled languages. But I think I&#8217;m gonna get used to it :-)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Iterations are good]]></title>
-    <link href="http://tech.tulentsev.com/2009/03/iterations-are-good/"/>
-    <updated>2009-03-04T19:11:47+03:00</updated>
-    <id>http://tech.tulentsev.com/2009/03/iterations-are-good</id>
-    <content type="html"><![CDATA[<p>Iterations in software development. Tried to implement proper solution on the first try? I bet you failed. It&#8217;s like in Google Earth zooming in your house from the planet view. To achieve your goal, you&#8217;ve got to advance a little bit, adjust your position, advance further. Iterate until done.</p>
 ]]></content>
   </entry>
   
