@@ -4,7 +4,7 @@
   <title><![CDATA[Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-03T17:31:15+04:00</updated>
+  <updated>2012-09-03T17:42:12+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -172,6 +172,20 @@ TextMate. Now the creation of new post can look like this:</p>
 </span><span class='line'> # usage rake new_page[my-new-page] or rake new_page[my-new-page.html] or rake new_page (defaults to &quot;new-page.markdown&quot;)
 </span></code></pre></td></tr></table></div></figure>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[It is all relative]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/it-is-all-relative/"/>
+    <updated>2012-09-03T15:50:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/it-is-all-relative</id>
+    <content type="html"><![CDATA[<p>I remember reading my first book on Javascript. It was covering Javascript 1.0 and included
+changes in Javascript 1.1. I thought then: &#8220;Wow, that&#8217;s an advanced stuff!&#8221; If I was told
+that things like jQuery or Node.js will someday exist, I wouldn&#8217;t believe that. And if
+tomorrow I fall into a time vortex and travel to 90s, I will probably kill myself. It&#8217;s like
+the stone age of technology. It&#8217;s better to get to a real stone age. At least, the
+air is still clean. :)</p>
 ]]></content>
   </entry>
   
@@ -1560,26 +1574,6 @@ TextMate. Now the creation of new post can look like this:</p>
     <id>http://tech.tulentsev.com/2009/05/intuitive-behaviour</id>
     <content type="html"><![CDATA[<p>Today I was looking at exception stack trace. One of suspicious places was &#8216;&#8230;\reports_controller.rb:129&#8221;. Okay, navigating to this location using RubyMine is a piece of cake. Ctrl+Shift+N to get to reports_controller.rb, then Ctrl+G to position caret at specified line. But hey, that&#8217;s two actions. I hit Ctrl+Shift+N, put &#8216;reports_controller.rb:129&#8217; in and voila! It worked just as I expected!
 RubyMine: +1 to intuitivity, +1 to overall impression.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Advanced default parameters]]></title>
-    <link href="http://tech.tulentsev.com/2009/03/advanced-default-parametes/"/>
-    <updated>2009-03-10T02:20:29+03:00</updated>
-    <id>http://tech.tulentsev.com/2009/03/advanced-default-parametes</id>
-    <content type="html"><![CDATA[<p>Today I was quite amazed by one of Ruby features. It is about default values of method parameters. For example you can do something like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_current_actions</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">status_id</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:status_id</span><span class="o">]</span> <span class="o">||</span> <span class="no">DEFAULT_STATUS_ID</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># implementation goes here</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The code is saying basically this: &#8220;if status_id is not passed explicitly, try to take its value from <strong>params</strong> array. If it doesn&#8217;t contain specified key, then fall back to a constant&#8221;. This feature (as almost all the rest of Ruby magic) made avaiable by Ruby&#8217;s nature: it is interpreted language. This type of code is totally unusual to guys like me, who come from the world of static typing and compiled languages. But I think I&#8217;m gonna get used to it :-)</p>
 ]]></content>
   </entry>
   
