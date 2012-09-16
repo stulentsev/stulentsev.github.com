@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to automatically open new post in editor?"
+title: "How to automatically open new octopress post in editor?"
 date: 2012-09-03 15:51
 comments: true
 categories: octopress
