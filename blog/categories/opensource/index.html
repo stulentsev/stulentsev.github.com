@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mongoid, db.system.namespaces queries - Electrobroom</title>
+  <title>Category: opensource - Electrobroom</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Recently I faced some issues with Mongoid when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn. There are some Resque workers in the &hellip;">
+  <meta name="description" content="Category: opensource">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/">
+  <link rel="canonical" href="http://tech.tulentsev.comblog/categories/opensource/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,91 +75,36 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Mongoid, db.system.namespaces Queries</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-02-03T20:12:54+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
-        
-      </p>
+    <h1 class="entry-title">Category: Opensource</h1>
     
   </header>
-
-
-<div class="entry-content"><p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
-
-<p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
-
-<p>I am still not sure what&#8217;s happening here. I&#8217;ll update this post when I discover something.</p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
-
-      
-
-
-
-
-
+  <div id="blog-archives" class="category">
 
 
 
   
+  <h2>2012</h2>
 
-
-<time datetime="2012-02-03T20:12:54+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
-      
-
-
-    </p>
-    
-      <div class="sharing">
+<article>
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/" data-via="" data-counturl="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/" >Tweet</a>
-  
-  
-  
-</div>
+<h1><a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a></h1>
+<time datetime="2012-09-16T09:00:00+04:00" pubdate><span class='month'>Sep</span> <span class='day'>16</span> <span class='year'>2012</span></time>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/2012/01/how-to-quickly-lock-screen-in-mac-os-x/" title="Previous Post: How to quickly lock screen in Mac OS X?">&laquo; How to quickly lock screen in Mac OS X?</a>
-      
-      
-        <a class="basic-alignment right" href="/2012/02/ruby-how-to-override-class-method-with-a-module/" title="Next Post: Ruby: how to override class method with a module">Ruby: how to override class method with a module &raquo;</a>
-      
-    </p>
-  </footer>
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/opensource/'>opensource</a></span>
+</footer>
+
+
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -215,10 +160,7 @@
       var disqus_shortname = 'software-and-computers';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/';
-        var disqus_url = 'http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

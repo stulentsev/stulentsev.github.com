@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mongoid, db.system.namespaces queries - Electrobroom</title>
+  <title>resque-multi-job-forks is finally updated - Electrobroom</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Recently I faced some issues with Mongoid when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn. There are some Resque workers in the &hellip;">
+  <meta name="description" content="I was using resque-multi-job-forks
+plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
+There were no new &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">Mongoid, db.system.namespaces Queries</h1>
+      <h1 class="entry-title">Resque-multi-job-forks Is Finally Updated</h1>
     
     
       <p class="meta">
@@ -95,18 +97,24 @@
   
 
 
-<time datetime="2012-02-03T20:12:54+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
+<time datetime="2012-09-16T09:00:00+04:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
+<div class="entry-content"><p>I was using <a href="https://github.com/staugaard/resque-multi-job-forks/">resque-multi-job-forks</a>
+plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
+There were no new commits for 2 years. And current version of the gem had dependency on an
+archaic version of Resque. So, I forked, bumped the dependency and bundled the gem. But
+then I thought: &#8220;Hey, why not share it with people?&#8221; I exchanged a couple of emails with
+the owner and now I am the official owner/maintainer of said gem. This is my first
+takeover, hooray! :)</p>
 
-<p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
-
-<p>I am still not sure what&#8217;s happening here. I&#8217;ll update this post when I discover something.</p>
+<p>To celebrate this, today I have released version v0.3.2, which includes updated <code>resque</code>
+dependency and fix for the problem when workers disappeared from resque-web after the first
+fork has reached its limit.</p>
 </div>
 
 
@@ -129,15 +137,21 @@
   
 
 
-<time datetime="2012-02-03T20:12:54+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
+<time datetime="2012-09-16T09:00:00+04:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/opensource/'>opensource</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/" data-via="" data-counturl="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/" data-via="" data-counturl="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/" >Tweet</a>
   
   
   
@@ -146,10 +160,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2012/01/how-to-quickly-lock-screen-in-mac-os-x/" title="Previous Post: How to quickly lock screen in Mac OS X?">&laquo; How to quickly lock screen in Mac OS X?</a>
+        <a class="basic-alignment left" href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/" title="Previous Post: Migrating from Wordpress to Octopress - 301 redirects">&laquo; Migrating from Wordpress to Octopress - 301 redirects</a>
       
-      
-        <a class="basic-alignment right" href="/2012/02/ruby-how-to-override-class-method-with-a-module/" title="Next Post: Ruby: how to override class method with a module">Ruby: how to override class method with a module &raquo;</a>
       
     </p>
   </footer>
@@ -216,8 +228,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/';
-        var disqus_url = 'http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/';
         var disqus_script = 'embed.js';
       
     (function () {

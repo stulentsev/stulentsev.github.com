@@ -9,9 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Today I was quite amazed by one of Ruby features. It is about default values of method parameters. For example you can do something like this: 1
-2
-3 &hellip;">
+  <meta name="description" content="Today I was looking at exception stack trace. One of suspicious places was &#8216;&#8230;\reports_controller.rb:129&#8221;. Okay, navigating to this &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +76,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/05/intuitive-behaviour/">Intuitive Behaviour</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-05-18T16:19:25+04:00" pubdate data-updated="true">May 18<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today I was looking at exception stack trace. One of suspicious places was &#8216;&#8230;\reports_controller.rb:129&#8221;. Okay, navigating to this location using RubyMine is a piece of cake. Ctrl+Shift+N to get to reports_controller.rb, then Ctrl+G to position caret at specified line. But hey, that&#8217;s two actions. I hit Ctrl+Shift+N, put &#8216;reports_controller.rb:129&#8217; in and voila! It worked just as I expected!
+RubyMine: +1 to intuitivity, +1 to overall impression.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -543,48 +578,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/11/silverlight-security-error/">Silverlight: Security Error</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-11-24T10:18:17+03:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Sometimes, you may get not-very-descriptive <em>System.Security.SecurityException</em>. Stack trace tells you that something bad happened somewhere inside <em>EndGetResponse</em>, and that&#8217;s it, no more details. One possible cause is this: in a Silverlight project you may tell it to generate a temporary page that will host your application.</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2008/11/image.png"><img src="http://tech.tulentsev.com/images/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
-
-<p>And if your application sends requests to some host (a linux virtual box, in my case), this will be the source of pain. The dynamically generated page gets loaded to Internet Explorer as <a href="file://your_path/TestPage.html">file://your_path/TestPage.html</a>. And you are trying to reach HTTP(S) host. This cross-scheme behavior is not allowed.</p>
-
-<p>For more information, see <a href="http://msdn.microsoft.com/en-us/library/cc645032(VS.95">this MSDN article</a>.aspx) and <a href="http://silverlight.net/forums/p/32198/101892.aspx">this forum thread</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -602,6 +595,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Migrating from Wordpress to Octopress - 301 redirects</a>
       </li>
     
@@ -615,10 +612,6 @@
     
       <li class="post">
         <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to multiple MySQL servers</a>
       </li>
     
   </ul>

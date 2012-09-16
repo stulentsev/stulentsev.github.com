@@ -4,7 +4,7 @@
   <title><![CDATA[Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-03T17:44:06+04:00</updated>
+  <updated>2012-09-16T09:07:54+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[resque-multi-job-forks is finally updated]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/"/>
+    <updated>2012-09-16T09:00:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated</id>
+    <content type="html"><![CDATA[<p>I was using <a href="https://github.com/staugaard/resque-multi-job-forks/">resque-multi-job-forks</a>
+plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
+There were no new commits for 2 years. And current version of the gem had dependency on an
+archaic version of Resque. So, I forked, bumped the dependency and bundled the gem. But
+then I thought: &#8220;Hey, why not share it with people?&#8221; I exchanged a couple of emails with
+the owner and now I am the official owner/maintainer of said gem. This is my first
+takeover, hooray! :)</p>
+
+<p>To celebrate this, today I have released version v0.3.2, which includes updated <code>resque</code>
+dependency and fix for the problem when workers disappeared from resque-web after the first
+fork has reached its limit.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
@@ -1564,16 +1583,6 @@ air is still clean. :)</p>
 </span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Intuitive behaviour]]></title>
-    <link href="http://tech.tulentsev.com/2009/05/intuitive-behaviour/"/>
-    <updated>2009-05-18T16:19:25+04:00</updated>
-    <id>http://tech.tulentsev.com/2009/05/intuitive-behaviour</id>
-    <content type="html"><![CDATA[<p>Today I was looking at exception stack trace. One of suspicious places was &#8216;&#8230;\reports_controller.rb:129&#8221;. Okay, navigating to this location using RubyMine is a piece of cake. Ctrl+Shift+N to get to reports_controller.rb, then Ctrl+G to position caret at specified line. But hey, that&#8217;s two actions. I hit Ctrl+Shift+N, put &#8216;reports_controller.rb:129&#8217; in and voila! It worked just as I expected!
-RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 ]]></content>
   </entry>
   
