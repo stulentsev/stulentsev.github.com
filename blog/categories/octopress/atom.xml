@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Electrobroom]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-16T20:31:56+04:00</updated>
+  <updated>2012-09-27T09:54:08+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -27,7 +27,8 @@ a command in the terminal. I'm quite comfortable with creating new posts with a 
 What I didn't like is that I needed to run another command to actually open the post in my
 editor. Here's my fix to that. It patches the <code>new_post</code> command, by adding new optional
 parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code>, then the post will be opened in
-TextMate. Now the creation of new post can look like this:</p>
+my default <code>$EDITOR</code> (which is TextMate at this moment).
+Now the creation of new post can look like this:</p>
 
 <p><code>bash
 rake new_post['How to automatically open new post in editor?',:open]
@@ -93,7 +94,7 @@ rake new_post['How to automatically open new post in editor?',:open]
 </span><span class='line'>
 </span><span class='line'>&lt;p&gt;   end
 </span><span class='line'><span class="gi">+  if args[:open_in_editor]</span>
-</span><span class='line'><span class="gi">+    &lt;code&gt;mate #{filename}&lt;/code&gt;</span>
+</span><span class='line'><span class="gi">+    &lt;code&gt;$EDITOR #{filename}&lt;/code&gt;</span>
 </span><span class='line'><span class="gi">+  end</span>
 </span><span class='line'> end&lt;/p&gt;
 </span><span class='line'>
