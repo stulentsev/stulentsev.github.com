@@ -111,7 +111,8 @@ fortunately enough, the topic presented itself. :)</p>
 a command in the terminal. I&#8217;m quite comfortable with creating new posts with a rake task.
 What I didn&#8217;t like is that I needed to run another command to actually open the post in my
 editor. Here&#8217;s my fix to that. It patches the <code>new_post</code> command, by adding new optional
-parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code>, then the post will be opened in
+parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code> (or other truthy value),
+then the post will be opened in
 my default <code>$EDITOR</code> (which is TextMate at this moment).
 Now the creation of new post can look like this:</p>
 
