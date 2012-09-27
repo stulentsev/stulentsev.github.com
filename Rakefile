@@ -110,7 +110,7 @@ task :new_post, :title, :open_in_editor do |t, args|
     post.puts "---"
   end
   if args[:open_in_editor]
-    `mate #{filename}`
+    `$EDITOR #{filename}`
   end
 end
 

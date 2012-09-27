@@ -15,7 +15,8 @@ a command in the terminal. I'm quite comfortable with creating new posts with a 
 What I didn't like is that I needed to run another command to actually open the post in my 
 editor. Here's my fix to that. It patches the `new_post` command, by adding new optional 
 parameter to it, `:open_in_editor`. If you pass `true`, then the post will be opened in 
-TextMate. Now the creation of new post can look like this:
+my default `$EDITOR` (which is TextMate at this moment). 
+Now the creation of new post can look like this:
 
 ``` bash
 rake new_post['How to automatically open new post in editor?',:open]
@@ -47,7 +48,7 @@ index 58e1925..df8ff7e 100644
      post.puts "---"
    end
 +  if args[:open_in_editor]
-+    `mate #{filename}`
++    `$EDITOR #{filename}`
 +  end
  end
  
