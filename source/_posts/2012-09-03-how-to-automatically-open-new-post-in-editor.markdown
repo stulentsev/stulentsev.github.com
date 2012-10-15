@@ -14,7 +14,8 @@ So, Octopress is not your conventional blog engine. You create new posts by runn
 a command in the terminal. I'm quite comfortable with creating new posts with a rake task. 
 What I didn't like is that I needed to run another command to actually open the post in my 
 editor. Here's my fix to that. It patches the `new_post` command, by adding new optional 
-parameter to it, `:open_in_editor`. If you pass `true`, then the post will be opened in 
+parameter to it, `:open_in_editor`. If you pass `true` (or other truthy value), 
+then the post will be opened in 
 my default `$EDITOR` (which is TextMate at this moment). 
 Now the creation of new post can look like this:
 
@@ -25,7 +26,7 @@ rake new_post['How to automatically open new post in editor?',:open]
 
 And, finally, the diff of this change:
 
-{% codeblock Diff lang:diff http://pastie.org/pastes/4655877/download?key=fo7n7oda8y2vz43qm5s7kg Download this snippet %}
+{% codeblock Diff lang:diff http://pastie.org/pastes/4825151/text?key=qxucmagulrlugkhkyogkg Download this snippet %}
 diff --git a/Rakefile b/Rakefile
 index 58e1925..df8ff7e 100644
 --- a/Rakefile
