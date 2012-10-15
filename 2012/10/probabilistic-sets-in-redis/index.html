@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: opensource - #{cool_blog_name}</title>
+  <title>Probabilistic sets in Redis - #{cool_blog_name}</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Category: opensource">
+  <meta name="description" content="A very interesting topic was posted today in Redis google group, called
+&#8220;Set Sketch Implementation&#8221;. One nice application of set sketches &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.comblog/categories/opensource/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,36 +76,100 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Opensource</h1>
+    
+      <h1 class="entry-title">Probabilistic Sets in Redis</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-16T00:18:00+04:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>A very interesting topic was posted today in Redis google group, called
+<a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">&#8220;Set Sketch Implementation&#8221;</a>.</p>
 
-  
-  <h2>2012</h2>
+<blockquote><p>One nice application of set sketches is efficient storage and retrieval of analytics-type data: if you want to count the number of distinct users who have performed specific actions in your system (&#8220;visited page X&#8221;, &#8220;pressed button Y&#8221;, &#8220;followed user Z&#8221;, etc.) you&#8217;re quickly overwhelmed with the amount of memory needed to store even bit vectors representing all events for all users. Bloom counters are sometimes used for this sort of thing, but they still require a significant investment in space and the results of individual counters can&#8217;t be easily/efficiently combined.</p>
 
-<article>
-  
-<h1><a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a></h1>
-<time datetime="2012-09-16T09:00:00+04:00" pubdate><span class='month'>Sep</span> <span class='day'>16</span> <span class='year'>2012</span></time>
+<p>HyperLogLog is a good alternative when you don&#8217;t need exact counts: with a small, fixed amount of space per counter, it can yield good estimates of set cardinality - usually to within 2% of the actual count. In addition, the counters can be combined and queried at little extra cost, so that you can compute estimates to queries like &#8220;how many users visited page X and pressed button Y&#8221; or &#8220;how many users follow either user W or user Z&#8221; in real time. All of the operations take O(1) time and space in the cardinality of the sets being represented. Adding an element to a set sketch is particularly fast, essentially just the cost of applying a hash function to the element.</p></blockquote>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/opensource/'>opensource</a></span>
-</footer>
+<p>Now that I know about this technology, I desperately want it. I could really use that
+because my current app has a lot of sets, and some of them can get pretty large. Being
+able to use constant size is a huge relief, because you can correctly estimate amount of
+memory taken by Redis. And being able to combine them (UNION/INTER) is priceless.</p>
 
+<p>The only thing that is not clear to me is how this will play with upcoming Redis Cluster.
+Single key operations are OK, of course, but what about multiple key ops?</p>
 
-</article>
-
+<p>I really hope that Salvatore will not reject this functionality :)</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-16T00:18:00+04:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/" data-via="" data-counturl="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/09/resque-multi-job-forks-is-finally-updated/" title="Previous Post: resque-multi-job-forks is finally updated">&laquo; resque-multi-job-forks is finally updated</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -160,7 +225,10 @@
       var disqus_shortname = 'software-and-computers';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -4,7 +4,7 @@
   <title><![CDATA[#{cool_blog_name}]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-15T10:36:05+04:00</updated>
+  <updated>2012-10-16T00:28:26+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Probabilistic sets in Redis]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
+    <updated>2012-10-16T00:18:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
+    <content type="html"><![CDATA[<p>A very interesting topic was posted today in Redis google group, called
+<a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">&#8220;Set Sketch Implementation&#8221;</a>.</p>
+
+<blockquote><p>One nice application of set sketches is efficient storage and retrieval of analytics-type data: if you want to count the number of distinct users who have performed specific actions in your system (&#8220;visited page X&#8221;, &#8220;pressed button Y&#8221;, &#8220;followed user Z&#8221;, etc.) you&#8217;re quickly overwhelmed with the amount of memory needed to store even bit vectors representing all events for all users. Bloom counters are sometimes used for this sort of thing, but they still require a significant investment in space and the results of individual counters can&#8217;t be easily/efficiently combined.</p>
+
+<p>HyperLogLog is a good alternative when you don&#8217;t need exact counts: with a small, fixed amount of space per counter, it can yield good estimates of set cardinality - usually to within 2% of the actual count. In addition, the counters can be combined and queried at little extra cost, so that you can compute estimates to queries like &#8220;how many users visited page X and pressed button Y&#8221; or &#8220;how many users follow either user W or user Z&#8221; in real time. All of the operations take O(1) time and space in the cardinality of the sets being represented. Adding an element to a set sketch is particularly fast, essentially just the cost of applying a hash function to the element.</p></blockquote>
+
+<p>Now that I know about this technology, I desperately want it. I could really use that
+because my current app has a lot of sets, and some of them can get pretty large. Being
+able to use constant size is a huge relief, because you can correctly estimate amount of
+memory taken by Redis. And being able to combine them (UNION/INTER) is priceless.</p>
+
+<p>The only thing that is not clear to me is how this will play with upcoming Redis Cluster.
+Single key operations are OK, of course, but what about multiple key ops?</p>
+
+<p>I really hope that Salvatore will not reject this functionality :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[resque-multi-job-forks is finally updated]]></title>
@@ -1560,31 +1584,6 @@ air is still clean. :)</p>
 <p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
 
 <p>How would you implement this in your regular SQL database?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MongoId and atomic increment]]></title>
-    <link href="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/"/>
-    <updated>2010-06-02T00:01:26+04:00</updated>
-    <id>http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment</id>
-    <content type="html"><![CDATA[<p>I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too comfortable. Plus we&#8217;re all hooked to ORM sweeteners. So people started developing ORM libraries for MongoDB and Ruby (<a href="http://mongoid.org">MongoId</a>, <a href="http://github.com/mongomapper/mongomapper">MongoMapper</a> to name a few).</p>
-
-<p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">spam_count</span> <span class="o">=</span> <span class="n">spam_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Mongo Ruby driver supports this kind of operation, but MongoId doesn&#8217;t. So I was trying to get down to the driver. And this is what I couldn&#8217;t easily find in the docs. If you&#8217;re like me, I&#8217;ll save you a couple of hours. Here it is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assume we know object id already</span>
-</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
-</span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

@@ -9,7 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Today we&#8217;ll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let&#8217;s think of a &hellip;">
+  <meta name="description" content="Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, mongodump. 1
+mongodump If executes without &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +77,84 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/">How to Dump Your MongoDB Database Partially (Only Selected Tables)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-21T19:15:22+04:00" pubdate data-updated="true">Mar 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, <strong>mongodump</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you&#8217;re interested in and it will dump just this database.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But in some cases you don&#8217;t want to dump the whole database. In my case, it&#8217;s an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, &#8230;). I am interested only in a small number of &#8220;important&#8221; collections. But <strong>mongodump</strong> doesn&#8217;t provide us with an option to specify several collections. You can only dump one collection at a time. If you don&#8217;t mind some typing, that&#8217;s easy.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb -c mycoll1
+</span><span class='line'>mongodump -d mydb -c mycoll2
+</span><span class='line'>mongodump -d mydb -c mycoll5
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But we&#8217;re all programmers, so let&#8217;s automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let&#8217;s do it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">colls</span><span class="o">=(</span> mycoll1 mycoll2 mycoll5 <span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>c in <span class="k">${</span><span class="nv">colls</span><span class="p">[@]</span><span class="k">}</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">  </span>mongodump -d mydb -c <span class="nv">$c</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First line defines a bash array literal. <strong>Don&#8217;t use commas to delimit array elements</strong>, they&#8217;ll become part of the element. The <strong>${colls[@]}</strong> string means &#8220;all array elements&#8221; and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1211,58 +1290,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/06/mongoid-and-atomic-increment/">MongoId and Atomic Increment</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-06-02T00:01:26+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too comfortable. Plus we&#8217;re all hooked to ORM sweeteners. So people started developing ORM libraries for MongoDB and Ruby (<a href="http://mongoid.org">MongoId</a>, <a href="http://github.com/mongomapper/mongomapper">MongoMapper</a> to name a few).</p>
-
-<p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">spam_count</span> <span class="o">=</span> <span class="n">spam_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Mongo Ruby driver supports this kind of operation, but MongoId doesn&#8217;t. So I was trying to get down to the driver. And this is what I couldn&#8217;t easily find in the docs. If you&#8217;re like me, I&#8217;ll save you a couple of hours. Here it is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assume we know object id already</span>
-</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1280,6 +1307,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/10/probabilistic-sets-in-redis/">Probabilistic sets in Redis</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a>
       </li>
     
@@ -1293,10 +1324,6 @@
     
       <li class="post">
         <a href="/2012/09/it-is-all-relative/">It is all relative</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/04/can-i-haz-a-gem/">Can I haz a gem?</a>
       </li>
     
   </ul>
