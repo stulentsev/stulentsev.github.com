@@ -18,7 +18,7 @@ because my current app has a lot of sets, and some of them can get pretty large.
 able to use constant size is a huge relief, because you can correctly estimate amount of
 memory taken by Redis. And being able to combine them (UNION/INTER) is priceless. 
 
-The only thing that is not clear to me is how this will play with upcoming Redis Cluster.
+The only thing that is not clear to me is how this will play along with upcoming Redis Cluster.
 Single key operations are OK, of course, but what about multiple key ops?
 
 I really hope that Salvatore will not reject this functionality :)
