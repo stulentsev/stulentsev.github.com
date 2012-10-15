@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Software reviews | Electrobroom]]></title>
+  <title><![CDATA[Category: Software reviews | #{cool_blog_name}]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/software-reviews/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-09-27T09:59:50+04:00</updated>
+  <updated>2012-10-15T10:36:05+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
