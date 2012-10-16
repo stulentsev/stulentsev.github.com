@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too &hellip;">
+  <meta name="description" content="Let&#8217;s review another common scenario: posts and votes. Mongo&#8217;s approach would be to store vote count in the post itself (caching) and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2010/06/atomic-updates-part-2/">Atomic Updates, Part 2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-02T15:12:41+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Let&#8217;s review another common scenario: posts and votes. Mongo&#8217;s approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let&#8217;s assume we want to register a new vote on post. This operation consists of three steps:</p>
+
+<blockquote><ol>
+<li>ensure that the voter hasn&#8217;t voted yet, and, if not,</li>
+<li>increment the number of votes and</li>
+<li>add the new voter to the array.</li>
+</ol>
+</blockquote>
+
+<p>MongoDB&#8217;s query and update features allows us to perform all three actions in a single operation. Here&#8217;s what that would look like from the shell:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Assume that story_id and user_id represent real story and user ids.</span>
+</span><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">stories</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="nx">story_id</span><span class="p">,</span> <span class="nx">voters</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}},</span>
+</span><span class='line'>                  <span class="p">{</span><span class="s1">&#39;$inc&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">votes</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;$push&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">voters</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What this says is &#8220;get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array.&#8221;</p>
+
+<p>This operation highly efficient; it&#8217;s also reliable. The one caveat is that, because update operations are &#8220;fire and forget,&#8221; you won&#8217;t get a response from the server. But in most cases, this should be a non-issue.</p>
+
+<p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
+
+<p>How would you implement this in your regular SQL database?</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -520,68 +582,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/12/creating-ui-mockups-with-balsamiq/">Creating UI Mockups With Balsamiq</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-12-18T18:53:28+03:00" pubdate data-updated="true">Dec 18<span>th</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Virtually in every project you have to do some UI mockups. I mean, if you have some methodology, you are a team and you are serious about your project.</p>
-
-<p>In my past experience I have tried different ways of creating mockups:</p>
-
-<ol>
-<li>hand-drawn pictures;</li>
-<li>hand-drawn pictures, photographed with digital camera and inserted into requirement doc;</li>
-<li>Visio documents (duh!);</li>
-<li>some actual code.</li>
-</ol>
-
-
-<p>While the last way serves some extra purposes (other than creating mockup itself), it takes a lot of time. And sometime you just need to share with others a picture you have in your head. Ways #1 and #2 serve very well, but have one <strong>major</strong> disadvantage: if you want to modify a picture, you have to redraw it from scratch (or make a mess from the original one). And yeah, Visio way does more harm than good: it takes enormous time to create a picture and then you often &#8220;forget&#8221; to update a mockup, because you don&#8217;t want to launch that app again.</p>
-
-<p>So, what options do we have?</p>
-
-<p>Recently I discovered an excellent piece of software, called Balsamiq Mockups. It is simple, effective and nice looking. It requires zero learning time. For example, I tried to create something for my personal project, yet another photo gallery. And I got this mockup ready in exactly 6 minutes after I started the demo:</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image5.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb5.png" alt="image" /></a></p>
-
-<p>Impressions: product - great, support - fast and fully satisfying, overall - have to get one.</p>
-
-<p>Also I want to quote <a href="http://www.facebook.com/s.php?k=100000080&amp;id=1162968534">Charles William Stanton</a> here:</p>
-
-<blockquote><p>Before, I was doing far too little GUI &#8220;prototyping&#8221; because either the results weren&#8217;t reusable or the effort took too long; now I fear I may be doing too much because it&#8217;s just that much fun.</p></blockquote>
-
-<p>Go to the <a href="http://www.balsamiq.com/products/mockups">product web site</a> and see it for yourself.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -599,6 +599,10 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/10/ruby-gem-for-murmurhash-3/">Ruby gem for MurmurHash 3</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/10/probabilistic-sets-in-redis/">Probabilistic sets in Redis</a>
       </li>
     
@@ -612,10 +616,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     
       <li class="post">
         <a href="/2012/09/how-to-automatically-open-new-post-in-editor/">How to automatically open new octopress post in editor?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/it-is-all-relative/">It is all relative</a>
       </li>
     
   </ul>

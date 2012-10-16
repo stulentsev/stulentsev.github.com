@@ -4,7 +4,7 @@
   <title><![CDATA[#{cool_blog_name}]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-16T00:30:46+04:00</updated>
+  <updated>2012-10-16T21:59:20+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby gem for MurmurHash 3]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3/"/>
+    <updated>2012-10-16T20:44:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3</id>
+    <content type="html"><![CDATA[<p>Still driven by <a href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">that post</a>,
+I decided to do something about it. So I went and tried to read the original paper. It was
+mind blowing. Not because it was great (I am sure it is), but because it&#8217;s been a while
+since I had to read some serious math.</p>
+
+<p>Then I came across this article, which could also be named &#8220;HyperLogLog for dummies&#8221;:
+<a href="http://metamarkets.com/2012/fast-cheap-and-98-right-cardinality-estimation-for-big-data/">Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data</a>.
+It was much more readable. From it I learned about Murmur hash and was surprised that
+there&#8217;s no ruby gem for this. Fortunately, <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">C++ source code</a>
+was available, so I decided to wrap this as a gem.</p>
+
+<p>It went much smoother than I anticipated and I had working version within 3 or 4 hours.
+I didn&#8217;t have experience with native extensions before, someone experienced probably could
+have done it in 5 minutes, but still I consider this as an achievement! :)</p>
+
+<p>So, only when I tried to push the gem to <a href="http://rubygems.org">RubyGems</a>, I discovered that there IS
+a gem with this name: <a href="http://rubygems.org/gems/murmurhash3">murmurhash3</a>. The public API
+is too cumbersome if you ask me, but it works and probably has less bugs than my version.</p>
+
+<p>Here&#8217;s how you use it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;murmurhash3&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Hello, world!&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">ints</span> <span class="o">=</span> <span class="no">MurmurHash3</span><span class="o">::</span><span class="no">Native128</span><span class="o">.</span><span class="n">murmur3_128_str_hash</span> <span class="n">s</span>
+</span><span class='line'>
+</span><span class='line'>     <span class="c1">#    produce a 128 bits of hash, in the form of 4 32-bit integers</span>
+</span><span class='line'><span class="n">ints</span> <span class="c1"># =&gt; [3537266143, 4048629201, 2834548068, 741500496]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can turn this array of integers into a hex string like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ints</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;L*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;H*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span> <span class="c1"># =&gt; &quot;df65d6d2d12d51f164c5f3a85066322c&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you know a better/faster/more idiomatic way, please let me know :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Probabilistic sets in Redis]]></title>
@@ -1549,41 +1605,6 @@ air is still clean. :)</p>
     <content type="html"><![CDATA[<blockquote><p>There I was, minding my own business, trying to solve problems in graph theory and I accidentally made a Sudoku puzzle solver! Isn&#8217;t it funny how life turns out sometimes? But that&#8217;s just how awesome LINQ is.</p></blockquote>
 
 <p><a href="http://blogs.msdn.com/b/ericlippert/archive/2010/07/29/graph-colouring-part-five.aspx">Eric Lippert on LINQ</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Atomic updates, part 2]]></title>
-    <link href="http://tech.tulentsev.com/2010/06/atomic-updates-part-2/"/>
-    <updated>2010-06-02T15:12:41+04:00</updated>
-    <id>http://tech.tulentsev.com/2010/06/atomic-updates-part-2</id>
-    <content type="html"><![CDATA[<p>Let&#8217;s review another common scenario: posts and votes. Mongo&#8217;s approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let&#8217;s assume we want to register a new vote on post. This operation consists of three steps:</p>
-
-<blockquote><ol>
-<li>ensure that the voter hasn&#8217;t voted yet, and, if not,</li>
-<li>increment the number of votes and</li>
-<li>add the new voter to the array.</li>
-</ol>
-</blockquote>
-
-<p>MongoDB&#8217;s query and update features allows us to perform all three actions in a single operation. Here&#8217;s what that would look like from the shell:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Assume that story_id and user_id represent real story and user ids.</span>
-</span><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">stories</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="nx">story_id</span><span class="p">,</span> <span class="nx">voters</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}},</span>
-</span><span class='line'>                  <span class="p">{</span><span class="s1">&#39;$inc&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">votes</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;$push&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">voters</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What this says is &#8220;get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array.&#8221;</p>
-
-<p>This operation highly efficient; it&#8217;s also reliable. The one caveat is that, because update operations are &#8220;fire and forget,&#8221; you won&#8217;t get a response from the server. But in most cases, this should be a non-issue.</p>
-
-<p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
-
-<p>How would you implement this in your regular SQL database?</p>
 ]]></content>
   </entry>
   
