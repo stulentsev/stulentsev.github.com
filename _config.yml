@@ -3,7 +3,7 @@
 # ----------------------- #
 
 url: http://tech.tulentsev.com
-title: '#{cool_blog_name}'
+title: 'FactoryGirl.generate :cool_blog_name'
 subtitle: cat /dev/head | blog.
 author: Sergio Tulentsev
 simple_search: http://google.com/search
