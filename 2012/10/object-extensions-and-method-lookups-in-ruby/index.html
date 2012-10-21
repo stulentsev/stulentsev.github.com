@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Object extensions and method lookups in Ruby - FactoryGirl.generate :cool_blog_name</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="Method lookup is an interesting topic in Ruby. For example, exactly what happens that
+produces this output from this code? 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="FactoryGirl.generate :cool_blog_name" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">FactoryGirl.generate :cool_blog_name</a></h1>
+  
+    <h2>cat /dev/head | blog.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Object Extensions and Method Lookups in Ruby</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T16:30:00+04:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
+produces this output from this code?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Foo</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">hello</span>
+</span><span class='line'><span class="c1"># &gt;&gt; foo</span>
+</span><span class='line'><span class="c1"># &gt;&gt; bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The algorithm for method lookups can be summarized in one sentence: &#8220;one step to the right,
+then up&#8221;. This is referring a specific visualization of objects and classes relationships,
+where we place object&#8217;s class to the right from the object, and place ancestor of a class
+above it.</p>
+
+<!-- more -->
+
+
+<p><img src="/images/uploads/2012/10/lookup1.png"></p>
+
+<p>It&#8217;s important to understand that instances in ruby do not hold methods, only classes do.
+At the same time we&#8217;re able to enhance <strong>specific objects</strong> with additional methods, that
+other objects of the same class will not have. Look:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="s2">&quot;foo&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar1</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">extend</span> <span class="no">Foo</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar2</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1">#</span>
+</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; &quot;foo&quot;</span>
+</span><span class='line'><span class="n">bar2</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; </span>
+</span><span class='line'><span class="c1"># ~&gt; -:17:in `&lt;main&gt;&#39;: undefined method `hello&#39; for #&lt;Bar:0x007f858210a1d0&gt; (NoMethodError)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here <code>bar2</code> instance does not have a <code>hello</code> method, while <code>bar1</code> does have it. This means
+that <code>hello</code> method can&#8217;t be in <code>bar1</code> instance itself (remember, instances don&#8217;t contain
+methods), but it also can&#8217;t be in <code>Bar</code> class, because then <code>bar2</code> would also have it. So,
+where is that method located?</p>
+
+<p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
+class is where all those per-instance methods go. You won&#8217;t be able to see it in the
+ancestors chain, ruby hides it from you. But it&#8217;s there. So, in this case the lookup goes
+like this:</p>
+
+<p><img src="/images/uploads/2012/10/lookup2.png"></p>
+
+<p>But what happens if <code>Bar</code> also defines a <code>hello</code> method? Which gets found and executed first?
+Can you tell by looking on the pictures above?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar1</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">extend</span> <span class="no">Foo</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">hello</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&#8217;s right it will print &#8220;bar&#8221;, then &#8220;foo&#8221;. Why? Because <code>Foo#hello</code> will be injected
+<em>before</em> <code>Bar#hello</code> in the ancestors chain. It will go into that dynamic unique class
+(which is called <em>eigenclass</em>, by the way). Here&#8217;s the lookup flow:</p>
+
+<p><img src="/images/uploads/2012/10/lookup3.png"></p>
+
+<p>Method from <code>Foo</code> is found first and it calls super, which is the version in <code>Bar</code> class.
+This version also tries to call <code>super</code> (there isn&#8217;t one), then prints &#8220;bar&#8221; and returns
+control to <code>Foo#hello</code> which prints &#8220;foo&#8221;.</p>
+
+<p>Now you see, it&#8217;s a simple algorithm. But it can be really puzzling if you don&#8217;t know about
+eigenclasses.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T16:30:00+04:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/" data-via="" data-counturl="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/" title="Previous Post: DIY: funnel chart">&laquo; DIY: funnel chart</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object extensions and method lookups in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">DIY: funnel chart</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/ruby-gem-for-murmurhash-3/">Ruby gem for MurmurHash 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/probabilistic-sets-in-redis/">Probabilistic sets in Redis</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

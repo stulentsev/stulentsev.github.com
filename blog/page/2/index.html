@@ -9,7 +9,15 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="You live to learn every day. Today I discovered for..in loop in ruby. When I saw it in a question on stackoverflow, I was like &#8220;Hey, dude, this &hellip;">
+  <meta name="description" content="1
+2
+module Foo
+end Given a module Foo, how do you define a nested module Bar? 1
+2
+3
+4
+module Foo module Bar end
+end There&#8217;s a number of ways. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +84,110 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/define-module-programmatically/">Define Module Programmatically</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-02T03:14:50+04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Given a module <code>Foo</code>, how do you define a nested module <code>Bar</code>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">Bar</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&#8217;s a number of ways. First, most obvious one is to eval a string.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">class_eval</span> <span class="o">&lt;&lt;</span><span class="no">RUBY</span>
+</span><span class='line'><span class="sh">  module #{name}</span>
+</span><span class='line'><span class="sh">  end</span>
+</span><span class='line'><span class="no">RUBY</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While this certainly works and gets job done, it has some flaws. First, it&#8217;s a string, so some editors and IDEs will get confused and lose coloring/completion. Second, there&#8217;s no validation on module name. In best case, you&#8217;ll get compiler error. In worst case, you&#8217;ll get hard to track bugs.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Module</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">const_set</span><span class="p">(</span><span class="ss">:Bar</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This one is better. You clearly state that you&#8217;re going to set a constant, and module name is pretty restricted.</p>
+
+<p>Are there other ways to do this?</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1337,73 +1449,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/08/jquery-chaining/">jQuery Chaining</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-08-24T17:00:13+04:00" pubdate data-updated="true">Aug 24<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I am beginning to fall in love with jQuery. Screw you, <a href="http://vkontakte.ru">bicycle inventors</a>! :-)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">next_step</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// note how elegant and self-explanatory this code is.</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">cl</span> <span class="o">=</span> <span class="s1">&#39;step_selected&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nx">cl</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">cl</span><span class="p">).</span><span class="nx">next</span><span class="p">().</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">cl</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Also look at previous version of the code,</span>
-</span><span class='line'>    <span class="c1">// before I remembered about chaining methods.</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// var li = $(&#39;.step_selected&#39;);</span>
-</span><span class='line'>    <span class="c1">// li.removeClass(&#39;step_selected&#39;);</span>
-</span><span class='line'>    <span class="c1">// li.next().addClass(&#39;step_selected&#39;);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Not as sexy, right? :-)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1421,6 +1466,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object extensions and method lookups in Ruby</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">DIY: funnel chart</a>
       </li>
     
@@ -1434,10 +1483,6 @@
     
       <li class="post">
         <a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Migrating from Wordpress to Octopress - 301 redirects</a>
       </li>
     
   </ul>
