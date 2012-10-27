@@ -3,8 +3,8 @@
 # ----------------------- #
 
 url: http://tech.tulentsev.com
-title: 'FactoryGirl.generate :cool_blog_name'
-subtitle: cat /dev/head | blog.
+title: Byte Friendly
+subtitle: 'Thoughts on programming, highload and stuff.'
 author: Sergio Tulentsev
 simple_search: http://google.com/search
 description:
