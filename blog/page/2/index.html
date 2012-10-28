@@ -9,15 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="1
-2
-module Foo
-end Given a module Foo, how do you define a nested module Bar? 1
-2
-3
-4
-module Foo module Bar end
-end There&#8217;s a number of ways. &hellip;">
+  <meta name="description" content="You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +76,191 @@ end There&#8217;s a number of ways. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/04/connect-to-multiple-mysql-servers/">Connect to Multiple MySQL Servers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-05T11:02:36+04:00" pubdate data-updated="true">Apr 5<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span>
+</span><span class='line'>  <span class="n">config</span> <span class="o">=</span> <span class="n">get_connection_config</span> <span class="n">aid</span>
+</span><span class='line'>  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span> <span class="n">config</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This works, but it creates a new connection on every call. Let&#8217;s suppose, we&#8217;re processing a queue and we&#8217;re handling events from different apps (customers). The cost of setting up a connection can easily outweigh the actual work. We need to cache that somehow.</p>
+
+<p>Now, <code>ActiveRecord::Base</code> has a method called <code>connection_config</code> that returns, well, configuration of current connection. We can compare that to what we have on hands and, if they match, do not reconnect. Here&#8217;s how our code looks like now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span>
+</span><span class='line'>  <span class="n">config</span> <span class="o">=</span> <span class="n">get_connection_config</span> <span class="n">aid</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">unless</span> <span class="n">can_use_connection?</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">active?</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span> <span class="n">config</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">can_use_connection?</span> <span class="n">config</span>
+</span><span class='line'>  <span class="n">current_config</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection_config</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># current config can have more keys than our config (or vice versa), so simple hash comparison doesn&#39;t work.</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># if even a single parameter is different - can&#39;t reuse this connection.</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">!=</span> <span class="n">current_config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span>
+</span><span class='line'>      <span class="c1"># TODO: log warning</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks almost good. Now let&#8217;s extract this to a module for ease of re-using. Here&#8217;s the final code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">SqlModelHelpers</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">klass</span>
+</span><span class='line'>    <span class="n">klass</span><span class="o">.</span><span class="n">send</span> <span class="ss">:extend</span><span class="p">,</span> <span class="no">ClassMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">setup_connection</span> <span class="n">aid</span>
+</span><span class='line'>      <span class="c1"># TODO: do not reestablish good connections.</span>
+</span><span class='line'>      <span class="c1"># 1. get config to connect</span>
+</span><span class='line'>      <span class="c1"># 2. compare with current config (ActiveRecord::Base.connection_config)</span>
+</span><span class='line'>      <span class="c1"># 3. if configs match and connection is open - do not establish_connection</span>
+</span><span class='line'>      <span class="n">config</span> <span class="o">=</span> <span class="n">get_connection_config</span> <span class="n">aid</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">unless</span> <span class="n">can_use_connection?</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">active?</span>
+</span><span class='line'>        <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span> <span class="n">config</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">can_use_connection?</span> <span class="n">config</span>
+</span><span class='line'>      <span class="n">current_config</span> <span class="o">=</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection_config</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">config</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span> <span class="o">!=</span> <span class="n">current_config</span><span class="o">[</span><span class="n">k</span><span class="o">]</span>
+</span><span class='line'>          <span class="c1"># TODO: log warning</span>
+</span><span class='line'>          <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">MyModel</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">SqlModelHelpers</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span>
+</span><span class='line'>    <span class="n">setup_connection</span> <span class="n">aid</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">table_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1295,160 +1472,6 @@ end There&#8217;s a number of ways. &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/01/email-validation-done-right/">Email Validation Done Right</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-11T21:48:24+04:00" pubdate data-updated="true">Jan 11<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It works, right? WRONG. Sure it&#8217;ll handle a couple of your test examples. But it&#8217;s not ready for real world usage. Here&#8217;s a standards compliant Perl regex.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/(?(DEFINE)</span>
-</span><span class='line'><span class="sr">   (?&lt;address&gt;         (?&amp;mailbox;) | (?&amp;group;))</span>
-</span><span class='line'><span class="sr">   (?&lt;mailbox&gt;         (?&amp;name;_addr) | (?&amp;addr;_spec))</span>
-</span><span class='line'><span class="sr">   (?&lt;name_addr&gt;       (?&amp;display;_name)? (?&amp;angle;_addr))</span>
-</span><span class='line'><span class="sr">   (?&lt;angle_addr&gt;      (?&amp;CFWS;)? &lt; (?&amp;addr;_spec) &gt; (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sr">   (?&lt;group&gt;           (?&amp;display;_name) : (?:(?&amp;mailbox;_list) | (?&amp;CFWS;))? ;</span>
-</span><span class='line'><span class="sr">                                          (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sr">   (?&lt;display_name&gt;    (?&amp;phrase;))</span>
-</span><span class='line'><span class="sr">   (?&lt;mailbox_list&gt;    (?&amp;mailbox;) (?: , (?&amp;mailbox;))*)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">   (?&lt;addr_spec&gt;       (?&amp;local;_part) \@ (?&amp;domain;))</span>
-</span><span class='line'><span class="sr">   (?&lt;local_part&gt;      (?&amp;dot;_atom) | (?&amp;quoted;_string))</span>
-</span><span class='line'><span class="sr">   (?&lt;domain&gt;          (?&amp;dot;_atom) | (?&amp;domain;_literal))</span>
-</span><span class='line'><span class="sr">   (?&lt;domain_literal&gt;  (?&amp;CFWS;)? \[ (?: (?&amp;FWS;)? (?&amp;dcontent;))* (?&amp;FWS;)?</span>
-</span><span class='line'><span class="sr">                                 \] (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sr">   (?&lt;dcontent&gt;        (?&amp;dtext;) | (?&amp;quoted;_pair))</span>
-</span><span class='line'><span class="sr">   (?&lt;dtext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x5a\x5e-\x7e])</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">   (?&lt;atext&gt;           (?&amp;ALPHA;) | (?&amp;DIGIT;) | [!#\$%&amp;&#39;*+-/</span><span class="o">=</span><span class="p">?</span><span class="o">^</span><span class="n">_</span><span class="sb">`{|}~])</span>
-</span><span class='line'><span class="sb">   (?&lt;atom&gt;            (?&amp;CFWS;)? (?&amp;atext;)+ (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sb">   (?&lt;dot_atom&gt;        (?&amp;CFWS;)? (?&amp;dot;_atom_text) (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sb">   (?&lt;dot_atom_text&gt;   (?&amp;atext;)+ (?: \. (?&amp;atext;)+)*)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;text&gt;            [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x09\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x7f</span><span class="sb">])</span>
-</span><span class='line'><span class="sb">   (?&lt;quoted_pair&gt;     </span><span class="se">\\</span><span class="sb"> (?&amp;text;))</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;qtext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21\x23</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
-</span><span class='line'><span class="sb">   (?&lt;qcontent&gt;        (?&amp;qtext;) | (?&amp;quoted;_pair))</span>
-</span><span class='line'><span class="sb">   (?&lt;quoted_string&gt;   (?&amp;CFWS;)? (?&amp;DQUOTE;) (?:(?&amp;FWS;)? (?&amp;qcontent;))*</span>
-</span><span class='line'><span class="sb">                        (?&amp;FWS;)? (?&amp;DQUOTE;) (?&amp;CFWS;)?)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;word&gt;            (?&amp;atom;) | (?&amp;quoted;_string))</span>
-</span><span class='line'><span class="sb">   (?&lt;phrase&gt;          (?&amp;word;)+)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   # Folding white space</span>
-</span><span class='line'><span class="sb">   (?&lt;fws&gt;             (?: (?&amp;WSP;)* (?&amp;CRLF;))? (?&amp;WSP;)+)</span>
-</span><span class='line'><span class="sb">   (?&lt;ctext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21</span><span class="sb">-</span><span class="se">\x27\x2a</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
-</span><span class='line'><span class="sb">   (?&lt;ccontent&gt;        (?&amp;ctext;) | (?&amp;quoted;_pair) | (?&amp;comment;))</span>
-</span><span class='line'><span class="sb">   (?&lt;comment&gt;         \( (?: (?&amp;FWS;)? (?&amp;ccontent;))* (?&amp;FWS;)? \) )</span>
-</span><span class='line'><span class="sb">   (?&lt;cfws&gt;            (?: (?&amp;FWS;)? (?&amp;comment;))*</span>
-</span><span class='line'><span class="sb">                       (?: (?:(?&amp;FWS;)? (?&amp;comment;)) | (?&amp;FWS;)))</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   # No whitespace control</span>
-</span><span class='line'><span class="sb">   (?&lt;no_ws_ctl&gt;       [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x08\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x1f\x7f</span><span class="sb">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;alpha&gt;           [A-Za-z])</span>
-</span><span class='line'><span class="sb">   (?&lt;digit&gt;           [0-9])</span>
-</span><span class='line'><span class="sb">   (?&lt;crlf&gt;            </span><span class="se">\x0d</span><span class="sb"> </span><span class="se">\x0a</span><span class="sb">)</span>
-</span><span class='line'><span class="sb">   (?&lt;dquote&gt;          &quot;)</span>
-</span><span class='line'><span class="sb">   (?&lt;wsp&gt;             [</span><span class="se">\x20\x09</span><span class="sb">])</span>
-</span><span class='line'><span class="sb"> )</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb"> (?&amp;address;)/x</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p> I couldn&#8217;t even imagine that the matter is <em>this</em> complex.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1466,6 +1489,10 @@ end There&#8217;s a number of ways. &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/10/dynamic-collections-a-la-mongodb/">Dynamic collections a la MongoDB, but with MySQL</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object extensions and method lookups in Ruby</a>
       </li>
     
@@ -1478,11 +1505,7 @@ end There&#8217;s a number of ways. &hellip;">
       </li>
     
       <li class="post">
-        <a href="/2012/10/probabilistic-sets-in-redis/">Probabilistic sets in Redis</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/09/resque-multi-job-forks-is-finally-updated/">resque-multi-job-forks is finally updated</a>
+        <a href="/2012/10/probabilistic-sets-in-redis/">Probabilistic sets in Redis (almost magic)</a>
       </li>
     
   </ul>

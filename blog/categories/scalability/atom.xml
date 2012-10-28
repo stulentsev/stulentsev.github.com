@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: scalability | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/scalability/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Connect to multiple MySQL servers]]></title>
+    <link href="http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers/"/>
+    <updated>2012-04-05T11:02:36+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers</id>
+    <content type="html"><![CDATA[<p>You know how everyone is obsessed these days with scalability? Well, I am too. There's a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
+
+<p><code>ruby
+def self.use_table_for_app aid
+  config = get_connection_config aid
+  ActiveRecord::Base.establish_connection config
+end
+</code></p>
+
+<p>This works, but it creates a new connection on every call. Let's suppose, we're processing a queue and we're handling events from different apps (customers). The cost of setting up a connection can easily outweigh the actual work. We need to cache that somehow.</p>
+
+<p>Now, <code>ActiveRecord::Base</code> has a method called <code>connection_config</code> that returns, well, configuration of current connection. We can compare that to what we have on hands and, if they match, do not reconnect. Here's how our code looks like now:</p>
+
+<p>``` ruby
+def self.use_table_for_app aid
+  config = get_connection_config aid</p>
+
+<p>  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?</p>
+
+<pre><code>ActiveRecord::Base.establish_connection config
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def can_use_connection? config
+  current_config = ActiveRecord::Base.connection_config</p>
+
+<p>  # current config can have more keys than our config (or vice versa), so simple hash comparison doesn't work.
+  config.each do |k, v|</p>
+
+<pre><code># if even a single parameter is different - can't reuse this connection.
+if config[k] != current_config[k]
+  # TODO: log warning
+  return false
+end
+</code></pre>
+
+<p>  end
+  true
+end
+```</p>
+
+<p>Looks almost good. Now let's extract this to a module for ease of re-using. Here's the final code.</p>
+
+<p>``` ruby
+module SqlModelHelpers
+  def self.included klass</p>
+
+<pre><code>klass.send :extend, ClassMethods
+</code></pre>
+
+<p>  end</p>
+
+<p>  module ClassMethods</p>
+
+<pre><code>def setup_connection aid
+  # TODO: do not reestablish good connections.
+  # 1. get config to connect
+  # 2. compare with current config (ActiveRecord::Base.connection_config)
+  # 3. if configs match and connection is open - do not establish_connection
+  config = get_connection_config aid
+
+  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
+    ActiveRecord::Base.establish_connection config
+  end
+end
+
+def can_use_connection? config
+  current_config = ActiveRecord::Base.connection_config
+
+  config.each do |k, v|
+    if config[k] != current_config[k]
+      # TODO: log warning
+      return false
+    end
+  end
+  true
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class MyModel &lt; ActiveRecord::Base
+  include SqlModelHelpers</p>
+
+<p>  def self.use_table_for_app aid</p>
+
+<pre><code>setup_connection aid
+
+table_name
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
+]]></content>
+  </entry>
+  
+</feed>

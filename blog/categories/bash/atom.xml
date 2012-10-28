@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: bash | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/bash/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to dump your MongoDB database partially (only selected tables)]]></title>
+    <link href="http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/"/>
+    <updated>2012-03-21T19:15:22+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables</id>
+    <content type="html"><![CDATA[<p>Let's say you want to dump your MongoDB database. There's a handy tool that does just that, <strong>mongodump</strong>.</p>
+
+<p><code>bash
+mongodump
+</code></p>
+
+<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you're interested in and it will dump just this database.</p>
+
+<p><code>bash
+mongodump -d mydb
+</code></p>
+
+<p>But in some cases you don't want to dump the whole database. In my case, it's an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, ...). I am interested only in a small number of "important" collections. But <strong>mongodump</strong> doesn't provide us with an option to specify several collections. You can only dump one collection at a time. If you don't mind some typing, that's easy.</p>
+
+<p><code>bash
+mongodump -d mydb -c mycoll1
+mongodump -d mydb -c mycoll2
+mongodump -d mydb -c mycoll5
+</code></p>
+
+<p>But we're all programmers, so let's automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let's do it.</p>
+
+<p>``` bash
+colls=( mycoll1 mycoll2 mycoll5 )</p>
+
+<p>for c in ${colls[@]}
+do
+  mongodump -d mydb -c $c
+done
+```</p>
+
+<p>First line defines a bash array literal. <strong>Don't use commas to delimit array elements</strong>, they'll become part of the element. The <strong>${colls[@]}</strong> string means "all array elements" and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
+]]></content>
+  </entry>
+  
+</feed>

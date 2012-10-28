@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mongodb | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/mongodb/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
+    <updated>2012-10-28T16:52:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
+    <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
+dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start
+inserting data into random collection and it will magically appear in the DB? Good news is:
+it can be done.</p>
+
+<!-- more -->
+
+
+<p>There are some tradeoffs to be made, however. If we want completely flexible row-per-row
+structure, we have to serialize our data into JSON blobs (or whatever). This way we lose
+ability to efficiently query the data. Fortunately, in many cases there <em>is</em> a structure in
+data, so it can be represented as a MySQL schema.</p>
+
+<p>In this concrete example we are storing event stream. For the ease of management we decided
+to split the stream by source app id and date (in this app we don't have to query across
+several apps or days at the same time). So, our table names should follow this pattern,
+where <code>datestr</code> is a date formatted as <code>yyyymmdd</code></p>
+
+<p><code>ruby
+"#{app_id}_daily_events_#{datestr}"
+</code></p>
+
+<p>So, how do we do it? We utilize <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html">API for schema manipulations</a>,
+which is conveniently provided to us by ActiveRecord. We are interested in the <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-create_table">create_table</a> method.</p>
+
+<p>``` ruby</p>
+
+<h1>create_table() passes a TableDefinition object to the block.</h1>
+
+<h1>This form will not only create the table, but also columns for the</h1>
+
+<h1>table.</h1>
+
+<p>create_table(:suppliers) do |t|
+  t.column :name, :string, :limit => 60
+  # Other fields here
+end
+```</p>
+
+<p>Here's how our method definition might look like:
+``` ruby</p>
+
+<h1>Calculates and sets current table name, based on passed parameters. Example:</h1>
+
+<p>#</p>
+
+<h1>SqlDailyEvents.use_table_for_app 62, Time.now</h1>
+
+<p>#</p>
+
+<h1>@param aid Application ID</h1>
+
+<h1>@param date [Time] Time of event</h1>
+
+<h1>@return [String] Calculated table name</h1>
+
+<p>def self.use_table_for_app aid, date, params = {}
+  name = make_table_name(aid, date)
+  self.table_name = name</p>
+
+<p>  unless table_exists?</p>
+
+<pre><code>connection.create_table name do |t|
+  t.column :event_id, :integer, :null =&gt; false
+  t.column :event_value, :integer
+  t.column :user_id, :string, :null =&gt; false, :limit =&gt; 30
+end
+clear_cache!
+</code></pre>
+
+<p>  end</p>
+
+<p>  table_name
+end</p>
+
+<p>def self.make_table_name app_id, event_date
+  datestr = event_date.strftime '%Y%m%d'
+  "#{app_id}<em>daily_events</em>#{datestr}"
+end
+```</p>
+
+<p>Note the <code>clear_cache!</code> call. We need to invalidate ActiveRecord's internal caches, or
+otherwise it won't know about our newly created table until app is restarted. Writing a
+reverse method is pretty straightforward:
+``` ruby</p>
+
+<h1>Drops corresponding table</h1>
+
+<p>#</p>
+
+<h1>@param aid Application ID</h1>
+
+<h1>@param date [Time] Time for which table should be dropped</h1>
+
+<p>def self.forget_table_for_app aid, date
+  name = make_table_name(aid, date)</p>
+
+<p>  if ActiveRecord::Base.connection.table_exists?(name)</p>
+
+<pre><code>connection.drop_table name
+
+clear_cache!
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>And this is how you use the code:
+``` ruby
+SqlDailyEvents.use_table_for_app aid, cur_time</p>
+
+<p>SqlDailyEvents.create event_id: evid,</p>
+
+<pre><code>                  event_value: evval,
+                  user_id: uid
+</code></pre>
+
+<p>```</p>
+
+<p>That is, prefix every <code>create</code> call with a <code>use_table_for_app</code> call, so that current
+table is properly set and created (if needed). I admit, this is still far from being
+completely transparent, but this works for me at the moment. Feedback is welcome!</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to dump your MongoDB database partially (only selected tables)]]></title>
+    <link href="http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/"/>
+    <updated>2012-03-21T19:15:22+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables</id>
+    <content type="html"><![CDATA[<p>Let's say you want to dump your MongoDB database. There's a handy tool that does just that, <strong>mongodump</strong>.</p>
+
+<p><code>bash
+mongodump
+</code></p>
+
+<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you're interested in and it will dump just this database.</p>
+
+<p><code>bash
+mongodump -d mydb
+</code></p>
+
+<p>But in some cases you don't want to dump the whole database. In my case, it's an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, ...). I am interested only in a small number of "important" collections. But <strong>mongodump</strong> doesn't provide us with an option to specify several collections. You can only dump one collection at a time. If you don't mind some typing, that's easy.</p>
+
+<p><code>bash
+mongodump -d mydb -c mycoll1
+mongodump -d mydb -c mycoll2
+mongodump -d mydb -c mycoll5
+</code></p>
+
+<p>But we're all programmers, so let's automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let's do it.</p>
+
+<p>``` bash
+colls=( mycoll1 mycoll2 mycoll5 )</p>
+
+<p>for c in ${colls[@]}
+do
+  mongodump -d mydb -c $c
+done
+```</p>
+
+<p>First line defines a bash array literal. <strong>Don't use commas to delimit array elements</strong>, they'll become part of the element. The <strong>${colls[@]}</strong> string means "all array elements" and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mongoid, db.system.namespaces queries]]></title>
+    <link href="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/"/>
+    <updated>2012-02-03T20:12:54+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries</id>
+    <content type="html"><![CDATA[<p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
+
+<p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
+
+<p>I am still not sure what's happening here. I'll update this post when I discover something.</p>
+]]></content>
+  </entry>
+  
+</feed>

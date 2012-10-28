@@ -76,104 +76,108 @@
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2010/08/jquery-chaining/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:38+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/01/email-validation-done-right/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module/
         </loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/
         </loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/
         </loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/
         </loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/03/ruby-forin-loop/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/04/define-module-programmatically/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:42:52+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:42:54+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/04/can-i-haz-a-gem/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:42:54+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/09/it-is-all-relative/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:42:54+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:42:54+04:00</lastmod>
     </url>
     <url>
         <loc>
             http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/
         </loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:39:48+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:39:48+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:37:38+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3/</loc>
-        <lastmod>2012-10-20T20:57:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:37:42+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js/</loc>
-        <lastmod>2012-10-28T00:24:47+04:00</lastmod>
+        <lastmod>2012-10-28T17:37:42+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/</loc>
-        <lastmod>2012-10-21T18:05:51+04:00</lastmod>
+        <lastmod>2012-10-28T17:37:42+04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/</loc>
+        <lastmod>2012-10-28T17:35:00+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/blog/archives/</loc>
-        <lastmod>2012-10-28T00:24:47+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/</loc>
-        <lastmod>2012-10-28T00:24:47+04:00</lastmod>
+        <lastmod>2012-10-28T17:46:39+04:00</lastmod>
     </url>
 </urlset>

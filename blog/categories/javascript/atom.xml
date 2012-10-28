@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[It is all relative]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/it-is-all-relative/"/>
+    <updated>2012-09-03T15:50:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/it-is-all-relative</id>
+    <content type="html"><![CDATA[<p>I remember reading my first book on Javascript. It was covering Javascript 1.0 and included
+changes in Javascript 1.1 I thought then: "Wow, that's an advanced stuff!" If I was told
+that things like jQuery or Node.js will someday exist, I wouldn't believe that. And if
+tomorrow I fall into a time vortex and travel to 90s, I will probably kill myself. It's like
+the stone age of technology. It's better to get to a real stone age. At least, the
+air is still clean. :)</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: resque | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/resque/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[resque-multi-job-forks is finally updated]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/"/>
+    <updated>2012-09-16T09:00:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated</id>
+    <content type="html"><![CDATA[<p>I was using <a href="https://github.com/staugaard/resque-multi-job-forks/">resque-multi-job-forks</a>
+plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
+There were no new commits for 2 years. And current version of the gem had dependency on an
+archaic version of Resque. So, I forked, bumped the dependency and bundled the gem. But
+then I thought: "Hey, why not share it with people?" I exchanged a couple of emails with
+the owner and now I am the official owner/maintainer of said gem. This is my first
+takeover, hooray! :)</p>
+
+<p>To celebrate this, today I have released version v0.3.2, which includes updated <code>resque</code>
+dependency and fix for the problem when workers disappeared from resque-web after the first
+fork has reached its limit.</p>
+]]></content>
+  </entry>
+  
+</feed>

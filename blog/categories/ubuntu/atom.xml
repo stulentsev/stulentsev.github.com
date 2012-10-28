@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ubuntu | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to keep your system clock synchronized on Ubuntu?]]></title>
+    <link href="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/"/>
+    <updated>2012-03-09T12:10:18+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>Your server's hardware clock isn't perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There's a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It's called ntpdate</p>
+
+<p><code>bash
+$ sudo ntpdate ntp.ubuntu.com
+ 9 Mar 03:59:12 ntpdate[7225]: step time server 91.189.94.4 offset 179.440440 sec
+</code></p>
+
+<p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let's add an hourly cron job. Create a file called 'ntpdate' (for example) at '/etc/cron.hourly' with this content:</p>
+
+<p>``` bash</p>
+
+<h1>! /bin/sh</h1>
+
+<p>ntpdate ntp.ubuntu.com
+```</p>
+
+<p>We don't need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
+
+<p><code>bash
+sudo chmod +x /etc/cron.hourly/ntpdate
+</code></p>
+
+<p>We're all set now. Come back a few days later and verify that clock doesn't deviate as much anymore.</p>
+]]></content>
+  </entry>
+  
+</feed>

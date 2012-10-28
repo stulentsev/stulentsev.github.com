@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: mysql | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
+    <updated>2012-10-28T16:52:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
+    <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
+dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start
+inserting data into random collection and it will magically appear in the DB? Good news is:
+it can be done.</p>
+
+<!-- more -->
+
+
+<p>There are some tradeoffs to be made, however. If we want completely flexible row-per-row
+structure, we have to serialize our data into JSON blobs (or whatever). This way we lose
+ability to efficiently query the data. Fortunately, in many cases there <em>is</em> a structure in
+data, so it can be represented as a MySQL schema.</p>
+
+<p>In this concrete example we are storing event stream. For the ease of management we decided
+to split the stream by source app id and date (in this app we don't have to query across
+several apps or days at the same time). So, our table names should follow this pattern,
+where <code>datestr</code> is a date formatted as <code>yyyymmdd</code></p>
+
+<p><code>ruby
+"#{app_id}_daily_events_#{datestr}"
+</code></p>
+
+<p>So, how do we do it? We utilize <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html">API for schema manipulations</a>,
+which is conveniently provided to us by ActiveRecord. We are interested in the <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-create_table">create_table</a> method.</p>
+
+<p>``` ruby</p>
+
+<h1>create_table() passes a TableDefinition object to the block.</h1>
+
+<h1>This form will not only create the table, but also columns for the</h1>
+
+<h1>table.</h1>
+
+<p>create_table(:suppliers) do |t|
+  t.column :name, :string, :limit => 60
+  # Other fields here
+end
+```</p>
+
+<p>Here's how our method definition might look like:
+``` ruby</p>
+
+<h1>Calculates and sets current table name, based on passed parameters. Example:</h1>
+
+<p>#</p>
+
+<h1>SqlDailyEvents.use_table_for_app 62, Time.now</h1>
+
+<p>#</p>
+
+<h1>@param aid Application ID</h1>
+
+<h1>@param date [Time] Time of event</h1>
+
+<h1>@return [String] Calculated table name</h1>
+
+<p>def self.use_table_for_app aid, date, params = {}
+  name = make_table_name(aid, date)
+  self.table_name = name</p>
+
+<p>  unless table_exists?</p>
+
+<pre><code>connection.create_table name do |t|
+  t.column :event_id, :integer, :null =&gt; false
+  t.column :event_value, :integer
+  t.column :user_id, :string, :null =&gt; false, :limit =&gt; 30
+end
+clear_cache!
+</code></pre>
+
+<p>  end</p>
+
+<p>  table_name
+end</p>
+
+<p>def self.make_table_name app_id, event_date
+  datestr = event_date.strftime '%Y%m%d'
+  "#{app_id}<em>daily_events</em>#{datestr}"
+end
+```</p>
+
+<p>Note the <code>clear_cache!</code> call. We need to invalidate ActiveRecord's internal caches, or
+otherwise it won't know about our newly created table until app is restarted. Writing a
+reverse method is pretty straightforward:
+``` ruby</p>
+
+<h1>Drops corresponding table</h1>
+
+<p>#</p>
+
+<h1>@param aid Application ID</h1>
+
+<h1>@param date [Time] Time for which table should be dropped</h1>
+
+<p>def self.forget_table_for_app aid, date
+  name = make_table_name(aid, date)</p>
+
+<p>  if ActiveRecord::Base.connection.table_exists?(name)</p>
+
+<pre><code>connection.drop_table name
+
+clear_cache!
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>And this is how you use the code:
+``` ruby
+SqlDailyEvents.use_table_for_app aid, cur_time</p>
+
+<p>SqlDailyEvents.create event_id: evid,</p>
+
+<pre><code>                  event_value: evval,
+                  user_id: uid
+</code></pre>
+
+<p>```</p>
+
+<p>That is, prefix every <code>create</code> call with a <code>use_table_for_app</code> call, so that current
+table is properly set and created (if needed). I admit, this is still far from being
+completely transparent, but this works for me at the moment. Feedback is welcome!</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Connect to multiple MySQL servers]]></title>
+    <link href="http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers/"/>
+    <updated>2012-04-05T11:02:36+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers</id>
+    <content type="html"><![CDATA[<p>You know how everyone is obsessed these days with scalability? Well, I am too. There's a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
+
+<p><code>ruby
+def self.use_table_for_app aid
+  config = get_connection_config aid
+  ActiveRecord::Base.establish_connection config
+end
+</code></p>
+
+<p>This works, but it creates a new connection on every call. Let's suppose, we're processing a queue and we're handling events from different apps (customers). The cost of setting up a connection can easily outweigh the actual work. We need to cache that somehow.</p>
+
+<p>Now, <code>ActiveRecord::Base</code> has a method called <code>connection_config</code> that returns, well, configuration of current connection. We can compare that to what we have on hands and, if they match, do not reconnect. Here's how our code looks like now:</p>
+
+<p>``` ruby
+def self.use_table_for_app aid
+  config = get_connection_config aid</p>
+
+<p>  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?</p>
+
+<pre><code>ActiveRecord::Base.establish_connection config
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def can_use_connection? config
+  current_config = ActiveRecord::Base.connection_config</p>
+
+<p>  # current config can have more keys than our config (or vice versa), so simple hash comparison doesn't work.
+  config.each do |k, v|</p>
+
+<pre><code># if even a single parameter is different - can't reuse this connection.
+if config[k] != current_config[k]
+  # TODO: log warning
+  return false
+end
+</code></pre>
+
+<p>  end
+  true
+end
+```</p>
+
+<p>Looks almost good. Now let's extract this to a module for ease of re-using. Here's the final code.</p>
+
+<p>``` ruby
+module SqlModelHelpers
+  def self.included klass</p>
+
+<pre><code>klass.send :extend, ClassMethods
+</code></pre>
+
+<p>  end</p>
+
+<p>  module ClassMethods</p>
+
+<pre><code>def setup_connection aid
+  # TODO: do not reestablish good connections.
+  # 1. get config to connect
+  # 2. compare with current config (ActiveRecord::Base.connection_config)
+  # 3. if configs match and connection is open - do not establish_connection
+  config = get_connection_config aid
+
+  unless can_use_connection?(config) &amp;&amp; ActiveRecord::Base.connection.active?
+    ActiveRecord::Base.establish_connection config
+  end
+end
+
+def can_use_connection? config
+  current_config = ActiveRecord::Base.connection_config
+
+  config.each do |k, v|
+    if config[k] != current_config[k]
+      # TODO: log warning
+      return false
+    end
+  end
+  true
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class MyModel &lt; ActiveRecord::Base
+  include SqlModelHelpers</p>
+
+<p>  def self.use_table_for_app aid</p>
+
+<pre><code>setup_connection aid
+
+table_name
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
+]]></content>
+  </entry>
+  
+</feed>

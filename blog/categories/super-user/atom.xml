@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: super-user | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/super-user/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to quickly lock screen in Mac OS X?]]></title>
+    <link href="http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/"/>
+    <updated>2012-01-27T21:28:28+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x</id>
+    <content type="html"><![CDATA[<p>I am tired of googling the same information over and over, so I am posting it here.</p>
+
+<p>To quickly lock your screen, press Ctrl+Shift+Eject.</p>
+
+<p>Also, you can press Fn+Ctrl+Eject to quickly restart your Mac, shut it down or put to sleep.</p>
+]]></content>
+  </entry>
+  
+</feed>

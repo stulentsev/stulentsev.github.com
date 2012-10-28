@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-28T15:25:53+04:00</updated>
+  <updated>2012-10-28T17:46:45+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,173 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
+    <updated>2012-10-28T16:52:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
+    <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
+dealing with &#8220;legacy&#8221; systems (MySQL, in this instance). How cool it would be to just start
+inserting data into random collection and it will magically appear in the DB? Good news is:
+it can be done.</p>
+
+<!-- more -->
+
+
+<p>There are some tradeoffs to be made, however. If we want completely flexible row-per-row
+structure, we have to serialize our data into JSON blobs (or whatever). This way we lose
+ability to efficiently query the data. Fortunately, in many cases there <em>is</em> a structure in
+data, so it can be represented as a MySQL schema.</p>
+
+<p>In this concrete example we are storing event stream. For the ease of management we decided
+to split the stream by source app id and date (in this app we don&#8217;t have to query across
+several apps or days at the same time). So, our table names should follow this pattern,
+where <code>datestr</code> is a date formatted as <code>yyyymmdd</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_id</span><span class="si">}</span><span class="s2">_daily_events_</span><span class="si">#{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So, how do we do it? We utilize <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html">API for schema manipulations</a>,
+which is conveniently provided to us by ActiveRecord. We are interested in the <a href="http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/SchemaStatements.html#method-i-create_table">create_table</a> method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># create_table() passes a TableDefinition object to the block.</span>
+</span><span class='line'><span class="c1"># This form will not only create the table, but also columns for the</span>
+</span><span class='line'><span class="c1"># table.</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">create_table</span><span class="p">(</span><span class="ss">:suppliers</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">column</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:limit</span> <span class="o">=&gt;</span> <span class="mi">60</span>
+</span><span class='line'>  <span class="c1"># Other fields here</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&#8217;s how our method definition might look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Calculates and sets current table name, based on passed parameters. Example:</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1">#   SqlDailyEvents.use_table_for_app 62, Time.now</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># @param aid Application ID</span>
+</span><span class='line'><span class="c1"># @param date [Time] Time of event</span>
+</span><span class='line'><span class="c1"># @return [String] Calculated table name</span>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">use_table_for_app</span> <span class="n">aid</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">make_table_name</span><span class="p">(</span><span class="n">aid</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">table_name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">unless</span> <span class="n">table_exists?</span>
+</span><span class='line'>    <span class="n">connection</span><span class="o">.</span><span class="n">create_table</span> <span class="nb">name</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">column</span> <span class="ss">:event_id</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">column</span> <span class="ss">:event_value</span><span class="p">,</span> <span class="ss">:integer</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">column</span> <span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">:limit</span> <span class="o">=&gt;</span> <span class="mi">30</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">clear_cache!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">table_name</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">make_table_name</span> <span class="n">app_id</span><span class="p">,</span> <span class="n">event_date</span>
+</span><span class='line'>  <span class="n">datestr</span> <span class="o">=</span> <span class="n">event_date</span><span class="o">.</span><span class="n">strftime</span> <span class="s1">&#39;%Y%m%d&#39;</span>
+</span><span class='line'>  <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_id</span><span class="si">}</span><span class="s2">_daily_events_</span><span class="si">#{</span><span class="n">datestr</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note the <code>clear_cache!</code> call. We need to invalidate ActiveRecord&#8217;s internal caches, or
+otherwise it won&#8217;t know about our newly created table until app is restarted. Writing a
+reverse method is pretty straightforward:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Drops corresponding table</span>
+</span><span class='line'><span class="c1">#</span>
+</span><span class='line'><span class="c1"># @param aid Application ID</span>
+</span><span class='line'><span class="c1"># @param date [Time] Time for which table should be dropped</span>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">forget_table_for_app</span> <span class="n">aid</span><span class="p">,</span> <span class="n">date</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">make_table_name</span><span class="p">(</span><span class="n">aid</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">table_exists?</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">connection</span><span class="o">.</span><span class="n">drop_table</span> <span class="nb">name</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">clear_cache!</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And this is how you use the code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SqlDailyEvents</span><span class="o">.</span><span class="n">use_table_for_app</span> <span class="n">aid</span><span class="p">,</span> <span class="n">cur_time</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">SqlDailyEvents</span><span class="o">.</span><span class="n">create</span> <span class="n">event_id</span><span class="p">:</span> <span class="n">evid</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">event_value</span><span class="p">:</span> <span class="n">evval</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">user_id</span><span class="p">:</span> <span class="n">uid</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That is, prefix every <code>create</code> call with a <code>use_table_for_app</code> call, so that current
+table is properly set and created (if needed). I admit, this is still far from being
+completely transparent, but this works for me at the moment. Feedback is welcome!</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
@@ -412,7 +579,7 @@ is too cumbersome if you ask me, but it works and probably has less bugs than my
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Probabilistic sets in Redis]]></title>
+    <title type="html"><![CDATA[Probabilistic sets in Redis (almost magic)]]></title>
     <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
     <updated>2012-10-16T00:18:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
@@ -1769,133 +1936,6 @@ air is still clean. :)</p>
 <p>To quickly lock your screen, press Ctrl+Shift+Eject.</p>
 
 <p>Also, you can press Fn+Ctrl+Eject to quickly restart your Mac, shut it down or put to sleep.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Email validation done right]]></title>
-    <link href="http://tech.tulentsev.com/2012/01/email-validation-done-right/"/>
-    <updated>2012-01-11T21:48:24+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/01/email-validation-done-right</id>
-    <content type="html"><![CDATA[<p>Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It works, right? WRONG. Sure it&#8217;ll handle a couple of your test examples. But it&#8217;s not ready for real world usage. Here&#8217;s a standards compliant Perl regex.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/(?(DEFINE)</span>
-</span><span class='line'><span class="sr">   (?&lt;address&gt;         (?&amp;mailbox;) | (?&amp;group;))</span>
-</span><span class='line'><span class="sr">   (?&lt;mailbox&gt;         (?&amp;name;_addr) | (?&amp;addr;_spec))</span>
-</span><span class='line'><span class="sr">   (?&lt;name_addr&gt;       (?&amp;display;_name)? (?&amp;angle;_addr))</span>
-</span><span class='line'><span class="sr">   (?&lt;angle_addr&gt;      (?&amp;CFWS;)? &lt; (?&amp;addr;_spec) &gt; (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sr">   (?&lt;group&gt;           (?&amp;display;_name) : (?:(?&amp;mailbox;_list) | (?&amp;CFWS;))? ;</span>
-</span><span class='line'><span class="sr">                                          (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sr">   (?&lt;display_name&gt;    (?&amp;phrase;))</span>
-</span><span class='line'><span class="sr">   (?&lt;mailbox_list&gt;    (?&amp;mailbox;) (?: , (?&amp;mailbox;))*)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">   (?&lt;addr_spec&gt;       (?&amp;local;_part) \@ (?&amp;domain;))</span>
-</span><span class='line'><span class="sr">   (?&lt;local_part&gt;      (?&amp;dot;_atom) | (?&amp;quoted;_string))</span>
-</span><span class='line'><span class="sr">   (?&lt;domain&gt;          (?&amp;dot;_atom) | (?&amp;domain;_literal))</span>
-</span><span class='line'><span class="sr">   (?&lt;domain_literal&gt;  (?&amp;CFWS;)? \[ (?: (?&amp;FWS;)? (?&amp;dcontent;))* (?&amp;FWS;)?</span>
-</span><span class='line'><span class="sr">                                 \] (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sr">   (?&lt;dcontent&gt;        (?&amp;dtext;) | (?&amp;quoted;_pair))</span>
-</span><span class='line'><span class="sr">   (?&lt;dtext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x5a\x5e-\x7e])</span>
-</span><span class='line'>
-</span><span class='line'><span class="sr">   (?&lt;atext&gt;           (?&amp;ALPHA;) | (?&amp;DIGIT;) | [!#\$%&amp;&#39;*+-/</span><span class="o">=</span><span class="p">?</span><span class="o">^</span><span class="n">_</span><span class="sb">`{|}~])</span>
-</span><span class='line'><span class="sb">   (?&lt;atom&gt;            (?&amp;CFWS;)? (?&amp;atext;)+ (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sb">   (?&lt;dot_atom&gt;        (?&amp;CFWS;)? (?&amp;dot;_atom_text) (?&amp;CFWS;)?)</span>
-</span><span class='line'><span class="sb">   (?&lt;dot_atom_text&gt;   (?&amp;atext;)+ (?: \. (?&amp;atext;)+)*)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;text&gt;            [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x09\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x7f</span><span class="sb">])</span>
-</span><span class='line'><span class="sb">   (?&lt;quoted_pair&gt;     </span><span class="se">\\</span><span class="sb"> (?&amp;text;))</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;qtext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21\x23</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
-</span><span class='line'><span class="sb">   (?&lt;qcontent&gt;        (?&amp;qtext;) | (?&amp;quoted;_pair))</span>
-</span><span class='line'><span class="sb">   (?&lt;quoted_string&gt;   (?&amp;CFWS;)? (?&amp;DQUOTE;) (?:(?&amp;FWS;)? (?&amp;qcontent;))*</span>
-</span><span class='line'><span class="sb">                        (?&amp;FWS;)? (?&amp;DQUOTE;) (?&amp;CFWS;)?)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;word&gt;            (?&amp;atom;) | (?&amp;quoted;_string))</span>
-</span><span class='line'><span class="sb">   (?&lt;phrase&gt;          (?&amp;word;)+)</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   # Folding white space</span>
-</span><span class='line'><span class="sb">   (?&lt;fws&gt;             (?: (?&amp;WSP;)* (?&amp;CRLF;))? (?&amp;WSP;)+)</span>
-</span><span class='line'><span class="sb">   (?&lt;ctext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21</span><span class="sb">-</span><span class="se">\x27\x2a</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
-</span><span class='line'><span class="sb">   (?&lt;ccontent&gt;        (?&amp;ctext;) | (?&amp;quoted;_pair) | (?&amp;comment;))</span>
-</span><span class='line'><span class="sb">   (?&lt;comment&gt;         \( (?: (?&amp;FWS;)? (?&amp;ccontent;))* (?&amp;FWS;)? \) )</span>
-</span><span class='line'><span class="sb">   (?&lt;cfws&gt;            (?: (?&amp;FWS;)? (?&amp;comment;))*</span>
-</span><span class='line'><span class="sb">                       (?: (?:(?&amp;FWS;)? (?&amp;comment;)) | (?&amp;FWS;)))</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   # No whitespace control</span>
-</span><span class='line'><span class="sb">   (?&lt;no_ws_ctl&gt;       [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x08\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x1f\x7f</span><span class="sb">])</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb">   (?&lt;alpha&gt;           [A-Za-z])</span>
-</span><span class='line'><span class="sb">   (?&lt;digit&gt;           [0-9])</span>
-</span><span class='line'><span class="sb">   (?&lt;crlf&gt;            </span><span class="se">\x0d</span><span class="sb"> </span><span class="se">\x0a</span><span class="sb">)</span>
-</span><span class='line'><span class="sb">   (?&lt;dquote&gt;          &quot;)</span>
-</span><span class='line'><span class="sb">   (?&lt;wsp&gt;             [</span><span class="se">\x20\x09</span><span class="sb">])</span>
-</span><span class='line'><span class="sb"> )</span>
-</span><span class='line'>
-</span><span class='line'><span class="sb"> (?&amp;address;)/x</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p> I couldn&#8217;t even imagine that the matter is <em>this</em> complex.</p>
 ]]></content>
   </entry>
   

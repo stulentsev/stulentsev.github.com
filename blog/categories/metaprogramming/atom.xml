@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: metaprogramming | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/metaprogramming/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
+    <updated>2012-10-21T16:30:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
+    <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
+produces this output from this code?</p>
+
+<p>``` ruby
+module Foo
+  def hello</p>
+
+<pre><code>super if defined? super
+puts "foo"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Bar
+  include Foo</p>
+
+<p>  def hello</p>
+
+<pre><code>super if defined? super
+puts 'bar'
+</code></pre>
+
+<p>  end</p>
+
+<p>end</p>
+
+<p>bar = Bar.new
+bar.hello</p>
+
+<h1>>> foo</h1>
+
+<h1>>> bar</h1>
+
+<p>```</p>
+
+<p>The algorithm for method lookups can be summarized in one sentence: "one step to the right,
+then up". This is referring a specific visualization of objects and classes relationships,
+where we place object's class to the right from the object, and place ancestor of a class
+above it.</p>
+
+<!-- more -->
+
+
+<p><img src="/images/uploads/2012/10/lookup1.png"></p>
+
+<p>It's important to understand that instances in ruby do not hold methods, only classes do.
+At the same time we're able to enhance <strong>specific objects</strong> with additional methods, that
+other objects of the same class will not have. Look:</p>
+
+<p>``` ruby
+module Foo
+  def hello</p>
+
+<pre><code>super if defined? super
+"foo"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Bar
+end</p>
+
+<p>bar1 = Bar.new
+bar1.extend Foo</p>
+
+<p>bar2 = Bar.new</p>
+
+<p>bar1.ancestors #
+bar1.hello # => "foo"
+bar2.hello # =></p>
+
+<h1>~> -:17:in <code>&lt;main&gt;': undefined method</code>hello' for #&lt;Bar:0x007f858210a1d0> (NoMethodError)</h1>
+
+<p>```</p>
+
+<p>Here <code>bar2</code> instance does not have a <code>hello</code> method, while <code>bar1</code> does have it. This means
+that <code>hello</code> method can't be in <code>bar1</code> instance itself (remember, instances don't contain
+methods), but it also can't be in <code>Bar</code> class, because then <code>bar2</code> would also have it. So,
+where is that method located?</p>
+
+<p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
+class is where all those per-instance methods go. You won't be able to see it in the
+ancestors chain, ruby hides it from you. But it's there. So, in this case the lookup goes
+like this:</p>
+
+<p><img src="/images/uploads/2012/10/lookup2.png"></p>
+
+<p>But what happens if <code>Bar</code> also defines a <code>hello</code> method? Which gets found and executed first?
+Can you tell by looking on the pictures above?</p>
+
+<p>``` ruby
+module Foo
+  def hello</p>
+
+<pre><code>super if defined? super
+puts "foo"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Bar
+  def hello</p>
+
+<pre><code>super if defined? super
+puts 'bar'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>bar1 = Bar.new
+bar1.extend Foo</p>
+
+<p>bar1.hello
+```</p>
+
+<p>That's right it will print "bar", then "foo". Why? Because <code>Foo#hello</code> will be injected
+<em>before</em> <code>Bar#hello</code> in the ancestors chain. It will go into that dynamic unique class
+(which is called <em>eigenclass</em>, by the way). Here's the lookup flow:</p>
+
+<p><img src="/images/uploads/2012/10/lookup3.png"></p>
+
+<p>Method from <code>Foo</code> is found first and it calls super, which is the version in <code>Bar</code> class.
+This version also tries to call <code>super</code> (there isn't one), then prints "bar" and returns
+control to <code>Foo#hello</code> which prints "foo".</p>
+
+<p>Now you see, it's a simple algorithm. But it can be really puzzling if you don't know about
+eigenclasses.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Define module programmatically]]></title>
+    <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
+    <updated>2012-04-02T03:14:50+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
+    <content type="html"><![CDATA[<p><code>ruby
+module Foo
+end
+</code></p>
+
+<p>Given a module <code>Foo</code>, how do you define a nested module <code>Bar</code>?</p>
+
+<p>``` ruby
+module Foo</p>
+
+<pre><code>module Bar
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>There's a number of ways. First, most obvious one is to eval a string.</p>
+
+<p>``` ruby
+module Foo
+end</p>
+
+<p>name = 'Bar'</p>
+
+<p>Foo.class_eval &lt;&lt;RUBY
+  module #{name}
+  end
+RUBY</p>
+
+<p>Foo::Bar # => Foo::Bar
+```</p>
+
+<p>While this certainly works and gets job done, it has some flaws. First, it's a string, so some editors and IDEs will get confused and lose coloring/completion. Second, there's no validation on module name. In best case, you'll get compiler error. In worst case, you'll get hard to track bugs.</p>
+
+<p>``` ruby
+module Foo
+end</p>
+
+<p>bar = Module.new
+Foo.const_set(:Bar, bar)</p>
+
+<p>Foo::Bar # => Foo::Bar
+```</p>
+
+<p>This one is better. You clearly state that you're going to set a constant, and module name is pretty restricted.</p>
+
+<p>Are there other ways to do this?</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby: how to override class method with a module]]></title>
+    <link href="http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module/"/>
+    <updated>2012-02-03T21:09:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module</id>
+    <content type="html"><![CDATA[<p>This seems to be a popular interview question. It indeed requires advanced knowledge of ruby.</p>
+
+<blockquote><p>You have a class with a class method. Write a module that, when included, will override that class method.</p></blockquote>
+
+<h3>Explanation of the problem</h3>
+
+<p>Now classic way of mixing in class methods is this (and it doesn't solve the problem, of course).</p>
+
+<p>``` ruby
+module FooModule
+  def self.included base</p>
+
+<pre><code>base.extend ClassMethods
+</code></pre>
+
+<p>  end</p>
+
+<p>  module ClassMethods</p>
+
+<pre><code>def bar
+  puts "module"
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Klass
+  include FooModule</p>
+
+<p>  def self.bar</p>
+
+<pre><code>puts 'class'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>Klass.bar #=> class
+```</p>
+
+<p>When modules are included or extended into a class, its methods are placed right above this class' methods in inheritance chain. This means that if we were to call <code>super</code> in that class method, it would print "module". But we don't want to touch original class definition, we want to alter it from outside.</p>
+
+<h3>So, can we do something?</h3>
+
+<p>Good for us, ruby has a concept of <a href="http://www.google.ru/search?ix=hca&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=ruby+open+classes">"open classes"</a>. This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can "opened" and new methods can be added to it, or old methods can be redefined. Let's look how it works.</p>
+
+<p>``` ruby
+class Klass
+  def self.bar</p>
+
+<pre><code>puts 'class'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>class Klass
+  def self.bar</p>
+
+<pre><code>puts 'class 2'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>Klass.bar #=> class 2
+```</p>
+
+<p>The second class definition does not overwrite previous one, it opens and alters it. In this case, it happened to define a method with the same name. This resulted in old method being overwritten by the new one. This works with any classes, even base library classes.</p>
+
+<p>``` ruby
+puts [1, 2, 3].to_s #=> [1, 2, 3]</p>
+
+<p>class Array
+  def to_s</p>
+
+<pre><code>"an array: #{join ', '}"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>puts [1, 2, 3].to_s #=> an array: 1, 2, 3
+```</p>
+
+<p>Or the same code can be rewritten as</p>
+
+<p>``` ruby
+puts [1, 2, 3].to_s #=> [1, 2, 3]</p>
+
+<p>Array.class_eval do
+  def to_s</p>
+
+<pre><code>"an array: #{join ', '}"
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>puts [1, 2, 3].to_s #=> an array: 1, 2, 3
+```</p>
+
+<h3>Applying the knowledge</h3>
+
+<p>Let's start with simpler things, like overriding an instance method.</p>
+
+<p>``` ruby
+class Klass
+  def say</p>
+
+<pre><code>puts 'class'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>module FooModule
+  def self.included base</p>
+
+<pre><code>base.class_eval do
+  def say
+    puts "module"
+  end
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>Klass.send(:include, FooModule)</p>
+
+<p>Klass.new.say #=> module
+```</p>
+
+<p>Modules have a special callback that gets called every time a module is included in a class. We can use that to call class_eval on that class and redefine a method.</p>
+
+<p>Replacing a class method is done in a similar way.</p>
+
+<p>``` ruby
+class Klass
+  def self.say</p>
+
+<pre><code>puts 'class'
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>module FooModule
+  def self.included base</p>
+
+<pre><code>base.instance_eval do
+  def say
+    puts "module"
+  end
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>Klass.send(:include, FooModule)</p>
+
+<p>Klass.say #=> module
+```
+The only difference here is that we call instance_eval instead of class_eval. This can be a very confusing part. In short, class_eval creates instance methods and instance_eval creates class methods.</p>
+]]></content>
+  </entry>
+  
+</feed>

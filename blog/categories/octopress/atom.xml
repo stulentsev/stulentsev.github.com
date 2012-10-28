@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-28T15:25:53+04:00</updated>
+  <updated>2012-10-28T17:46:45+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,91 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
+    <link href="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/"/>
+    <updated>2012-09-03T17:00:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects</id>
+    <content type="html"><![CDATA[<p>Okay, I probably can't avoid writing the obligatory migration article :) If in the
+migration process you decided to also change the domain name, then this article is for you.
+If your domain name is the same, only the hosting is different, then you should set up a
+<a href="http://octopress.org/docs/deploying/github/">CNAME</a>. If you wiped Wordpress and installed
+Octopress in its stead, then this article is useless to you, move on.</p>
+
+<!-- more -->
+
+
+<p>We want to set up a good 301 redirect, such that will take links to old blog posts and
+redirect them to corresponding posts on the new domain. Redirection is good. It keeps
+search visitors happy (bots or humans).</p>
+
+<p>We can implement it using <code>mod_rewrite</code>. Wordpress already requires <code>mod_rewrite</code>, so
+we can count on its presence. Navigate to blog's root and look for file named <code>.htaccess</code>.
+It should have this (or similar) content:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>BEGIN WordPress&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;IfModule mod_rewrite.c>
+</span><span class='line'>RewriteEngine On
+</span><span class='line'>RewriteBase /blog/
+</span><span class='line'>RewriteRule ^index.php$ - [L]
+</span><span class='line'>RewriteCond %{REQUEST_FILENAME} !-f
+</span><span class='line'>RewriteCond %{REQUEST_FILENAME} !-d
+</span><span class='line'>RewriteRule . /blog/index.php [L]
+</span><span class='line'>&lt;/IfModule>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>END WordPress&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>We don't need all this, because we won't be using Wordpress anymore. Replace it with this
+snippet</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;IfModule mod_rewrite.c>
+</span><span class='line'>Options +FollowSymlinks
+</span><span class='line'>RewriteEngine On
+</span><span class='line'>RewriteCond %{HTTP_HOST} ^example.com [NC]
+</span><span class='line'>RewriteRule ^(.*)$ http://blog.example2.com/$1 [L,R=301]&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>RewriteCond %{HTTP_HOST} ^www.example.com [NC]
+</span><span class='line'>RewriteRule ^(.*)$ http://blog.example2.com/$1 [L,R=301]
+</span><span class='line'>&lt;/IfModule></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>In short, these two rules take any URL from the old domain (with or without <code>www</code>) and
+replace domain name to a new one.</p>
+
+<p>If your octopress blog is functioning on the new domain, no more actions are required. It
+should work already.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to automatically open new octopress post in editor?]]></title>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: stackoverflow | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/stackoverflow/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Can I haz a gem?]]></title>
+    <link href="http://tech.tulentsev.com/2012/04/can-i-haz-a-gem/"/>
+    <updated>2012-04-05T11:23:48+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/04/can-i-haz-a-gem</id>
+    <content type="html"><![CDATA[<p>Back when I was just starting to program, we used to joke about Delphi coders.</p>
+
+<blockquote><p>A Delphi coder wants to build a tool for cheating in games (read/write memory of another process). So, before writing a single line of code he goes to a forum and asks: "Are there ready-made components for building game cheating tools?"</p></blockquote>
+
+<p>I guess, this happens to every widely adopted technology that has plugins/libraries. <a href="http://stackoverflow.com/questions/10022215/building-an-auction-with-ruby-on-rails">An example</a>.</p>
+
+<p><img src="http://tech.tulentsev.com/images/uploads/2012/04/screenshot_2012_04_05_071714.png" alt="Screenshot 2012 04 05 07.17.14" /></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: data-structures | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/data-structures/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-10-28T17:46:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Probabilistic sets in Redis (almost magic)]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
+    <updated>2012-10-16T00:18:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
+    <content type="html"><![CDATA[<p>A very interesting topic was posted today in Redis google group, called
+<a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">"Set Sketch Implementation"</a>.</p>
+
+<blockquote><p>One nice application of set sketches is efficient storage and retrieval of analytics-type data: if you want to count the number of distinct users who have performed specific actions in your system ("visited page X", "pressed button Y", "followed user Z", etc.) you're quickly overwhelmed with the amount of memory needed to store even bit vectors representing all events for all users. Bloom counters are sometimes used for this sort of thing, but they still require a significant investment in space and the results of individual counters can't be easily/efficiently combined.</p>
+
+<p>HyperLogLog is a good alternative when you don't need exact counts: with a small, fixed amount of space per counter, it can yield good estimates of set cardinality - usually to within 2% of the actual count. In addition, the counters can be combined and queried at little extra cost, so that you can compute estimates to queries like "how many users visited page X and pressed button Y" or "how many users follow either user W or user Z" in real time. All of the operations take O(1) time and space in the cardinality of the sets being represented. Adding an element to a set sketch is particularly fast, essentially just the cost of applying a hash function to the element.</p></blockquote>
+
+<p>Now that I know about this technology, I desperately want it. I could really use that
+because my current app has a lot of sets, and some of them can get pretty large. Being
+able to use constant size is a huge relief, because you can correctly estimate amount of
+memory taken by Redis. And being able to combine them (UNION/INTER) is priceless.</p>
+
+<p>The only thing that is not clear to me is how this will play along with upcoming Redis Cluster.
+Single key operations are OK, of course, but what about multiple key ops?</p>
+
+<p>I really hope that Salvatore will not reject this functionality :)</p>
+]]></content>
+  </entry>
+  
+</feed>
