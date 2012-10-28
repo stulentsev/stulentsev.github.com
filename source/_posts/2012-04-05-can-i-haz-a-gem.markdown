@@ -5,8 +5,8 @@ layout: post
 slug: can-i-haz-a-gem
 title: Can I haz a gem?
 wordpress_id: 364
-tags:
-- programming
+categories: programming stackoverflow
+keywords: stackoverflow programming newbie
 ---
 
 Back when I was just starting to program, we used to joke about Delphi coders.

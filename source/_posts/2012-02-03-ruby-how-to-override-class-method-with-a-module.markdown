@@ -5,9 +5,7 @@ layout: post
 slug: ruby-how-to-override-class-method-with-a-module
 title: 'Ruby: how to override class method with a module'
 wordpress_id: 298
-tags:
-- metaprogramming
-- ruby
+categories: ruby metaprogramming
 ---
 
 This seems to be a popular interview question. It indeed requires advanced knowledge of ruby.

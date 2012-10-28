@@ -3,7 +3,7 @@ layout: post
 title: "Object extensions and method lookups in Ruby"
 date: 2012-10-21 16:30
 comments: true
-categories: 
+categories: ruby metaprogramming
 ---
 
 Method lookup is an interesting topic in Ruby. For example, exactly what happens that 

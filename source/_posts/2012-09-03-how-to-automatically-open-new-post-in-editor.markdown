@@ -3,7 +3,8 @@ layout: post
 title: "How to automatically open new octopress post in editor?"
 date: 2012-09-03 15:51
 comments: true
-categories: octopress
+categories: octopress tweaking
+keywords: octopress tweaking wordpress blog engine post editor
 ---
 
 Recently I discovered [Octopress](http://octopress.org) and instead of writing another 

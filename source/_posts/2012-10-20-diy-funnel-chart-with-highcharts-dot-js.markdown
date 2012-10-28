@@ -3,8 +3,8 @@ layout: post
 title: "DIY: funnel chart"
 date: 2012-10-20 20:02
 comments: true
-keywords: funnel, chart, highcharts
-categories: 
+keywords: funnel chart highcharts
+categories: clientside charts
 ---
 
 Recently I came across this excellent way of visualizing a funnel. It's simple, informative

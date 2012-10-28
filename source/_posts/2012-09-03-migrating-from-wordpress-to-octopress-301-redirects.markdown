@@ -4,7 +4,8 @@ title: "Migrating from Wordpress to Octopress - 301 redirects"
 date: 2012-09-03 17:00
 comments: true
 author: Sergio Tulentsev
-categories: 
+categories: octopress administration wordpress
+keywords: octopress migration github page redirect wordpress
 ---
 
 Okay, I probably can't avoid writing the obligatory migration article :) If in the 

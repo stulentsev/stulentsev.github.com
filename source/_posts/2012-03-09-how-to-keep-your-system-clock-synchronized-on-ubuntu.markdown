@@ -5,9 +5,7 @@ layout: post
 slug: how-to-keep-your-system-clock-synchronized-on-ubuntu
 title: How to keep your system clock synchronized on Ubuntu?
 wordpress_id: 309
-tags:
-- administration
-- ubuntu
+categories: ubuntu administration
 ---
 
 Your server's hardware clock isn't perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There's a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It's called ntpdate

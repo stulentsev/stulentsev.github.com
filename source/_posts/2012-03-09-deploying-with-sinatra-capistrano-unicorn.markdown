@@ -5,11 +5,8 @@ layout: post
 slug: deploying-with-sinatra-capistrano-unicorn
 title: Deploying with Sinatra + Capistrano + Unicorn
 wordpress_id: 323
-tags:
-- capistrano
-- ruby
-- sinatra
-- unicorn
+categories: ruby programming deploying
+tags: capistrano ruby sinatra unicorn
 ---
 
 Today we'll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let's think of a stupid name for this project. What about "sincapun"? Any objections? Good, let's proceed.

@@ -5,8 +5,8 @@ layout: post
 slug: ruby-forin-loop
 title: 'Ruby: for..in loop'
 wordpress_id: 349
-tags:
-- ruby
+categories: ruby programming
+
 ---
 
 You live to learn every day. Today I discovered `for..in` loop in ruby. When I saw it in a question on [stackoverflow](http://stackoverflow.com), I was like "Hey, dude, this is ruby, not javascript!" in my head. But, apparently, it's legal ruby :)

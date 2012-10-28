@@ -3,7 +3,8 @@ layout: post
 title: "resque-multi-job-forks is finally updated"
 date: 2012-09-16 09:00
 comments: true
-categories: opensource
+categories: opensource resque
+keywords: github resque open source job fork
 ---
 
 I was using [resque-multi-job-forks](https://github.com/staugaard/resque-multi-job-forks/)

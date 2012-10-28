@@ -5,6 +5,7 @@ layout: post
 slug: how-to-quickly-lock-screen-in-mac-os-x
 title: How to quickly lock screen in Mac OS X?
 wordpress_id: 291
+categories: super-user mac-osx
 ---
 
 I am tired of googling the same information over and over, so I am posting it here.

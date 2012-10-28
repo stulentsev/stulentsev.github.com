@@ -1,9 +1,10 @@
 ---
 layout: post
-title: "Probabilistic sets in Redis"
+title: "Probabilistic sets in Redis (almost magic)"
 date: 2012-10-16 00:18
 comments: true
-categories: 
+categories: redis data-structures
+keywords: redis set sketch cluster hyperloglog
 ---
 
 A very interesting topic was posted today in Redis google group, called 

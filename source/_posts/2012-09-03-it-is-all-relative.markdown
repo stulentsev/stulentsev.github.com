@@ -3,7 +3,8 @@ layout: post
 title: "It is all relative"
 date: 2012-09-03 15:50
 comments: true
-categories: 
+categories: javascript programming
+keywords: javascript node.js book advanced
 ---
 
 I remember reading my first book on Javascript. It was covering Javascript 1.0 and included

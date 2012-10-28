@@ -3,7 +3,8 @@ layout: post
 title: "Ruby gem for MurmurHash 3"
 date: 2012-10-16 20:44
 comments: true
-categories: 
+categories: ruby
+keywords: murmur murmur3 hash ruby 
 ---
 
 Still driven by [that post](http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/),

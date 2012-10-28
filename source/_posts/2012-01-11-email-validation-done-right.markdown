@@ -5,6 +5,9 @@ layout: post
 slug: email-validation-done-right
 title: Email validation done right
 wordpress_id: 289
+categories: programming
+tags: email validation
+keywords: email validation regex regexp
 ---
 
 Let's imagine that you have to check if a string is a valid email. You could come up with something like:

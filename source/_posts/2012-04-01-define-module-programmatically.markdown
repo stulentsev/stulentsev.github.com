@@ -5,9 +5,7 @@ layout: post
 slug: define-module-programmatically
 title: Define module programmatically
 wordpress_id: 354
-tags:
-- metaprogramming
-- ruby
+categories: ruby metaprogramming
 ---
 
 ``` ruby

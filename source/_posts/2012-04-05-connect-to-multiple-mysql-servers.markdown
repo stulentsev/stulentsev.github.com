@@ -9,6 +9,8 @@ tags:
 - active-record
 - mysql
 - ruby
+categories: mysql scalability
+keywords: mysql multiple connection scalability
 ---
 
 You know how everyone is obsessed these days with scalability? Well, I am too. There's a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:

@@ -5,9 +5,9 @@ layout: post
 slug: mongoid-db-system-namespaces-queries
 title: Mongoid, db.system.namespaces queries
 wordpress_id: 295
-tags:
-- MongoDb
-- MongoId
+categories: ruby mongodb
+tags: ruby mongodb mongoid
+keywords: ruby mongoid mongodb resque
 ---
 
 Recently I faced some issues with [Mongoid](http://mongoid.org) when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.

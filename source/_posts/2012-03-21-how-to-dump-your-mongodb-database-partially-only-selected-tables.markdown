@@ -5,9 +5,7 @@ layout: post
 slug: how-to-dump-your-mongodb-database-partially-only-selected-tables
 title: How to dump your MongoDB database partially (only selected tables)
 wordpress_id: 335
-tags:
-- bash
-- MongoDb
+categories: bash mongodb administration
 ---
 
 Let's say you want to dump your MongoDB database. There's a handy tool that does just that, **mongodump**.

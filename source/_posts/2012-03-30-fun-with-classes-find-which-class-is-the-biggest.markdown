@@ -5,8 +5,7 @@ layout: post
 slug: fun-with-classes-find-which-class-is-the-biggest
 title: 'Fun with classes: find which class is the biggest :)'
 wordpress_id: 343
-tags:
-- ruby
+categories: ruby programming
 ---
 
 Did you know that in Ruby you can compare classes with 'less-than' and 'greater-than' operators? I did not (until today). Observe:
