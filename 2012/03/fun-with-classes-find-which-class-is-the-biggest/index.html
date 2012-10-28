@@ -248,8 +248,10 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" data-via="" data-counturl="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/" >Tweet</a>
   
+  
+  <div class="g-plusone" data-size="medium"></div>
   
   
 </div>
@@ -304,7 +306,32 @@
 </section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("stulentsev", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/stulentsev" class="twitter-follow-button" data-show-count="false">Follow @stulentsev</a>
+  
+</section>
 
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/115058022574940748667?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
 
 
 
@@ -341,6 +368,14 @@
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 

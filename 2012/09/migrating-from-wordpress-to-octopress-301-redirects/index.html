@@ -208,8 +208,10 @@ should work already.</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/" data-via="" data-counturl="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/" >Tweet</a>
   
+  
+  <div class="g-plusone" data-size="medium"></div>
   
   
 </div>
@@ -264,7 +266,32 @@ should work already.</p>
 </section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("stulentsev", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/stulentsev" class="twitter-follow-button" data-show-count="false">Follow @stulentsev</a>
+  
+</section>
 
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/115058022574940748667?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
 
 
 
@@ -301,6 +328,14 @@ should work already.</p>
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
 
 
 
