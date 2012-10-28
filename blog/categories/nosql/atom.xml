@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nosql | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/nosql/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-28T17:46:45+04:00</updated>
+  <updated>2012-10-28T17:51:25+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -20,7 +20,7 @@
     <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
     <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
 dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start
-inserting data into random collection and it will magically appear in the DB? Good news is:
+inserting data into random collection and it will magically appear in the DB? <strong>Good news is</strong>:
 it can be done.</p>
 
 <!-- more -->
