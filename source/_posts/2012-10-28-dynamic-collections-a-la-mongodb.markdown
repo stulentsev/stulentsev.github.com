@@ -10,7 +10,7 @@ description: how to create mysql collections dynamically, like in mongodb
 
 After having worked with MongoDB for a while, I really miss its dynamic features when 
 dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start
-inserting data into random collection and it will magically appear in the DB? Good news is: 
+inserting data into random collection and it will magically appear in the DB? **Good news is**: 
 it can be done.
 
 <!-- more -->
