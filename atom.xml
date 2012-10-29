@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-29T02:29:35+04:00</updated>
+  <updated>2012-10-29T10:56:43+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
+    <updated>2012-10-29T10:42:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
+    <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
+(or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
+I switched to Octopress without hesitation. But now I could use that feature. In case you
+don&#8217;t know, deferred posting allows you to write a post beforehand and schedule its release
+to some moment in future.</p>
+
+<p><img class="center" src="http://tech.tulentsev.com/images/uploads/2012/10/wp-datepicker.png"></p>
+
+<p>This functionality is kinda trivial if you use dynamic request processing and a database
+(like wordpress does). But with static sites it&#8217;s not at all that easy. So before
+implementing something myself, I decided to google for other works on this topic. Here&#8217;s
+a good article that I&#8217;ve found: <a href="http://instant-thinking.de/2012/08/03/synced-and-scheduled-blogging-with-octopress/#fnref:3">Synced and scheduled blogging with Octopress</a>.
+It also contains some links to other articles.</p>
+
+<p>In short, people write a daemon (or scheduled script) that checks your drafts from time to
+time. If a draft is due, it is copied to <code>_posts</code> directory and generate/deploy sequence
+is initiated.</p>
+
+<p>This, obviously, requires a computer that is always on and has actual content for the site.
+I don&#8217;t really like the idea of a daemon, but, I guess, this is a price you pay for using
+&#8220;blog engine for hackers&#8221;.</p>
+
+<p>Could this be implemented as an external web service? Is there an opportunity for a
+profitable startup? :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
@@ -1923,19 +1955,6 @@ air is still clean. :)</p>
 <p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
 
 <p>I am still not sure what&#8217;s happening here. I&#8217;ll update this post when I discover something.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to quickly lock screen in Mac OS X?]]></title>
-    <link href="http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/"/>
-    <updated>2012-01-27T21:28:28+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x</id>
-    <content type="html"><![CDATA[<p>I am tired of googling the same information over and over, so I am posting it here.</p>
-
-<p>To quickly lock your screen, press Ctrl+Shift+Eject.</p>
-
-<p>Also, you can press Fn+Ctrl+Eject to quickly restart your Mac, shut it down or put to sleep.</p>
 ]]></content>
   </entry>
   

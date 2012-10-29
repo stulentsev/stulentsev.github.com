@@ -4,7 +4,7 @@
   <title><![CDATA[Category: wordpress | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/wordpress/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-29T02:29:35+04:00</updated>
+  <updated>2012-10-29T10:56:43+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
+    <updated>2012-10-29T10:42:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
+    <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can't, is deferred posting
+(or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
+I switched to Octopress without hesitation. But now I could use that feature. In case you
+don't know, deferred posting allows you to write a post beforehand and schedule its release
+to some moment in future.</p>
+
+<p><img class="center" src="/images/uploads/2012/10/wp-datepicker.png"></p>
+
+<p>This functionality is kinda trivial if you use dynamic request processing and a database
+(like wordpress does). But with static sites it's not at all that easy. So before
+implementing something myself, I decided to google for other works on this topic. Here's
+a good article that I've found: <a href="http://instant-thinking.de/2012/08/03/synced-and-scheduled-blogging-with-octopress/#fnref:3">Synced and scheduled blogging with Octopress</a>.
+It also contains some links to other articles.</p>
+
+<p>In short, people write a daemon (or scheduled script) that checks your drafts from time to
+time. If a draft is due, it is copied to <code>_posts</code> directory and generate/deploy sequence
+is initiated.</p>
+
+<p>This, obviously, requires a computer that is always on and has actual content for the site.
+I don't really like the idea of a daemon, but, I guess, this is a price you pay for using
+"blog engine for hackers".</p>
+
+<p>Could this be implemented as an external web service? Is there an opportunity for a
+profitable startup? :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>

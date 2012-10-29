@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: administration - Byte Friendly</title>
+  <title>Deferred posting with Octopress - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Category: administration">
+  <meta name="description" content="One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
+(or scheduled blogging, whatever). I never really &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.comblog/categories/administration/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,64 +76,116 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Administration</h1>
+    
+      <h1 class="entry-title">Deferred Posting With Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T10:42:00+04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
+(or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
+I switched to Octopress without hesitation. But now I could use that feature. In case you
+don&#8217;t know, deferred posting allows you to write a post beforehand and schedule its release
+to some moment in future.</p>
 
-  
-  <h2>2012</h2>
+<p><img class="center" src="/images/uploads/2012/10/wp-datepicker.png"></p>
 
-<article>
-  
-<h1><a href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Migrating from Wordpress to Octopress - 301 redirects</a></h1>
-<time datetime="2012-09-03T17:00:00+04:00" pubdate><span class='month'>Sep</span> <span class='day'>03</span> <span class='year'>2012</span></time>
+<p>This functionality is kinda trivial if you use dynamic request processing and a database
+(like wordpress does). But with static sites it&#8217;s not at all that easy. So before
+implementing something myself, I decided to google for other works on this topic. Here&#8217;s
+a good article that I&#8217;ve found: <a href="http://instant-thinking.de/2012/08/03/synced-and-scheduled-blogging-with-octopress/#fnref:3">Synced and scheduled blogging with Octopress</a>.
+It also contains some links to other articles.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/administration/'>administration</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/wordpress/'>wordpress</a></span>
-</footer>
+<p>In short, people write a daemon (or scheduled script) that checks your drafts from time to
+time. If a draft is due, it is copied to <code>_posts</code> directory and generate/deploy sequence
+is initiated.</p>
 
+<p>This, obviously, requires a computer that is always on and has actual content for the site.
+I don&#8217;t really like the idea of a daemon, but, I guess, this is a price you pay for using
+&#8220;blog engine for hackers&#8221;.</p>
 
-</article>
-
-
-
-<article>
-  
-<h1><a href="/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/">How to dump your MongoDB database partially (only selected tables)</a></h1>
-<time datetime="2012-03-21T19:15:22+04:00" pubdate><span class='month'>Mar</span> <span class='day'>21</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/administration/'>administration</a>, <a class='category' href='/blog/categories/bash/'>bash</a>, <a class='category' href='/blog/categories/mongodb/'>mongodb</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/">How to keep your system clock synchronized on Ubuntu?</a></h1>
-<time datetime="2012-03-09T12:10:18+04:00" pubdate><span class='month'>Mar</span> <span class='day'>09</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/administration/'>administration</a>, <a class='category' href='/blog/categories/ubuntu/'>ubuntu</a></span>
-</footer>
-
-
-</article>
-
+<p>Could this be implemented as an external web service? Is there an opportunity for a
+profitable startup? :)</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T10:42:00+04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/wordpress/'>wordpress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/10/dynamic-collections-a-la-mongodb/" title="Previous Post: Dynamic collections a la MongoDB, but with MySQL">&laquo; Dynamic collections a la MongoDB, but with MySQL</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -213,7 +266,10 @@
       var disqus_shortname = 'software-and-computers';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
