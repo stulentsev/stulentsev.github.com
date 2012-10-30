@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-10-29T10:56:43+04:00</updated>
+  <updated>2012-10-30T04:06:23+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Is TextMate 2 ready for everyday coding? Let's find out.]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/"/>
+    <updated>2012-10-30T03:46:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out</id>
+    <content type="html"><![CDATA[<p>Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
+but I kept hearing about it. Never got to install the app.</p>
+
+<p>So, tonight I wasn&#8217;t able to fall asleep. I opened my macbook and started reading
+news. One thing led to another and the next thing I know, I&#8217;m installing alpha
+version of TextMate and a bundle for Go. Really, <a href="http://golang.org">Go</a>? I hope
+I won&#8217;t be too surprised tomorrow :)</p>
+
+<p>Okay, what&#8217;s new?</p>
+
+<ul>
+<li>If you open a file with unknown extension, TextMate will offer to install a
+  bundle for it, if there&#8217;s one.</li>
+<li>&#8220;Right margin&#8221; is now called &#8220;View -> Show Wrap Column&#8221;</li>
+<li>You can specify a default language for new files. 90% of my new files are Ruby
+  scripts, so it is a timesaver for me.</li>
+<li>New file browser. I&#8217;m not if I like it better or not.</li>
+<li>When you click on items in the file browser, they don&#8217;t open automatically. You have to double-click.</li>
+<li>Awesome new app icon! :)</li>
+</ul>
+
+
+<p>I will update this post when I find something new.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
@@ -1942,19 +1973,6 @@ air is still clean. :)</p>
 
 
 <p>The only difference here is that we call instance_eval instead of class_eval. This can be a very confusing part. In short, class_eval creates instance methods and instance_eval creates class methods.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mongoid, db.system.namespaces queries]]></title>
-    <link href="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/"/>
-    <updated>2012-02-03T20:12:54+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries</id>
-    <content type="html"><![CDATA[<p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
-
-<p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
-
-<p>I am still not sure what&#8217;s happening here. I&#8217;ll update this post when I discover something.</p>
 ]]></content>
   </entry>
   

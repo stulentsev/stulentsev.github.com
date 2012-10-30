@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>MongoId and atomic increment - Byte Friendly</title>
+  <title>Is TextMate 2 ready for everyday coding? Let's find out. - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too &hellip;">
+  <meta name="description" content="Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
+but I kept hearing about it. Never got to install the app. So, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">MongoId and Atomic Increment</h1>
+      <h1 class="entry-title">Is TextMate 2 Ready for Everyday Coding? Let's Find Out.</h1>
     
     
       <p class="meta">
@@ -95,30 +96,36 @@
   
 
 
-<time datetime="2010-06-02T00:01:26+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
+<time datetime="2012-10-30T03:46:00+04:00" pubdate data-updated="true">Oct 30<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too comfortable. Plus we&#8217;re all hooked to ORM sweeteners. So people started developing ORM libraries for MongoDB and Ruby (<a href="http://mongoid.org">MongoId</a>, <a href="http://github.com/mongomapper/mongomapper">MongoMapper</a> to name a few).</p>
+<div class="entry-content"><p>Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
+but I kept hearing about it. Never got to install the app.</p>
 
-<p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
+<p>So, tonight I wasn&#8217;t able to fall asleep. I opened my macbook and started reading
+news. One thing led to another and the next thing I know, I&#8217;m installing alpha
+version of TextMate and a bundle for Go. Really, <a href="http://golang.org">Go</a>? I hope
+I won&#8217;t be too surprised tomorrow :)</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">spam_count</span> <span class="o">=</span> <span class="n">spam_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>Okay, what&#8217;s new?</p>
+
+<ul>
+<li>If you open a file with unknown extension, TextMate will offer to install a
+  bundle for it, if there&#8217;s one.</li>
+<li>&#8220;Right margin&#8221; is now called &#8220;View -> Show Wrap Column&#8221;</li>
+<li>You can specify a default language for new files. 90% of my new files are Ruby
+  scripts, so it is a timesaver for me.</li>
+<li>New file browser. I&#8217;m not if I like it better or not.</li>
+<li>When you click on items in the file browser, they don&#8217;t open automatically. You have to double-click.</li>
+<li>Awesome new app icon! :)</li>
+</ul>
 
 
-<p>Mongo Ruby driver supports this kind of operation, but MongoId doesn&#8217;t. So I was trying to get down to the driver. And this is what I couldn&#8217;t easily find in the docs. If you&#8217;re like me, I&#8217;ll save you a couple of hours. Here it is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assume we know object id already</span>
-</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p>I will update this post when I find something new.</p>
 </div>
 
 
@@ -141,21 +148,15 @@
   
 
 
-<time datetime="2010-06-02T00:01:26+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
+<time datetime="2012-10-30T03:46:00+04:00" pubdate data-updated="true">Oct 30<span>th</span>, 2012</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/database/'>Database</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -166,10 +167,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2009/05/intuitive-behaviour/" title="Previous Post: Intuitive behaviour">&laquo; Intuitive behaviour</a>
+        <a class="basic-alignment left" href="/2012/10/deferred-posting-with-octopress/" title="Previous Post: Deferred posting with Octopress">&laquo; Deferred posting with Octopress</a>
       
-      
-        <a class="basic-alignment right" href="/2010/06/atomic-updates-part-2/" title="Next Post: Atomic updates, part 2">Atomic updates, part 2 &raquo;</a>
       
     </p>
   </footer>
@@ -261,8 +260,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/';
-        var disqus_url = 'http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/';
         var disqus_script = 'embed.js';
       
     (function () {
