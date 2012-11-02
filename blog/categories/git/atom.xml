@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/git/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-11-02T17:23:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Pretty log in Git]]></title>
+    <link href="http://tech.tulentsev.com/2012/11/pretty-log-in-git/"/>
+    <updated>2012-11-02T17:11:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/11/pretty-log-in-git</id>
+    <content type="html"><![CDATA[<p>Here's what default <code>git log</code> output looks like</p>
+
+<p><img class="center" src="/images/uploads/2012/11/git-ugly.png"></p>
+
+<p>While it is sure contains the information and is easily parsable by a machine, it's
+not the best way to present it to a human. Luckily, the <code>git log</code> commands is quite
+customizable. Try this, for example:</p>
+
+<pre><code>git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+</code></pre>
+
+<p><img class="center" src="/images/uploads/2012/11/git-pretty.png"></p>
+
+<p>You can even set make an alias for it:</p>
+
+<pre><code>git config --global --add alias.plog "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+</code></pre>
+
+<p>And then you just call</p>
+
+<pre><code>git plog
+</code></pre>
+
+<p>Happy gitting!</p>
+]]></content>
+  </entry>
+  
+</feed>

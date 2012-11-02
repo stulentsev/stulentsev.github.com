@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Today Elen, my manager, approached me and asked to make a prototype of a new functionality in our project management system. This is a reimbursement &hellip;">
+  <meta name="description" content="Iterations in software development. Tried to implement proper solution on the first try? I bet you failed. It&#8217;s like in Google Earth zooming in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,42 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/03/iterations-are-good/">Iterations Are Good</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-04T19:11:47+03:00" pubdate data-updated="true">Mar 4<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Iterations in software development. Tried to implement proper solution on the first try? I bet you failed. It&#8217;s like in Google Earth zooming in your house from the planet view. To achieve your goal, you&#8217;ve got to advance a little bit, adjust your position, advance further. Iterate until done.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -553,54 +589,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/10/windows-live-writer-wordpress-problems/">Windows Live Writer + Wordpress Problems</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-10-31T00:37:23+03:00" pubdate data-updated="true">Oct 31<span>st</span>, 2008</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I installed this copy of Wordpress this evening and decided to add to Live Writer. But I&#8217;ve ran into problem almost immediately. While trying to auto-detect my editing style, blog name and who knows what else, Live Writer kept annoying me with this message: &#8221;<strong>Invalid Server Response - The response to the blogger.getUsersBlogs method received from the weblog server was invalid</strong>&#8221;.</p>
-
-<p>I hit Ctrl-Ctrl (very handy shortcut of Google Desktop, that summons search bar) and pasted the error text there. First, I came across <a href="http://kannan.jumbledthoughts.com/index.php/windows-live-writer-problems-with-wordpress-how-to-fix/">this article</a>. I followed every step in it (some of them twice :-) ), but it didn&#8217;t help. So I kept searching.</p>
-
-<p>Then I found <a href="http://wlwplugins.com/how-to-fix-invalid-bloggergetusersblogs-method-response.php">this interesting site</a>. Performing this step didn&#8217;t help me either. I have installed <a href="http://www.fiddlertool.com/fiddler/">Fiddler</a> and it finally shed some light on the problem. There was an error while requesting xmlrpc.php (which is used by external systems, such as WLW, to talk to Wordpress).</p>
-
-<blockquote><p><strong>Warning</strong>: include_once(/home/tulentse/public_html/blog_technical/wp-includes/class-IXR.php) [function.include-once]: failed to open stream: No such file or directory in <strong>/home/tulentse/public_html/blog_technical/xmlrpc.php</strong> on line <strong>55</strong>      <br/>
-<strong>Warning</strong>: include_once() [function.include]: Failed opening &#8216;/home/tulentse/public_html/blog_technical/wp-includes/class-IXR.php&#8217; for inclusion (include_path=&#8217;.:/usr/lib/php:/usr/local/lib/php&#8217;) in <strong>/home/tulentse/public_html/blog_technical/xmlrpc.php</strong> on line <strong>55</strong>      <br/>
-<strong>Fatal error</strong>: Class &#8216;IXR_Server&#8217; not found in <strong>/home/tulentse/public_html/blog_technical/xmlrpc.php</strong> on line <strong>108</strong></p></blockquote>
-
-<p>I navigated to that file and saw that the name is in lower case (and case matters on Unix-based systems). It was joint effort of me, who checked &#8220;Convert filenames to lower case&#8221; option and Total Commander who did what I told him.</p>
-
-<p>Now everyone&#8217;s happy :-)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -618,6 +606,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/11/pretty-log-in-git/">Pretty log in Git</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/">Is TextMate 2 ready for everyday coding? Let&#8217;s find out.</a>
       </li>
     
@@ -631,10 +623,6 @@
     
       <li class="post">
         <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object extensions and method lookups in Ruby</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">DIY: funnel chart</a>
       </li>
     
   </ul>

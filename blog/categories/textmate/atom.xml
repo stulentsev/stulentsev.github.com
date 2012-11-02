@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: textmate | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/textmate/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-11-02T17:23:45+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Is TextMate 2 ready for everyday coding? Let's find out.]]></title>
+    <link href="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/"/>
+    <updated>2012-10-30T03:46:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out</id>
+    <content type="html"><![CDATA[<p>Oh, the TextMate 2 we all waited for so long. Okay, I wasn't really waiting,
+but I kept hearing about it. Never got to install the app.</p>
+
+<p>So, tonight I wasn't able to fall asleep. I opened my macbook and started reading
+news. One thing led to another and the next thing I know, I'm installing alpha
+version of TextMate and a bundle for Go. Really, <a href="http://golang.org">Go</a>? I hope
+I won't be too surprised tomorrow :)</p>
+
+<p>Okay, what's new?</p>
+
+<ul>
+<li>If you open a file with unknown extension, TextMate will offer to install a
+  bundle for it, if there's one.</li>
+<li>"Right margin" is now called "View -> Show Wrap Column"</li>
+<li>You can specify a default language for new files. 90% of my new files are Ruby
+  scripts, so it is a timesaver for me.</li>
+<li>New file browser. I'm not if I like it better or not.</li>
+<li>When you click on items in the file browser, they don't open automatically. You have to double-click.</li>
+<li>Awesome new app icon! :)</li>
+</ul>
+
+
+<p>I will update this post when I find something new.</p>
+]]></content>
+  </entry>
+  
+</feed>
