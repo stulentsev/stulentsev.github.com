@@ -3,7 +3,7 @@ layout: post
 title: "Is TextMate 2 ready for everyday coding? Let's find out."
 date: 2012-10-30 03:46
 comments: true
-categories: 
+categories: textmate
 ---
 
 Oh, the TextMate 2 we all waited for so long. Okay, I wasn't really waiting, 
