@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-11-02T17:23:45+04:00</updated>
+  <updated>2012-11-12T22:40:22+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Talking Capistrano is your friend]]></title>
+    <link href="http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend/"/>
+    <updated>2012-11-12T22:22:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend</id>
+    <content type="html"><![CDATA[<p>I want to share with you a small tweak I came up with a couple of days ago. As some of you
+know, Mac OS X includes a ton of very handy utilities. One of them is <code>say</code>. The name is
+pretty descriptive, you pass it a string and it voices it, using text-to-speech engine,
+that is built in Mac OS. Try it now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>say Hello world!
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use it anywhere where you can invoke shell commands. Here&#8217;s my capistrano
+after-hook, for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">after</span> <span class="s1">&#39;deploy&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="sb">`say Sire, our unicorns have been deployed`</span>
+</span><span class='line'>  <span class="c1"># note the backticks. This string is roughly equivalent to</span>
+</span><span class='line'>  <span class="c1"># system &quot;say Sire, our unicorns have been deployed&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I can launch my <code>cap deploy</code> (which can take minute or two) and go read Hacker News or
+whatever. I will be told when deploy is finished. I&#8217;m using this for a few days already
+and it still make me smile everytime. I should probably come up with more creative messages.</p>
+
+<p>Happy tweaking!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Pretty log in Git]]></title>
@@ -1730,42 +1769,6 @@ air is still clean. :)</p>
 <p>To access these unicorns from the internet, you need to put a reverse proxy in front of them. But that is another story.</p>
 
 <p>You can get a full copy of this code <a href="https://github.com/stulentsev/sincapun">from Github repo</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to keep your system clock synchronized on Ubuntu?]]></title>
-    <link href="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/"/>
-    <updated>2012-03-09T12:10:18+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu</id>
-    <content type="html"><![CDATA[<p>Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There&#8217;s a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It&#8217;s called ntpdate</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo ntpdate ntp.ubuntu.com
-</span><span class='line'> 9 Mar 03:59:12 ntpdate<span class="o">[</span>7225<span class="o">]</span>: step <span class="nb">time </span>server 91.189.94.4 offset 179.440440 sec
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let&#8217;s add an hourly cron job. Create a file called &#8216;ntpdate&#8217; (for example) at &#8216;/etc/cron.hourly&#8217; with this content:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/sh</span>
-</span><span class='line'>
-</span><span class='line'>ntpdate ntp.ubuntu.com
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We don&#8217;t need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/cron.hourly/ntpdate
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&#8217;re all set now. Come back a few days later and verify that clock doesn&#8217;t deviate as much anymore.</p>
 ]]></content>
   </entry>
   

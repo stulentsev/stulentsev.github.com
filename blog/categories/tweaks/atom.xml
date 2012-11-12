@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tweaks | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/tweaks/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-11-12T22:40:22+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Talking Capistrano is your friend]]></title>
+    <link href="http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend/"/>
+    <updated>2012-11-12T22:22:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend</id>
+    <content type="html"><![CDATA[<p>I want to share with you a small tweak I came up with a couple of days ago. As some of you
+know, Mac OS X includes a ton of very handy utilities. One of them is <code>say</code>. The name is
+pretty descriptive, you pass it a string and it voices it, using text-to-speech engine,
+that is built in Mac OS. Try it now:</p>
+
+<p><code>bash
+$ say Hello world!
+</code></p>
+
+<p>You can use it anywhere where you can invoke shell commands. Here's my capistrano
+after-hook, for example:</p>
+
+<p><code>ruby
+after 'deploy' do
+  `say Sire, our unicorns have been deployed`
+  # note the backticks. This string is roughly equivalent to
+  # system "say Sire, our unicorns have been deployed"
+end
+</code></p>
+
+<p>Now I can launch my <code>cap deploy</code> (which can take minute or two) and go read Hacker News or
+whatever. I will be told when deploy is finished. I'm using this for a few days already
+and it still make me smile everytime. I should probably come up with more creative messages.</p>
+
+<p>Happy tweaking!</p>
+]]></content>
+  </entry>
+  
+</feed>

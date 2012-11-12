@@ -9,8 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Here&#8217;s what default git log output looks like While it is sure contains the information and is easily parsable by a machine, it&#8217;s
-not the &hellip;">
+  <meta name="description" content="I want to share with you a small tweak I came up with a couple of days ago. As some of you
+know, Mac OS X includes a ton of very handy utilities. One &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,72 @@ not the &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano Is Your Friend</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T22:22:00+04:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I want to share with you a small tweak I came up with a couple of days ago. As some of you
+know, Mac OS X includes a ton of very handy utilities. One of them is <code>say</code>. The name is
+pretty descriptive, you pass it a string and it voices it, using text-to-speech engine,
+that is built in Mac OS. Try it now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>say Hello world!
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use it anywhere where you can invoke shell commands. Here&#8217;s my capistrano
+after-hook, for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">after</span> <span class="s1">&#39;deploy&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="sb">`say Sire, our unicorns have been deployed`</span>
+</span><span class='line'>  <span class="c1"># note the backticks. This string is roughly equivalent to</span>
+</span><span class='line'>  <span class="c1"># system &quot;say Sire, our unicorns have been deployed&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I can launch my <code>cap deploy</code> (which can take minute or two) and go read Hacker News or
+whatever. I will be told when deploy is finished. I&#8217;m using this for a few days already
+and it still make me smile everytime. I should probably come up with more creative messages.</p>
+
+<p>Happy tweaking!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -621,51 +687,6 @@ fork has reached its limit.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Migrating From Wordpress to Octopress - 301 Redirects</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-03T17:00:00+04:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Okay, I probably can&#8217;t avoid writing the obligatory migration article :) If in the
-migration process you decided to also change the domain name, then this article is for you.
-If your domain name is the same, only the hosting is different, then you should set up a
-<a href="http://octopress.org/docs/deploying/github/">CNAME</a>. If you wiped Wordpress and installed
-Octopress in its stead, then this article is useless to you, move on.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -681,6 +702,10 @@ Octopress in its stead, then this article is useless to you, move on.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/11/pretty-log-in-git/">Pretty log in Git</a>
       </li>
     
@@ -694,10 +719,6 @@ Octopress in its stead, then this article is useless to you, move on.</p>
     
       <li class="post">
         <a href="/2012/10/dynamic-collections-a-la-mongodb/">Dynamic collections a la MongoDB, but with MySQL</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object extensions and method lookups in Ruby</a>
       </li>
     
   </ul>

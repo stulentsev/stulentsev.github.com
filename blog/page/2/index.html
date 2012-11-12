@@ -9,8 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Recently I discovered Octopress and instead of writing another
-article on how to migrate to it from Wordpress, I decided to do something else. And, &hellip;">
+  <meta name="description" content="Okay, I probably can&#8217;t avoid writing the obligatory migration article :) If in the
+migration process you decided to also change the domain name &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,51 @@ article on how to migrate to it from Wordpress, I decided to do something else. 
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Migrating From Wordpress to Octopress - 301 Redirects</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-03T17:00:00+04:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Okay, I probably can&#8217;t avoid writing the obligatory migration article :) If in the
+migration process you decided to also change the domain name, then this article is for you.
+If your domain name is the same, only the hosting is different, then you should set up a
+<a href="http://octopress.org/docs/deploying/github/">CNAME</a>. If you wiped Wordpress and installed
+Octopress in its stead, then this article is useless to you, move on.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2012/09/migrating-from-wordpress-to-octopress-301-redirects/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -1204,69 +1249,6 @@ air is still clean. :)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/">How to Keep Your System Clock Synchronized on Ubuntu?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-09T12:10:18+04:00" pubdate data-updated="true">Mar 9<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There&#8217;s a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It&#8217;s called ntpdate</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo ntpdate ntp.ubuntu.com
-</span><span class='line'> 9 Mar 03:59:12 ntpdate<span class="o">[</span>7225<span class="o">]</span>: step <span class="nb">time </span>server 91.189.94.4 offset 179.440440 sec
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let&#8217;s add an hourly cron job. Create a file called &#8216;ntpdate&#8217; (for example) at &#8216;/etc/cron.hourly&#8217; with this content:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/sh</span>
-</span><span class='line'>
-</span><span class='line'>ntpdate ntp.ubuntu.com
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We don&#8217;t need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/cron.hourly/ntpdate
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We&#8217;re all set now. Come back a few days later and verify that clock doesn&#8217;t deviate as much anymore.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1284,6 +1266,10 @@ air is still clean. :)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/11/pretty-log-in-git/">Pretty log in Git</a>
       </li>
     
@@ -1297,10 +1283,6 @@ air is still clean. :)</p>
     
       <li class="post">
         <a href="/2012/10/dynamic-collections-a-la-mongodb/">Dynamic collections a la MongoDB, but with MySQL</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object extensions and method lookups in Ruby</a>
       </li>
     
   </ul>
