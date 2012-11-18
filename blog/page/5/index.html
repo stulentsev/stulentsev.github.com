@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am trying to make a small Silverlight control that talks to PHP server. Sometimes problems arise and I have to deal with them myself, since there&# &hellip;">
+  <meta name="description" content="Sometimes, you may get not-very-descriptive System.Security.SecurityException. Stack trace tells you that something bad happened somewhere inside &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/11/silverlight-security-error/">Silverlight: Security Error</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-24T10:18:17+03:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Sometimes, you may get not-very-descriptive <em>System.Security.SecurityException</em>. Stack trace tells you that something bad happened somewhere inside <em>EndGetResponse</em>, and that&#8217;s it, no more details. One possible cause is this: in a Silverlight project you may tell it to generate a temporary page that will host your application.</p>
+
+<p><a href="http://tech.tulentsev.com/images/uploads/2008/11/image.png"><img src="http://tech.tulentsev.com/images/uploads/2008/11/image-thumb.png" alt="image" /></a></p>
+
+<p>And if your application sends requests to some host (a linux virtual box, in my case), this will be the source of pain. The dynamically generated page gets loaded to Internet Explorer as <a href="file://your_path/TestPage.html">file://your_path/TestPage.html</a>. And you are trying to reach HTTP(S) host. This cross-scheme behavior is not allowed.</p>
+
+<p>For more information, see <a href="http://msdn.microsoft.com/en-us/library/cc645032(VS.95">this MSDN article</a>.aspx) and <a href="http://silverlight.net/forums/p/32198/101892.aspx">this forum thread</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -276,6 +318,10 @@ Check it out:
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/11/my-un-success-story-of-colemak/">My (un)success story of Colemak</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
       </li>
     
@@ -289,10 +335,6 @@ Check it out:
     
       <li class="post">
         <a href="/2012/10/deferred-posting-with-octopress/">Deferred posting with Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/dynamic-collections-a-la-mongodb/">Dynamic collections a la MongoDB, but with MySQL</a>
       </li>
     
   </ul>

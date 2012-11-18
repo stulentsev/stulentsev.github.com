@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-11-12T22:40:22+04:00</updated>
+  <updated>2012-11-18T21:04:41+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My (un)success story of Colemak]]></title>
+    <link href="http://tech.tulentsev.com/2012/11/my-un-success-story-of-colemak/"/>
+    <updated>2012-11-18T20:29:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/11/my-un-success-story-of-colemak</id>
+    <content type="html"><![CDATA[<p>I&#8217;ve been hearing a lot about <a href="http://colemak.com/">Colemak</a> recently. It&#8217;s a (relatively) new keyboard layout, specially designed for efficient touch typing in English. Any description
+of Colemak (including this very post) is accompanied by a story, how QWERTY layout was specifically designed to <em>hinder</em> fast typing, so that typewriter bars don&#8217;t get stuck. Ok, cool story, let&#8217;s try this silver <s>bullet</s> layout.</p>
+
+<p>One of the advertised advantages of this layout is that &#8220;most&#8221; common QWERTY hotkeys are the same. Indeed, such hotkeys as select-all/cut/copy/paste didn&#8217;t move. Yes, this is an advantage for people who copy/paste text all day. But for us, coders, this is really a disadvantage, because some hotkeys are on the same keys, and others have moved. And worst of all, most hotkeys have changed their meaning.</p>
+
+<p>Let me illustrate. Most (all?) browsers in Mac OSX understands the same hotkeys:</p>
+
+<ul>
+<li>Cmd-T - open new tab</li>
+<li>Cmd-F - find</li>
+<li>Cmd-G - find next</li>
+<li>Cmd-S - save</li>
+</ul>
+
+
+<p>We&#8217;ve been using these hotkeys for years and now they are burned in our muscle memory. So, with Colemak, when you try to perform an action and you reach for the old key, you get completely different action instead.</p>
+
+<ul>
+<li>You tried Cmd-T (qwerty), you hit Cmd-G (colemak), action - &#8220;find next&#8221;</li>
+<li>Cmd-F, Cmd-E, &#8220;use selection for find&#8221; (chrome)</li>
+<li>Cmd-G, Cmd-D, &#8220;add bookmark&#8221;</li>
+<li>Cmd-S, Cmd-R, &#8220;reload&#8221;</li>
+</ul>
+
+
+<p>This is very, VERY frustrating to try search page content and keep adding bookmarks instead. Combine this with a fact that when you switch to a Russian layout, the hotkeys are the same as in QWERTY. So, essentially, you have to learn a whole new set of hotkeys for every program you use and always keep track of the current layout, or otherwise you&#8217;ll get unexpected results.</p>
+
+<p>Now, is it really worth it? Given the fact that programmer&#8217;s productivity is not based on how fast and for how long he can type, I&#8217;d say &#8220;Not really&#8221;. I average 370-450 CPM on QWERTY. This is far more than sufficient for everyday coding needs.</p>
+
+<p>Goodbye, Colemak. Hello again, QWERTY.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Talking Capistrano is your friend]]></title>
@@ -1392,383 +1430,6 @@ air is still clean. :)</p>
 
 
 <p>First line defines a bash array literal. <strong>Don&#8217;t use commas to delimit array elements</strong>, they&#8217;ll become part of the element. The <strong>${colls[@]}</strong> string means &#8220;all array elements&#8221; and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deploying with Sinatra + Capistrano + Unicorn]]></title>
-    <link href="http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn/"/>
-    <updated>2012-03-09T20:02:46+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn</id>
-    <content type="html"><![CDATA[<p>Today we&#8217;ll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let&#8217;s think of a stupid name for this project. What about &#8220;sincapun&#8221;? Any objections? Good, let&#8217;s proceed.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mkdir sincapun
-</span><span class='line'><span class="nb">cd </span>sincapun
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Minimal runnable version:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
-</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># sincapun.rb</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="s2">&quot;Hello world&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let&#8217;s see if we can run it&#8230;</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle <span class="nb">exec </span>ruby sincapun.rb
-</span><span class='line'><span class="o">[</span>2012-03-09 16:04:17<span class="o">]</span> INFO  WEBrick 1.3.1
-</span><span class='line'><span class="o">[</span>2012-03-09 16:04:17<span class="o">]</span> INFO  ruby 1.9.3 <span class="o">(</span>2012-02-16<span class="o">)</span> <span class="o">[</span>x86_64-darwin11.3.0<span class="o">]</span>
-</span><span class='line'><span class="o">==</span> Sinatra/1.3.2 has taken the stage on 4567 <span class="k">for </span>development with backup from WEBrick
-</span><span class='line'><span class="o">[</span>2012-03-09 16:04:17<span class="o">]</span> INFO  WEBrick::HTTPServer#start: <span class="nv">pid</span><span class="o">=</span>14871 <span class="nv">port</span><span class="o">=</span>4567
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>So far, so good. Now let&#8217;s convert it to modular app and create a proper rackup file.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sincapun.rb</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Sincapun</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
-</span><span class='line'>    <span class="s2">&quot;Hello world&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># config.ru</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./sincapun&#39;</span>
-</span><span class='line'><span class="n">run</span> <span class="no">Sincapun</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>At this point our app is runnable by every Rack-compatible server (thin, unicorn, &#8230;). Let&#8217;s add some Capistrano to it.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
-</span><span class='line'><span class="n">source</span> <span class="ss">:rubygems</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span>
-</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;unicorn&#39;</span>
-</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;capistrano&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>bundle install
-</span><span class='line'>Using highline <span class="o">(</span>1.6.11<span class="o">)</span>
-</span><span class='line'>Using net-ssh <span class="o">(</span>2.3.0<span class="o">)</span>
-</span><span class='line'>Using net-scp <span class="o">(</span>1.0.4<span class="o">)</span>
-</span><span class='line'>Using net-sftp <span class="o">(</span>2.0.5<span class="o">)</span>
-</span><span class='line'>Using net-ssh-gateway <span class="o">(</span>1.1.0<span class="o">)</span>
-</span><span class='line'>Using capistrano <span class="o">(</span>2.11.2<span class="o">)</span>
-</span><span class='line'>Using kgio <span class="o">(</span>2.7.2<span class="o">)</span>
-</span><span class='line'>Using rack <span class="o">(</span>1.4.1<span class="o">)</span>
-</span><span class='line'>Using rack-protection <span class="o">(</span>1.2.0<span class="o">)</span>
-</span><span class='line'>Using raindrops <span class="o">(</span>0.8.0<span class="o">)</span>
-</span><span class='line'>Using tilt <span class="o">(</span>1.3.3<span class="o">)</span>
-</span><span class='line'>Using sinatra <span class="o">(</span>1.3.2<span class="o">)</span>
-</span><span class='line'>Using unicorn <span class="o">(</span>4.2.0<span class="o">)</span>
-</span><span class='line'>Using bundler <span class="o">(</span>1.0.22<span class="o">)</span>
-</span><span class='line'>Your bundle is <span class="nb">complete</span>! Use <span class="sb">`</span>bundle show <span class="o">[</span>gemname<span class="o">]</span><span class="sb">`</span> to see where a bundled gem is installed.
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>capify .
-</span><span class='line'><span class="o">[</span>add<span class="o">]</span> writing <span class="s1">&#39;./Capfile&#39;</span>
-</span><span class='line'><span class="o">[</span>add<span class="o">]</span> making directory <span class="s1">&#39;./config&#39;</span>
-</span><span class='line'><span class="o">[</span>add<span class="o">]</span> writing <span class="s1">&#39;./config/deploy.rb&#39;</span>
-</span><span class='line'><span class="o">[</span><span class="k">done</span><span class="o">]</span> capified!
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Let&#8217;s improve our capistrano config a little bit.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/deploy.rb</span>
-</span><span class='line'><span class="c1"># We&#39;re using RVM on a server, need this.</span>
-</span><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;./lib&#39;</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;rvm_path&#39;</span><span class="o">]</span><span class="p">))</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rvm/capistrano&#39;</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:rvm_ruby_string</span><span class="p">,</span> <span class="s1">&#39;1.9.3&#39;</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:rvm_type</span><span class="p">,</span> <span class="ss">:user</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Bundler tasks</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler/capistrano&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s2">&quot;sincapun&quot;</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>  <span class="s2">&quot;git@github.com:stulentsev/sincapun.git&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span> <span class="ss">:git</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># do not use sudo</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:use_sudo</span><span class="p">,</span> <span class="kp">false</span>
-</span><span class='line'><span class="n">set</span><span class="p">(</span><span class="ss">:run_method</span><span class="p">)</span> <span class="p">{</span> <span class="n">use_sudo</span> <span class="p">?</span> <span class="ss">:sudo</span> <span class="p">:</span> <span class="ss">:run</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># This is needed to correctly handle sudo password prompt</span>
-</span><span class='line'><span class="n">default_run_options</span><span class="o">[</span><span class="ss">:pty</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set</span> <span class="ss">:user</span><span class="p">,</span> <span class="s2">&quot;myname&quot;</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:group</span><span class="p">,</span> <span class="n">user</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:runner</span><span class="p">,</span> <span class="n">user</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set</span> <span class="ss">:host</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="s2">@myhost&quot;</span> <span class="c1"># We need to be able to SSH to that box as this user.</span>
-</span><span class='line'><span class="n">role</span> <span class="ss">:web</span><span class="p">,</span> <span class="n">host</span>
-</span><span class='line'><span class="n">role</span> <span class="ss">:app</span><span class="p">,</span> <span class="n">host</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">set</span> <span class="ss">:rails_env</span><span class="p">,</span> <span class="ss">:production</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Where will it be located on a server?</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s2">&quot;/srv/</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:unicorn_conf</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current/config/unicorn.rb&quot;</span>
-</span><span class='line'><span class="n">set</span> <span class="ss">:unicorn_pid</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/shared/pids/unicorn.pid&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># Unicorn control tasks</span>
-</span><span class='line'><span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">task</span> <span class="ss">:restart</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;if [ -f </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2"> ]; then kill -USR2 `cat </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2">`; else cd </span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current &amp;&amp; bundle exec unicorn -c </span><span class="si">#{</span><span class="n">unicorn_conf</span><span class="si">}</span><span class="s2"> -E </span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2"> -D; fi&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">task</span> <span class="ss">:start</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;cd </span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current &amp;&amp; bundle exec unicorn -c </span><span class="si">#{</span><span class="n">unicorn_conf</span><span class="si">}</span><span class="s2"> -E </span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2"> -D&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">task</span> <span class="ss">:stop</span> <span class="k">do</span>
-</span><span class='line'>    <span class="n">run</span> <span class="s2">&quot;if [ -f </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2"> ]; then kill -QUIT `cat </span><span class="si">#{</span><span class="n">unicorn_pid</span><span class="si">}</span><span class="s2">`; fi&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We need a config file for Unicorn. Here is what it may look like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># define paths and filenames</span>
-</span><span class='line'><span class="n">deploy_to</span> <span class="o">=</span> <span class="s2">&quot;/srv/sincapun&quot;</span>
-</span><span class='line'><span class="n">rails_root</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/current&quot;</span>
-</span><span class='line'><span class="n">pid_file</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/shared/pids/unicorn.pid&quot;</span>
-</span><span class='line'><span class="n">socket_file</span><span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">deploy_to</span><span class="si">}</span><span class="s2">/shared/unicorn.sock&quot;</span>
-</span><span class='line'><span class="n">log_file</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">rails_root</span><span class="si">}</span><span class="s2">/log/unicorn.log&quot;</span>
-</span><span class='line'><span class="n">err_log</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">rails_root</span><span class="si">}</span><span class="s2">/log/unicorn_error.log&quot;</span>
-</span><span class='line'><span class="n">old_pid</span> <span class="o">=</span> <span class="n">pid_file</span> <span class="o">+</span> <span class="s1">&#39;.oldbin&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">timeout</span> <span class="mi">30</span>
-</span><span class='line'><span class="n">worker_processes</span> <span class="mi">2</span> <span class="c1"># increase or decrease</span>
-</span><span class='line'><span class="n">listen</span> <span class="n">socket_file</span><span class="p">,</span> <span class="ss">:backlog</span> <span class="o">=&gt;</span> <span class="mi">1024</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">pid</span> <span class="n">pid_file</span>
-</span><span class='line'><span class="n">stderr_path</span> <span class="n">err_log</span>
-</span><span class='line'><span class="n">stdout_path</span> <span class="n">log_file</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># make forks faster</span>
-</span><span class='line'><span class="n">preload_app</span> <span class="kp">true</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1"># make sure that Bundler finds the Gemfile</span>
-</span><span class='line'><span class="n">before_exec</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="o">|</span>
-</span><span class='line'>  <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;BUNDLE_GEMFILE&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../Gemfile&#39;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">))</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
-</span><span class='line'>      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># zero downtime deploy magic:</span>
-</span><span class='line'>  <span class="c1"># if unicorn is already running, ask it to start a new process and quit.</span>
-</span><span class='line'>  <span class="k">if</span> <span class="no">File</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">server</span><span class="o">.</span><span class="n">pid</span> <span class="o">!=</span> <span class="n">old_pid</span>
-</span><span class='line'>    <span class="k">begin</span>
-</span><span class='line'>      <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="s2">&quot;QUIT&quot;</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">,</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span>
-</span><span class='line'>      <span class="c1"># someone else did our job for us</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1"># re-establish activerecord connections.</span>
-</span><span class='line'>  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
-</span><span class='line'>      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That should do it. Now you can deploy your app, assuming that you have <a href="http://beginrescueend.com/">RVM</a> on the server, you can SSH into it and write to /srv directory.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>cap deploy:setup
-</span><span class='line'>cap deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Deploy should spit a lot of text into the console, and there should be no errors. Verify that our unicorns are launched correctly by logging into the server and running this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ps aux | grep sincapun
-</span><span class='line'>myuser   24851  2.0  0.1  88480 21024 ?        Sl   11:42   0:00 unicorn master -c /srv/sincapun/current/config/unicorn.rb -E production -D
-</span><span class='line'>myuser   24854  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker<span class="o">[</span>0<span class="o">]</span> -c /srv/sincapun/current/config/unicorn.rb -E production -D
-</span><span class='line'>myuser   24857  0.1  0.1  88480 19732 ?        Sl   11:42   0:00 unicorn worker<span class="o">[</span>1<span class="o">]</span> -c /srv/sincapun/current/config/unicorn.rb -E production -D
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To access these unicorns from the internet, you need to put a reverse proxy in front of them. But that is another story.</p>
-
-<p>You can get a full copy of this code <a href="https://github.com/stulentsev/sincapun">from Github repo</a>.</p>
 ]]></content>
   </entry>
   

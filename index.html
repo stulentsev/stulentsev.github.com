@@ -9,8 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I want to share with you a small tweak I came up with a couple of days ago. As some of you
-know, Mac OS X includes a ton of very handy utilities. One &hellip;">
+  <meta name="description" content="I&#8217;ve been hearing a lot about Colemak recently. It&#8217;s a (relatively) new keyboard layout, specially designed for efficient touch typing in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,71 @@ know, Mac OS X includes a ton of very handy utilities. One &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/11/my-un-success-story-of-colemak/">My (Un)success Story of Colemak</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-18T20:29:00+04:00" pubdate data-updated="true">Nov 18<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;ve been hearing a lot about <a href="http://colemak.com/">Colemak</a> recently. It&#8217;s a (relatively) new keyboard layout, specially designed for efficient touch typing in English. Any description
+of Colemak (including this very post) is accompanied by a story, how QWERTY layout was specifically designed to <em>hinder</em> fast typing, so that typewriter bars don&#8217;t get stuck. Ok, cool story, let&#8217;s try this silver <s>bullet</s> layout.</p>
+
+<p>One of the advertised advantages of this layout is that &#8220;most&#8221; common QWERTY hotkeys are the same. Indeed, such hotkeys as select-all/cut/copy/paste didn&#8217;t move. Yes, this is an advantage for people who copy/paste text all day. But for us, coders, this is really a disadvantage, because some hotkeys are on the same keys, and others have moved. And worst of all, most hotkeys have changed their meaning.</p>
+
+<p>Let me illustrate. Most (all?) browsers in Mac OSX understands the same hotkeys:</p>
+
+<ul>
+<li>Cmd-T - open new tab</li>
+<li>Cmd-F - find</li>
+<li>Cmd-G - find next</li>
+<li>Cmd-S - save</li>
+</ul>
+
+
+<p>We&#8217;ve been using these hotkeys for years and now they are burned in our muscle memory. So, with Colemak, when you try to perform an action and you reach for the old key, you get completely different action instead.</p>
+
+<ul>
+<li>You tried Cmd-T (qwerty), you hit Cmd-G (colemak), action - &#8220;find next&#8221;</li>
+<li>Cmd-F, Cmd-E, &#8220;use selection for find&#8221; (chrome)</li>
+<li>Cmd-G, Cmd-D, &#8220;add bookmark&#8221;</li>
+<li>Cmd-S, Cmd-R, &#8220;reload&#8221;</li>
+</ul>
+
+
+<p>This is very, VERY frustrating to try search page content and keep adding bookmarks instead. Combine this with a fact that when you switch to a Russian layout, the hotkeys are the same as in QWERTY. So, essentially, you have to learn a whole new set of hotkeys for every program you use and always keep track of the current layout, or otherwise you&#8217;ll get unexpected results.</p>
+
+<p>Now, is it really worth it? Given the fact that programmer&#8217;s productivity is not based on how fast and for how long he can type, I&#8217;d say &#8220;Not really&#8221;. I average 370-450 CPM on QWERTY. This is far more than sufficient for everyday coding needs.</p>
+
+<p>Goodbye, Colemak. Hello again, QWERTY.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -641,52 +705,6 @@ Single key operations are OK, of course, but what about multiple key ops?</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/resque-multi-job-forks-is-finally-updated/">Resque-multi-job-forks Is Finally Updated</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-16T09:00:00+04:00" pubdate data-updated="true">Sep 16<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was using <a href="https://github.com/staugaard/resque-multi-job-forks/">resque-multi-job-forks</a>
-plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
-There were no new commits for 2 years. And current version of the gem had dependency on an
-archaic version of Resque. So, I forked, bumped the dependency and bundled the gem. But
-then I thought: &#8220;Hey, why not share it with people?&#8221; I exchanged a couple of emails with
-the owner and now I am the official owner/maintainer of said gem. This is my first
-takeover, hooray! :)</p>
-
-<p>To celebrate this, today I have released version v0.3.2, which includes updated <code>resque</code>
-dependency and fix for the problem when workers disappeared from resque-web after the first
-fork has reached its limit.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -702,6 +720,10 @@ fork has reached its limit.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/11/my-un-success-story-of-colemak/">My (un)success story of Colemak</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
       </li>
     
@@ -715,10 +737,6 @@ fork has reached its limit.</p>
     
       <li class="post">
         <a href="/2012/10/deferred-posting-with-octopress/">Deferred posting with Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/dynamic-collections-a-la-mongodb/">Dynamic collections a la MongoDB, but with MySQL</a>
       </li>
     
   </ul>
