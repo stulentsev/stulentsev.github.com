@@ -44,7 +44,7 @@ When modules are included or extended into a class, its methods are placed right
 
 ### So, can we do something?
 
-Good for us, ruby has a concept of ["open classes"](http://www.google.ru/search?ix=hca&sourceid=chrome&ie=UTF-8&q=ruby+open+classes). This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can "opened" and new methods can be added to it, or old methods can be redefined. Let's look how it works.
+Good for us, ruby has a concept of ["open classes"](http://www.google.ru/search?ix=hca&sourceid=chrome&ie=UTF-8&q=ruby+open+classes). This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can be "opened" and new methods can be added to it, or old methods can be redefined. Let's look how it works.
 
 ``` ruby
 class Klass
