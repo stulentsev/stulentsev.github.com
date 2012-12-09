@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nemerle | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/nemerle/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-11-30T22:11:44+04:00</updated>
+  <updated>2012-12-09T12:32:18+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -49,22 +49,6 @@
 <p>P.S.: One more thousand-words-picture.</p>
 
 <p><a href="http://tech.tulentsev.com/images/uploads/2009/01/image4.png"><img src="http://tech.tulentsev.com/images/uploads/2009/01/image-thumb4.png" alt="image" /></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Special comments]]></title>
-    <link href="http://tech.tulentsev.com/2007/04/special-comments/"/>
-    <updated>2007-04-07T18:44:39+04:00</updated>
-    <id>http://tech.tulentsev.com/2007/04/special-comments</id>
-    <content type="html"><![CDATA[<p>Yesterday night I had a dream about how it would be cool to highlight special kinds of comments, like TODOs and BUGs.
-But when I came to office, it turned out that JetBrains stole this idea a few days before. :-)
-Their solution is extensible and customizable, but all those customizations don't work at the moment.
-Mine, at the moment, has three hardcoded colors and regexes, and it IS working properly. :-)
-Check it out:
-<a href="http://tulentsev.com/blog/images/special_comments.png"><img src="http://tulentsev.com/blog/images/special_comments.png" alt="Screenshot of special comments highlighting" /></a></p>
-
-<p>This is done as a part of <a href="http://rsdn.ru/article/nemerle/Nemerle.VsIntegration-en.xml">Nemerle->VS2005 integration project</a>. <a href="http://rsdn.ru/article/nemerle/Nemerle.VsIntegration-ru.xml">Here</a> is the link for russian readers.</p>
 ]]></content>
   </entry>
   

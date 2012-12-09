@@ -4,7 +4,7 @@
   <title><![CDATA[Category: metaprogramming | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/metaprogramming/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-11-30T22:11:44+04:00</updated>
+  <updated>2012-12-09T12:32:18+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -258,7 +258,7 @@ end</p>
 
 <h3>So, can we do something?</h3>
 
-<p>Good for us, ruby has a concept of <a href="http://www.google.ru/search?ix=hca&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=ruby+open+classes">"open classes"</a>. This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can "opened" and new methods can be added to it, or old methods can be redefined. Let's look how it works.</p>
+<p>Good for us, ruby has a concept of <a href="http://www.google.ru/search?ix=hca&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=ruby+open+classes">"open classes"</a>. This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can be "opened" and new methods can be added to it, or old methods can be redefined. Let's look how it works.</p>
 
 <p>``` ruby
 class Klass
