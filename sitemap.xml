@@ -187,11 +187,15 @@
         <lastmod>2012-11-18T21:05:09+04:00</lastmod>
     </url>
     <url>
+        <loc>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/</loc>
+        <lastmod>2012-12-15T18:37:25+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://tech.tulentsev.com/blog/archives/</loc>
-        <lastmod>2012-12-09T12:26:36+04:00</lastmod>
+        <lastmod>2012-12-15T18:37:25+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/</loc>
-        <lastmod>2012-12-09T12:26:36+04:00</lastmod>
+        <lastmod>2012-12-15T18:37:25+04:00</lastmod>
     </url>
 </urlset>

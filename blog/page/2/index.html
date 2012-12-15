@@ -9,9 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I was using resque-multi-job-forks
-plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
-There were no new &hellip;">
+  <meta name="description" content="A very interesting topic was posted today in Redis google group, called
+&#8220;Set Sketch Implementation&#8221;. One nice application of set sketches &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,57 @@ There were no new &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/10/probabilistic-sets-in-redis/">Probabilistic Sets in Redis (Almost Magic)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-16T00:18:00+04:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A very interesting topic was posted today in Redis google group, called
+<a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">&#8220;Set Sketch Implementation&#8221;</a>.</p>
+
+<blockquote><p>One nice application of set sketches is efficient storage and retrieval of analytics-type data: if you want to count the number of distinct users who have performed specific actions in your system (&#8220;visited page X&#8221;, &#8220;pressed button Y&#8221;, &#8220;followed user Z&#8221;, etc.) you&#8217;re quickly overwhelmed with the amount of memory needed to store even bit vectors representing all events for all users. Bloom counters are sometimes used for this sort of thing, but they still require a significant investment in space and the results of individual counters can&#8217;t be easily/efficiently combined.</p>
+
+<p>HyperLogLog is a good alternative when you don&#8217;t need exact counts: with a small, fixed amount of space per counter, it can yield good estimates of set cardinality - usually to within 2% of the actual count. In addition, the counters can be combined and queried at little extra cost, so that you can compute estimates to queries like &#8220;how many users visited page X and pressed button Y&#8221; or &#8220;how many users follow either user W or user Z&#8221; in real time. All of the operations take O(1) time and space in the cardinality of the sets being represented. Adding an element to a set sketch is particularly fast, essentially just the cost of applying a hash function to the element.</p></blockquote>
+
+<p>Now that I know about this technology, I desperately want it. I could really use that
+because my current app has a lot of sets, and some of them can get pretty large. Being
+able to use constant size is a huge relief, because you can correctly estimate amount of
+memory taken by Redis. And being able to combine them (UNION/INTER) is priceless.</p>
+
+<p>The only thing that is not clear to me is how this will play along with upcoming Redis Cluster.
+Single key operations are OK, of course, but what about multiple key ops?</p>
+
+<p>I really hope that Salvatore will not reject this functionality :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -814,84 +864,6 @@ air is still clean. :)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/">How to Dump Your MongoDB Database Partially (Only Selected Tables)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-21T19:15:22+04:00" pubdate data-updated="true">Mar 21<span>st</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, <strong>mongodump</strong>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you&#8217;re interested in and it will dump just this database.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But in some cases you don&#8217;t want to dump the whole database. In my case, it&#8217;s an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, &#8230;). I am interested only in a small number of &#8220;important&#8221; collections. But <strong>mongodump</strong> doesn&#8217;t provide us with an option to specify several collections. You can only dump one collection at a time. If you don&#8217;t mind some typing, that&#8217;s easy.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb -c mycoll1
-</span><span class='line'>mongodump -d mydb -c mycoll2
-</span><span class='line'>mongodump -d mydb -c mycoll5
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But we&#8217;re all programmers, so let&#8217;s automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let&#8217;s do it.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">colls</span><span class="o">=(</span> mycoll1 mycoll2 mycoll5 <span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>c in <span class="k">${</span><span class="nv">colls</span><span class="p">[@]</span><span class="k">}</span>
-</span><span class='line'><span class="k">do</span>
-</span><span class='line'><span class="k">  </span>mongodump -d mydb -c <span class="nv">$c</span>
-</span><span class='line'><span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>First line defines a bash array literal. <strong>Don&#8217;t use commas to delimit array elements</strong>, they&#8217;ll become part of the element. The <strong>${colls[@]}</strong> string means &#8220;all array elements&#8221; and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -909,6 +881,10 @@ air is still clean. :)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/12/using-sidekiq-with-redis-failover-gem/">Using Sidekiq with redis_failover gem</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/11/my-un-success-story-of-colemak/">My (un)success story of Colemak</a>
       </li>
     
@@ -922,10 +898,6 @@ air is still clean. :)</p>
     
       <li class="post">
         <a href="/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/">Is TextMate 2 ready for everyday coding? Let&#8217;s find out.</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/10/deferred-posting-with-octopress/">Deferred posting with Octopress</a>
       </li>
     
   </ul>

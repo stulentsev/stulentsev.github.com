@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-09T17:11:56+04:00</updated>
+  <updated>2012-12-15T18:37:25+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
+    <link href="http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/"/>
+    <updated>2012-12-15T18:23:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem</id>
+    <content type="html"><![CDATA[<p><a href="http://mperham.github.com/sidekiq/">Sidekiq</a> works pretty well with standard redis client. This is an example of configuring it (<a href="https://github.com/mperham/sidekiq/wiki/Advanced-Options">from official wiki</a>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Sidekiq</span><span class="o">.</span><span class="n">configure_server</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">&#39;redis://redis.example.com:7372/12&#39;</span><span class="p">,</span> <span class="ss">:namespace</span> <span class="o">=&gt;</span> <span class="s1">&#39;mynamespace&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># When in Unicorn, this block needs to go in unicorn&#39;s `after_fork` callback:</span>
+</span><span class='line'><span class="no">Sidekiq</span><span class="o">.</span><span class="n">configure_client</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s1">&#39;redis://redis.example.com:7372/12&#39;</span><span class="p">,</span> <span class="ss">:namespace</span> <span class="o">=&gt;</span> <span class="s1">&#39;mynamespace&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But, what if you need a special redis client that can&#8217;t be initialized with redis URL? No worries. Setter for <code>Sidekiq#redis</code> also accepts a <a href="https://github.com/mperham/connection_pool">ConnectionPool</a>. Here we have full control over how we initialize our redis client. Here&#8217;s how you may initialize Sidekiq with a bunch of RedisFailover clients:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Sidekiq</span><span class="o">.</span><span class="n">configure_server</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">pool</span> <span class="o">=</span> <span class="no">ConnectionPool</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:size</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="ss">:timeout</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">zkservers</span> <span class="o">=</span> <span class="s1">&#39;localhost:2181,localhost:2182,localhost:2183&#39;</span>
+</span><span class='line'>    <span class="no">RedisFailover</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span> <span class="n">namespace</span><span class="p">:</span> <span class="s1">&#39;my_service&#39;</span><span class="p">,</span> <span class="n">zkservers</span><span class="p">:</span> <span class="n">zkservers</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="n">pool</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># do the same for in configure_client</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can even read Sidekiq&#8217;s <code>concurrency</code> setting and pass it to the connection pool initializer. Now your sidekiq farm doesn&#8217;t care about redis crashes :)</p>
+
+<p>Happy sidekiqing :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My (un)success story of Colemak]]></title>
@@ -1379,57 +1436,6 @@ air is still clean. :)</p>
 
 
 <p>Now this class hierarchy is sorted, with children first and parents last. Homework: come up with a practical application for this :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to dump your MongoDB database partially (only selected tables)]]></title>
-    <link href="http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/"/>
-    <updated>2012-03-21T19:15:22+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables</id>
-    <content type="html"><![CDATA[<p>Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, <strong>mongodump</strong>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you&#8217;re interested in and it will dump just this database.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But in some cases you don&#8217;t want to dump the whole database. In my case, it&#8217;s an analytics application and 99% of data is in raw event collections (<strong>events20120320</strong>, <strong>events20120321</strong>, &#8230;). I am interested only in a small number of &#8220;important&#8221; collections. But <strong>mongodump</strong> doesn&#8217;t provide us with an option to specify several collections. You can only dump one collection at a time. If you don&#8217;t mind some typing, that&#8217;s easy.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mongodump -d mydb -c mycoll1
-</span><span class='line'>mongodump -d mydb -c mycoll2
-</span><span class='line'>mongodump -d mydb -c mycoll5
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>But we&#8217;re all programmers, so let&#8217;s automate this stuff. I, personally, never used bash loops before, and it seems like a good use case for them. Let&#8217;s do it.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">colls</span><span class="o">=(</span> mycoll1 mycoll2 mycoll5 <span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for </span>c in <span class="k">${</span><span class="nv">colls</span><span class="p">[@]</span><span class="k">}</span>
-</span><span class='line'><span class="k">do</span>
-</span><span class='line'><span class="k">  </span>mongodump -d mydb -c <span class="nv">$c</span>
-</span><span class='line'><span class="k">done</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>First line defines a bash array literal. <strong>Don&#8217;t use commas to delimit array elements</strong>, they&#8217;ll become part of the element. The <strong>${colls[@]}</strong> string means &#8220;all array elements&#8221; and it can be used anywhere where a variable is expected. The rest is pretty straightforward, I think.</p>
 ]]></content>
   </entry>
   
