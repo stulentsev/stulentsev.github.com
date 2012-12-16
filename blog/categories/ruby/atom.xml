@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-17T01:44:10+04:00</updated>
+  <updated>2012-12-17T01:49:47+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -47,7 +47,7 @@ RedisFailover::Client.new namespace: 'my_service', zkservers: zkservers
 <p>  config.redis = pool
 end</p>
 
-<h1>do the same for in configure_client</h1>
+<h1>do the same in Sidekiq.configure_client</h1>
 
 <p>```</p>
 

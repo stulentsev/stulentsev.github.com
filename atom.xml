@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-17T01:44:10+04:00</updated>
+  <updated>2012-12-17T01:49:47+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -60,7 +60,7 @@
 </span><span class='line'>  <span class="n">config</span><span class="o">.</span><span class="n">redis</span> <span class="o">=</span> <span class="n">pool</span>
 </span><span class='line'><span class="k">end</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1"># do the same for in configure_client</span>
+</span><span class='line'><span class="c1"># do the same in Sidekiq.configure_client</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
