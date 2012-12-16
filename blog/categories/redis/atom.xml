@@ -4,7 +4,7 @@
   <title><![CDATA[Category: redis | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/redis/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-15T18:37:25+04:00</updated>
+  <updated>2012-12-17T01:44:10+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -32,7 +32,7 @@ end</p>
 end
 ```</p>
 
-<p>But, what if you need a special redis client that can't be initialized with redis URL? No worries. Setter for <code>Sidekiq#redis</code> also accepts a <a href="https://github.com/mperham/connection_pool">ConnectionPool</a>. Here we have full control over how we initialize our redis client. Here's how you may initialize Sidekiq with a bunch of RedisFailover clients:</p>
+<p>But, what if you need a special redis client that can't be initialized with redis URL? No worries. Setter for <code>Sidekiq#redis</code> also accepts a <a href="https://github.com/mperham/connection_pool">ConnectionPool</a>. Here we have full control over how we initialize our redis client. Here's how you may initialize Sidekiq with a bunch of <a href="https://github.com/ryanlecompte/redis_failover">RedisFailover</a> clients:</p>
 
 <p>``` ruby
 Sidekiq.configure_server do |config|
