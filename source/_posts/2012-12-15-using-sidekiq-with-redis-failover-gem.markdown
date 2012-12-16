@@ -20,7 +20,7 @@ Sidekiq.configure_client do |config|
 end
 ```
 
-But, what if you need a special redis client that can't be initialized with redis URL? No worries. Setter for `Sidekiq#redis` also accepts a [ConnectionPool](https://github.com/mperham/connection_pool). Here we have full control over how we initialize our redis client. Here's how you may initialize Sidekiq with a bunch of RedisFailover clients:
+But, what if you need a special redis client that can't be initialized with redis URL? No worries. Setter for `Sidekiq#redis` also accepts a [ConnectionPool](https://github.com/mperham/connection_pool). Here we have full control over how we initialize our redis client. Here's how you may initialize Sidekiq with a bunch of [RedisFailover](https://github.com/ryanlecompte/redis_failover) clients:
 
 ``` ruby
 Sidekiq.configure_server do |config|
@@ -32,7 +32,7 @@ Sidekiq.configure_server do |config|
   config.redis = pool
 end
 
-# do the same for in configure_client
+# do the same in Sidekiq.configure_client
 ```
 
 You can even read Sidekiq's `concurrency` setting and pass it to the connection pool initializer. Now your sidekiq farm doesn't care about redis crashes :)
