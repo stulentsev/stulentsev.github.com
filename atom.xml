@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-17T02:12:42+04:00</updated>
+  <updated>2012-12-17T04:58:32+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Queue prioritization in Sidekiq]]></title>
+    <link href="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/"/>
+    <updated>2012-12-17T04:47:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq</id>
+    <content type="html"><![CDATA[<p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default config:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">often</span><span class="p-Indicator">,</span> <span class="nv">7</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">default</span><span class="p-Indicator">,</span> <span class="nv">5</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">seldom</span><span class="p-Indicator">,</span> <span class="nv">3</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want two queues have equal rights, just set the same priorities. However, if you omit priority parameter and define your queues like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">email</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coffee</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">billing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then queues will be checked in a serial manner. That is, Sidekiq will start making coffee only when all emails are sent. If a new email shows up, it will be processed before any other job. In other words, this is how Resque would handle the queues.</p>
+
+<p>Choose whatever fits your task better. It&#8217;s nice to have some flexibility.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
@@ -1318,124 +1355,6 @@ air is still clean. :)</p>
 
 
 <p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fun with classes: find which class is the biggest :)]]></title>
-    <link href="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/"/>
-    <updated>2012-03-30T05:13:27+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest</id>
-    <content type="html"><![CDATA[<p>Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). Observe:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">A</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># false</span>
-</span><span class='line'><span class="n">A</span> <span class="o">&gt;</span> <span class="n">B</span> <span class="c1"># true</span>
-</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">A</span> <span class="c1"># true</span>
-</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># true</span>
-</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">C</span> <span class="c1"># nil</span>
-</span><span class='line'><span class="n">C</span> <span class="o">&gt;</span> <span class="n">D</span> <span class="c1"># nil</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This operator returns a boolean value (as one would expect), so you can write code like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;B inherits from A&quot;</span> <span class="k">if</span> <span class="n">B</span> <span class="o">&lt;</span> <span class="n">A</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note how it resembles the class definition syntax. I think that this is simply brilliant (not very intuitive, though. I wouldn&#8217;t think of writing this code).</p>
-
-<p>Now that we know this fact, let&#8217;s try to sort the classes :)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">E</span> <span class="o">&lt;</span> <span class="n">A</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Class</span>
-</span><span class='line'>  <span class="c1"># we need to define the spaceship operator for classes, since it&#39;s not defined yet.</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">&lt;=&gt;</span> <span class="n">other</span>
-</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">==</span> <span class="n">other</span>
-</span><span class='line'>    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">&lt;</span> <span class="n">other</span>
-</span><span class='line'>    <span class="mi">1</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">klasses</span> <span class="o">=</span> <span class="o">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">E</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">klasses</span><span class="o">.</span><span class="n">sort</span> <span class="c1"># [E, C, D, B, A]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now this class hierarchy is sorted, with children first and parents last. Homework: come up with a practical application for this :)</p>
 ]]></content>
   </entry>
   

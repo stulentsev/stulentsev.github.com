@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: sidekiq | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/sidekiq/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2012-12-17T04:58:32+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Queue prioritization in Sidekiq]]></title>
+    <link href="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/"/>
+    <updated>2012-12-17T04:47:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq</id>
+    <content type="html"><![CDATA[<p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here's an example from default config:</p>
+
+<p><code>yaml
+:queues:
+  - [often, 7]
+  - [default, 5]
+  - [seldom, 3]
+</code></p>
+
+<p>If you want two queues have equal rights, just set the same priorities. However, if you omit priority parameter and define your queues like this:</p>
+
+<p><code>yaml
+:queues:
+  - email
+  - coffee
+  - billing
+</code></p>
+
+<p>Then queues will be checked in a serial manner. That is, Sidekiq will start making coffee only when all emails are sent. If a new email shows up, it will be processed before any other job. In other words, this is how Resque would handle the queues.</p>
+
+<p>Choose whatever fits your task better. It's nice to have some flexibility.</p>
+]]></content>
+  </entry>
+  
+</feed>

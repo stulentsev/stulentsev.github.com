@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Rants - Byte Friendly</title>
+  <title>Queue prioritization in Sidekiq - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Category: Rants">
-  
+  <meta name="description" content="Unlike Resque, Sidekiq allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default &hellip;">
+  <meta name="keywords" content="queue sidekiq priority job">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.comblog/categories/rants/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,36 +75,123 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Rants</h1>
+    
+      <h1 class="entry-title">Queue Prioritization in Sidekiq</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-17T04:47:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default config:</p>
 
-  
-  <h2>2008</h2>
-
-<article>
-  
-<h1><a href="/2008/12/case-sensitivity-and-tools/">Case sensitivity and tools</a></h1>
-<time datetime="2008-12-19T13:37:48+03:00" pubdate><span class='month'>Dec</span> <span class='day'>19</span> <span class='year'>2008</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/rants/'>Rants</a></span>
-</footer>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">often</span><span class="p-Indicator">,</span> <span class="nv">7</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">default</span><span class="p-Indicator">,</span> <span class="nv">5</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">seldom</span><span class="p-Indicator">,</span> <span class="nv">3</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>If you want two queues have equal rights, just set the same priorities. However, if you omit priority parameter and define your queues like this:</p>
 
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">email</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coffee</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">billing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then queues will be checked in a serial manner. That is, Sidekiq will start making coffee only when all emails are sent. If a new email shows up, it will be processed before any other job. In other words, this is how Resque would handle the queues.</p>
+
+<p>Choose whatever fits your task better. It&#8217;s nice to have some flexibility.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-17T04:47:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sidekiq/'>sidekiq</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/12/using-sidekiq-with-redis-failover-gem/" title="Previous Post: Using Sidekiq with redis_failover gem">&laquo; Using Sidekiq with redis_failover gem</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -185,7 +272,10 @@
       var disqus_shortname = 'software-and-computers';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/';
+        var disqus_url = 'http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
