@@ -9,7 +9,7 @@ keywords: coffeescript javascript tablesorter build custom parser
 
 [Tablesorter](http://tablesorter.com/docs/) is a jQuery plugin for sorting tables. It appeared first in a couple of "X jquery table sorting plugins" blog posts, so I went with it when I needed to sort a table a couple of days ago.
 
-It works pretty well out of the box and it even let's you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.
+It works pretty well out of the box and it even lets you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.
 
 Here's [an official example](http://tablesorter.com/docs/example-parsers.html)
 
@@ -41,7 +41,7 @@ $(function() {
 });                  
 ```
 
-However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this `is` function is a predicate. It accepts a string and decides if it can be handled by this parser. Then the `format` function will make conversion to a normalized textual/numeric form.
+However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this `is` function is a predicate. It accepts a string and decides whether it can be handled by this parser. Then the `format` function will make conversion to a normalized textual/numeric form.
 
 In my case I have a table with a lot of numbers. And those numbers are in humanized form. That is, instead of `121738` I output `121.74k`. This format is not properly sortable as either number or text, so I wrote a parser.
 
