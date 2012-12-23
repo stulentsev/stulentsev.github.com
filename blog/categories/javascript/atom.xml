@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-23T18:19:06+04:00</updated>
+  <updated>2012-12-23T18:33:04+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -20,7 +20,7 @@
     <id>http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js</id>
     <content type="html"><![CDATA[<p><a href="http://tablesorter.com/docs/">Tablesorter</a> is a jQuery plugin for sorting tables. It appeared first in a couple of "X jquery table sorting plugins" blog posts, so I went with it when I needed to sort a table a couple of days ago.</p>
 
-<p>It works pretty well out of the box and it even let's you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.</p>
+<p>It works pretty well out of the box and it even lets you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.</p>
 
 <p>Here's <a href="http://tablesorter.com/docs/example-parsers.html">an official example</a></p>
 
@@ -58,7 +58,7 @@ type: 'numeric'
 <p>});                <br/>
 ```</p>
 
-<p>However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this <code>is</code> function is a predicate. It accepts a string and decides if it can be handled by this parser. Then the <code>format</code> function will make conversion to a normalized textual/numeric form.</p>
+<p>However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this <code>is</code> function is a predicate. It accepts a string and decides whether it can be handled by this parser. Then the <code>format</code> function will make conversion to a normalized textual/numeric form.</p>
 
 <p>In my case I have a table with a lot of numbers. And those numbers are in humanized form. That is, instead of <code>121738</code> I output <code>121.74k</code>. This format is not properly sortable as either number or text, so I wrote a parser.</p>
 
