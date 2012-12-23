@@ -6,7 +6,7 @@ slug: jquery-chaining
 title: jQuery chaining
 wordpress_id: 189
 categories: programming web jquery
-keywords: jquery web chaining
+keywords: jquery web chaining function
 ---
 
 I am beginning to fall in love with jQuery. Screw you, [bicycle inventors](http://vkontakte.ru)! :-)

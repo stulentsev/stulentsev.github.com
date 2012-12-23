@@ -5,10 +5,8 @@ layout: post
 slug: atomic-updates-part-2
 title: Atomic updates, part 2
 wordpress_id: 184
-categories:
-- Database
-tags:
-- MongoDb
+categories: database mongodb
+keywords: database mongodb
 ---
 
 Let's review another common scenario: posts and votes. Mongo's approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let's assume we want to register a new vote on post. This operation consists of three steps:
