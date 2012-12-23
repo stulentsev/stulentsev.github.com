@@ -9,9 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Still driven by that post,
-I decided to do something about it. So I went and tried to read the original paper. It was
-mind blowing. Not because it &hellip;">
+  <meta name="description" content="Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
+and it doesn&#8217;t look like a freaking funnel ( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +77,59 @@ mind blowing. Not because it &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">DIY: Funnel Chart</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-20T20:02:00+04:00" pubdate data-updated="true">Oct 20<span>th</span>, 2012</time>
+        
+         | <a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
+and it doesn&#8217;t look like a freaking funnel (with neck and all).</p>
+
+<p><img src="/images/uploads/2012/10/funnel1.png"></p>
+
+<p><a href="http://chart.apis.google.com/chart?cht=bhs&amp;chco=ffffff,FF9900&amp;chxt=x,x,y&amp;chxl=1%3a|Percentage%20converting|2%3a|Step%206|Step%205|Step%204|Step%203|Step%202|Step%201&amp;chxp=1,50|3,50&amp;chd=t:0,12.5,28,29,35.5,48.5|100,75,44,42,29,3&amp;chbh=a&amp;chs=800x230&amp;chm=N%2a%2a%,000000,1,-1,11,,c&amp;chds=0,100">link to source</a></p>
+
+<p>The only negative property of it is that it&#8217;s implemented with Google Charts API. Sure,
+it&#8217;s free and pretty, but it&#8217;s also an external service call and a dependency. Today I&#8217;ll
+show you how to make this kind of charts yourself in your charting library (I&#8217;ll be using
+<a href="http://highcharts.com">highcharts.js</a>).</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -751,78 +803,6 @@ air is still clean. :)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/03/ruby-forin-loop/">Ruby: for.. In Loop</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-31T11:19:36+04:00" pubdate data-updated="true">Mar 31<span>st</span>, 2012</time>
-        
-         | <a href="/2012/03/ruby-forin-loop/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like &#8220;Hey, dude, this is ruby, not javascript!&#8221; in my head. But, apparently, it&#8217;s legal ruby :)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="n">arr</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;element </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#=&gt; element 1</span>
-</span><span class='line'><span class="c1">#=&gt; element 2</span>
-</span><span class='line'><span class="c1">#=&gt; element 3  </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can put ranges in there also.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="n">a</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -840,6 +820,10 @@ air is still clean. :)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting humanized numbers in tablesorter.js</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/12/queue-prioritization-in-sidekiq/">Queue prioritization in Sidekiq</a>
       </li>
     
@@ -853,10 +837,6 @@ air is still clean. :)</p>
     
       <li class="post">
         <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/11/pretty-log-in-git/">Pretty log in Git</a>
       </li>
     
   </ul>

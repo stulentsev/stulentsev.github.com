@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). &hellip;">
+  <meta name="description" content="You live to learn every day. Today I discovered for..in loop in ruby. When I saw it in a question on stackoverflow, I was like &#8220;Hey, dude, this &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,78 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/ruby-forin-loop/">Ruby: for.. In Loop</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-31T11:19:36+04:00" pubdate data-updated="true">Mar 31<span>st</span>, 2012</time>
+        
+         | <a href="/2012/03/ruby-forin-loop/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like &#8220;Hey, dude, this is ruby, not javascript!&#8221; in my head. But, apparently, it&#8217;s legal ruby :)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="n">arr</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;element </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#=&gt; element 1</span>
+</span><span class='line'><span class="c1">#=&gt; element 2</span>
+</span><span class='line'><span class="c1">#=&gt; element 3  </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can put ranges in there also.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">a</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1352,46 +1424,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/08/funny-side-benefit/">Funny Side Benefit :-)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-08-22T17:17:18+04:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2010</time>
-        
-         | <a href="/2010/08/funny-side-benefit/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>There I was, minding my own business, trying to solve problems in graph theory and I accidentally made a Sudoku puzzle solver! Isn&#8217;t it funny how life turns out sometimes? But that&#8217;s just how awesome LINQ is.</p></blockquote>
-
-<p><a href="http://blogs.msdn.com/b/ericlippert/archive/2010/07/29/graph-colouring-part-five.aspx">Eric Lippert on LINQ</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -1409,6 +1441,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting humanized numbers in tablesorter.js</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/12/queue-prioritization-in-sidekiq/">Queue prioritization in Sidekiq</a>
       </li>
     
@@ -1422,10 +1458,6 @@
     
       <li class="post">
         <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/11/pretty-log-in-git/">Pretty log in Git</a>
       </li>
     
   </ul>

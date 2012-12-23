@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Database | Byte Friendly]]></title>
+  <title><![CDATA[Category: database | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-17T04:58:32+04:00</updated>
+  <updated>2012-12-23T18:19:06+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -45,30 +45,6 @@ db.stories.update({_id: story_id, voters: {'$ne': user_id}},</p>
 <p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
 
 <p>How would you implement this in your regular SQL database?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[MongoId and atomic increment]]></title>
-    <link href="http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment/"/>
-    <updated>2010-06-02T00:01:26+04:00</updated>
-    <id>http://tech.tulentsev.com/2010/06/mongoid-and-atomic-increment</id>
-    <content type="html"><![CDATA[<p>I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too comfortable. Plus we're all hooked to ORM sweeteners. So people started developing ORM libraries for MongoDB and Ruby (<a href="http://mongoid.org">MongoId</a>, <a href="http://github.com/mongomapper/mongomapper">MongoMapper</a> to name a few).</p>
-
-<p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
-
-<p><code>sql
-update users set spam_count = spam_count + 1;
-</code></p>
-
-<p>Mongo Ruby driver supports this kind of operation, but MongoId doesn't. So I was trying to get down to the driver. And this is what I couldn't easily find in the docs. If you're like me, I'll save you a couple of hours. Here it is:</p>
-
-<p>``` ruby</p>
-
-<h1>assume we know object id already</h1>
-
-<p>User.collection.update({'_id' => '4c05848e45760182b5000001'}, {'$inc' => {'spam_count' => 1}})
-```</p>
 ]]></content>
   </entry>
   

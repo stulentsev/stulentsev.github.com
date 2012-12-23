@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-17T04:58:32+04:00</updated>
+  <updated>2012-12-23T18:19:06+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,121 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Sorting humanized numbers in tablesorter.js]]></title>
+    <link href="http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/"/>
+    <updated>2012-12-23T17:48:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js</id>
+    <content type="html"><![CDATA[<p><a href="http://tablesorter.com/docs/">Tablesorter</a> is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I went with it when I needed to sort a table a couple of days ago.</p>
+
+<p>It works pretty well out of the box and it even let&#8217;s you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.</p>
+
+<p>Here&#8217;s <a href="http://tablesorter.com/docs/example-parsers.html">an official example</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// add parser through the tablesorter addParser method </span>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">tablesorter</span><span class="p">.</span><span class="nx">addParser</span><span class="p">({</span>
+</span><span class='line'>    <span class="c1">// set a unique id </span>
+</span><span class='line'>    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;grades&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">is</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return false so this parser is not auto detected </span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">format</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// format your data for normalization </span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/good/</span><span class="p">,</span><span class="mi">2</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/medium/</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/bad/</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="c1">// set type, either numeric or text </span>
+</span><span class='line'>    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;numeric&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">).</span><span class="nx">tablesorter</span><span class="p">({</span>
+</span><span class='line'>        <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">sorter</span><span class="o">:</span><span class="s1">&#39;grades&#39;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this <code>is</code> function is a predicate. It accepts a string and decides if it can be handled by this parser. Then the <code>format</code> function will make conversion to a normalized textual/numeric form.</p>
+
+<p>In my case I have a table with a lot of numbers. And those numbers are in humanized form. That is, instead of <code>121738</code> I output <code>121.74k</code>. This format is not properly sortable as either number or text, so I wrote a parser.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">tablesorter</span><span class="p">.</span><span class="nx">addParser</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;humannum&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">is</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="sr">/^[\d\.]+[Mk]?$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">format</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">is_m</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">is_k</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">fl</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">is_m</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span> <span class="o">*</span> <span class="mi">1000000</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">is_k</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;numeric&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It basically checks if a string consists of a number followed by an optional &#8220;M&#8221; or &#8220;k&#8221; and, if that&#8217;s the case, converts it to a &#8220;full&#8221; number.</p>
+
+<p>I wish this was in the official doc.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Queue prioritization in Sidekiq]]></title>
@@ -1312,49 +1427,6 @@ air is still clean. :)</p>
 <p>This one is better. You clearly state that you&#8217;re going to set a constant, and module name is pretty restricted.</p>
 
 <p>Are there other ways to do this?</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ruby: for..in loop]]></title>
-    <link href="http://tech.tulentsev.com/2012/03/ruby-forin-loop/"/>
-    <updated>2012-03-31T11:19:36+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/03/ruby-forin-loop</id>
-    <content type="html"><![CDATA[<p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like &#8220;Hey, dude, this is ruby, not javascript!&#8221; in my head. But, apparently, it&#8217;s legal ruby :)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="n">arr</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;element </span><span class="si">#{</span><span class="n">a</span><span class="si">}</span><span class="s2">&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">#=&gt; element 1</span>
-</span><span class='line'><span class="c1">#=&gt; element 2</span>
-</span><span class='line'><span class="c1">#=&gt; element 3  </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can put ranges in there also.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">for</span> <span class="n">a</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">10</span><span class="p">)</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="n">a</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I usually write such loops with <code>.each</code>, but good to know there&#8217;s another way.</p>
 ]]></content>
   </entry>
   
