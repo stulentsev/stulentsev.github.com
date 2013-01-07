@@ -43,8 +43,8 @@ above it.
 {% img /images/uploads/2012/10/lookup1.png %}
 
 It's important to understand that instances in ruby do not hold methods, only classes do.
-At the same time we're able to enhance **specific objects** with additional methods, that
-other objects of the same class will not have. Look:
+At the same time we're able to enhance **specific instances** with additional methods, that
+other instances of the same class will not have. Look:
 
 ``` ruby
 module Foo
@@ -64,8 +64,7 @@ bar2 = Bar.new
 
 bar1.ancestors #
 bar1.hello # => "foo"
-bar2.hello # => 
-# ~> -:17:in `<main>': undefined method `hello' for #<Bar:0x007f858210a1d0> (NoMethodError)
+bar2.hello # ~> -:17:in `<main>': undefined method `hello' for #<Bar:0x007f858210a1d0> (NoMethodError)
 ```
 
 Here `bar2` instance does not have a `hello` method, while `bar1` does have it. This means
@@ -75,7 +74,7 @@ where is that method located?
 
 Well, there is a special hidden class for every object *instance* in ruby. This dynamic 
 class is where all those per-instance methods go. You won't be able to see it in the 
-ancestors chain, ruby hides it from you. But it's there. So, in this case the lookup goes
+ancestors chain, ruby hides it from you. But it's there (well, technically speaking, it *appears* there when you define your first per-instance method). So, in this case the lookup goes
 like this:
 
 {% img /images/uploads/2012/10/lookup2.png %}
