@@ -4,7 +4,7 @@
   <title><![CDATA[Category: metaprogramming | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/metaprogramming/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-23T18:33:04+04:00</updated>
+  <updated>2013-01-07T14:05:34+07:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
     <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+04:00</updated>
+    <updated>2012-10-21T16:30:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
     <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
 produces this output from this code?</p>
@@ -65,8 +65,8 @@ above it.</p>
 <p><img src="/images/uploads/2012/10/lookup1.png"></p>
 
 <p>It's important to understand that instances in ruby do not hold methods, only classes do.
-At the same time we're able to enhance <strong>specific objects</strong> with additional methods, that
-other objects of the same class will not have. Look:</p>
+At the same time we're able to enhance <strong>specific instances</strong> with additional methods, that
+other instances of the same class will not have. Look:</p>
 
 <p>``` ruby
 module Foo
@@ -89,11 +89,8 @@ bar1.extend Foo</p>
 
 <p>bar1.ancestors #
 bar1.hello # => "foo"
-bar2.hello # =></p>
-
-<h1>~> -:17:in <code>&lt;main&gt;': undefined method</code>hello' for #&lt;Bar:0x007f858210a1d0> (NoMethodError)</h1>
-
-<p>```</p>
+bar2.hello # ~> -:17:in <code>&lt;main&gt;': undefined method</code>hello' for #&lt;Bar:0x007f858210a1d0> (NoMethodError)
+```</p>
 
 <p>Here <code>bar2</code> instance does not have a <code>hello</code> method, while <code>bar1</code> does have it. This means
 that <code>hello</code> method can't be in <code>bar1</code> instance itself (remember, instances don't contain
@@ -102,7 +99,7 @@ where is that method located?</p>
 
 <p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
 class is where all those per-instance methods go. You won't be able to see it in the
-ancestors chain, ruby hides it from you. But it's there. So, in this case the lookup goes
+ancestors chain, ruby hides it from you. But it's there (well, technically speaking, it <em>appears</em> there when you define your first per-instance method). So, in this case the lookup goes
 like this:</p>
 
 <p><img src="/images/uploads/2012/10/lookup2.png"></p>
@@ -155,7 +152,7 @@ eigenclasses.</p>
   <entry>
     <title type="html"><![CDATA[Define module programmatically]]></title>
     <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
-    <updated>2012-04-02T03:14:50+04:00</updated>
+    <updated>2012-04-02T06:14:50+07:00</updated>
     <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
     <content type="html"><![CDATA[<p><code>ruby
 module Foo
@@ -211,7 +208,7 @@ Foo.const_set(:Bar, bar)</p>
   <entry>
     <title type="html"><![CDATA[Ruby: how to override class method with a module]]></title>
     <link href="http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module/"/>
-    <updated>2012-02-03T21:09:00+04:00</updated>
+    <updated>2012-02-04T00:09:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module</id>
     <content type="html"><![CDATA[<p>This seems to be a popular interview question. It indeed requires advanced knowledge of ruby.</p>
 

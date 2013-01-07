@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-23T18:33:04+04:00</updated>
+  <updated>2013-01-07T14:05:34+07:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Sorting humanized numbers in tablesorter.js]]></title>
     <link href="http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/"/>
-    <updated>2012-12-23T17:48:00+04:00</updated>
+    <updated>2012-12-23T17:48:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js</id>
     <content type="html"><![CDATA[<p><a href="http://tablesorter.com/docs/">Tablesorter</a> is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I went with it when I needed to sort a table a couple of days ago.</p>
 
@@ -131,7 +131,7 @@
   <entry>
     <title type="html"><![CDATA[Queue prioritization in Sidekiq]]></title>
     <link href="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/"/>
-    <updated>2012-12-17T04:47:00+04:00</updated>
+    <updated>2012-12-17T04:47:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq</id>
     <content type="html"><![CDATA[<p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default config:</p>
 
@@ -168,7 +168,7 @@
   <entry>
     <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
     <link href="http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/"/>
-    <updated>2012-12-15T18:23:00+04:00</updated>
+    <updated>2012-12-15T18:23:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem</id>
     <content type="html"><![CDATA[<p><a href="http://mperham.github.com/sidekiq/">Sidekiq</a> works pretty well with standard redis client. This is an example of configuring it (<a href="https://github.com/mperham/sidekiq/wiki/Advanced-Options">from official wiki</a>):</p>
 
@@ -225,7 +225,7 @@
   <entry>
     <title type="html"><![CDATA[My (un)success story of Colemak]]></title>
     <link href="http://tech.tulentsev.com/2012/11/my-un-success-story-of-colemak/"/>
-    <updated>2012-11-18T20:29:00+04:00</updated>
+    <updated>2012-11-18T20:29:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/11/my-un-success-story-of-colemak</id>
     <content type="html"><![CDATA[<p>I&#8217;ve been hearing a lot about <a href="http://colemak.com/">Colemak</a> recently. It&#8217;s a (relatively) new keyboard layout, specially designed for efficient touch typing in English. Any description
 of Colemak (including this very post) is accompanied by a story, how QWERTY layout was specifically designed to <em>hinder</em> fast typing, so that typewriter bars don&#8217;t get stuck. Ok, cool story, let&#8217;s try this silver <s>bullet</s> layout.</p>
@@ -263,7 +263,7 @@ of Colemak (including this very post) is accompanied by a story, how QWERTY layo
   <entry>
     <title type="html"><![CDATA[Talking Capistrano is your friend]]></title>
     <link href="http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend/"/>
-    <updated>2012-11-12T22:22:00+04:00</updated>
+    <updated>2012-11-12T22:22:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend</id>
     <content type="html"><![CDATA[<p>I want to share with you a small tweak I came up with a couple of days ago. As some of you
 know, Mac OS X includes a ton of very handy utilities. One of them is <code>say</code>. The name is
@@ -302,7 +302,7 @@ and it still make me smile everytime. I should probably come up with more creati
   <entry>
     <title type="html"><![CDATA[Pretty log in Git]]></title>
     <link href="http://tech.tulentsev.com/2012/11/pretty-log-in-git/"/>
-    <updated>2012-11-02T17:11:00+04:00</updated>
+    <updated>2012-11-02T17:11:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/11/pretty-log-in-git</id>
     <content type="html"><![CDATA[<p>Here&#8217;s what default <code>git log</code> output looks like</p>
 
@@ -334,7 +334,7 @@ customizable. Try this, for example:</p>
   <entry>
     <title type="html"><![CDATA[Is TextMate 2 ready for everyday coding? Let's find out.]]></title>
     <link href="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/"/>
-    <updated>2012-10-30T03:46:00+04:00</updated>
+    <updated>2012-10-30T03:46:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out</id>
     <content type="html"><![CDATA[<p>Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
 but I kept hearing about it. Never got to install the app.</p>
@@ -365,7 +365,7 @@ I won&#8217;t be too surprised tomorrow :)</p>
   <entry>
     <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
     <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
-    <updated>2012-10-29T10:42:00+04:00</updated>
+    <updated>2012-10-29T10:42:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
     <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
 (or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
@@ -397,7 +397,7 @@ profitable startup? :)</p>
   <entry>
     <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
     <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
-    <updated>2012-10-28T16:52:00+04:00</updated>
+    <updated>2012-10-28T16:52:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
     <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
 dealing with &#8220;legacy&#8221; systems (MySQL, in this instance). How cool it would be to just start
@@ -564,7 +564,7 @@ completely transparent, but this works for me at the moment. Feedback is welcome
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
     <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+04:00</updated>
+    <updated>2012-10-21T16:30:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
     <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
 produces this output from this code?</p>
@@ -625,8 +625,8 @@ above it.</p>
 <p><img src="http://tech.tulentsev.com/images/uploads/2012/10/lookup1.png"></p>
 
 <p>It&#8217;s important to understand that instances in ruby do not hold methods, only classes do.
-At the same time we&#8217;re able to enhance <strong>specific objects</strong> with additional methods, that
-other objects of the same class will not have. Look:</p>
+At the same time we&#8217;re able to enhance <strong>specific instances</strong> with additional methods, that
+other instances of the same class will not have. Look:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -646,7 +646,6 @@ other objects of the same class will not have. Look:</p>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
 </span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
@@ -664,8 +663,7 @@ other objects of the same class will not have. Look:</p>
 </span><span class='line'>
 </span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1">#</span>
 </span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; &quot;foo&quot;</span>
-</span><span class='line'><span class="n">bar2</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; </span>
-</span><span class='line'><span class="c1"># ~&gt; -:17:in `&lt;main&gt;&#39;: undefined method `hello&#39; for #&lt;Bar:0x007f858210a1d0&gt; (NoMethodError)</span>
+</span><span class='line'><span class="n">bar2</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># ~&gt; -:17:in `&lt;main&gt;&#39;: undefined method `hello&#39; for #&lt;Bar:0x007f858210a1d0&gt; (NoMethodError)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -676,7 +674,7 @@ where is that method located?</p>
 
 <p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
 class is where all those per-instance methods go. You won&#8217;t be able to see it in the
-ancestors chain, ruby hides it from you. But it&#8217;s there. So, in this case the lookup goes
+ancestors chain, ruby hides it from you. But it&#8217;s there (well, technically speaking, it <em>appears</em> there when you define your first per-instance method). So, in this case the lookup goes
 like this:</p>
 
 <p><img src="http://tech.tulentsev.com/images/uploads/2012/10/lookup2.png"></p>
@@ -741,7 +739,7 @@ eigenclasses.</p>
   <entry>
     <title type="html"><![CDATA[DIY: funnel chart]]></title>
     <link href="http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js/"/>
-    <updated>2012-10-20T20:02:00+04:00</updated>
+    <updated>2012-10-20T20:02:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js</id>
     <content type="html"><![CDATA[<p>Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
 and it doesn&#8217;t look like a freaking funnel (with neck and all).</p>
@@ -906,7 +904,7 @@ active development.</p>
   <entry>
     <title type="html"><![CDATA[Ruby gem for MurmurHash 3]]></title>
     <link href="http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3/"/>
-    <updated>2012-10-16T20:44:00+04:00</updated>
+    <updated>2012-10-16T20:44:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3</id>
     <content type="html"><![CDATA[<p>Still driven by <a href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">that post</a>,
 I decided to do something about it. So I went and tried to read the original paper. It was
@@ -962,7 +960,7 @@ is too cumbersome if you ask me, but it works and probably has less bugs than my
   <entry>
     <title type="html"><![CDATA[Probabilistic sets in Redis (almost magic)]]></title>
     <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
-    <updated>2012-10-16T00:18:00+04:00</updated>
+    <updated>2012-10-16T00:18:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
     <content type="html"><![CDATA[<p>A very interesting topic was posted today in Redis google group, called
 <a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">&#8220;Set Sketch Implementation&#8221;</a>.</p>
@@ -986,7 +984,7 @@ Single key operations are OK, of course, but what about multiple key ops?</p>
   <entry>
     <title type="html"><![CDATA[resque-multi-job-forks is finally updated]]></title>
     <link href="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/"/>
-    <updated>2012-09-16T09:00:00+04:00</updated>
+    <updated>2012-09-16T09:00:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated</id>
     <content type="html"><![CDATA[<p>I was using <a href="https://github.com/staugaard/resque-multi-job-forks/">resque-multi-job-forks</a>
 plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.
@@ -1005,7 +1003,7 @@ fork has reached its limit.</p>
   <entry>
     <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
     <link href="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/"/>
-    <updated>2012-09-03T17:00:00+04:00</updated>
+    <updated>2012-09-03T17:00:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects</id>
     <content type="html"><![CDATA[<p>Okay, I probably can&#8217;t avoid writing the obligatory migration article :) If in the
 migration process you decided to also change the domain name, then this article is for you.
@@ -1082,7 +1080,7 @@ should work already.</p>
   <entry>
     <title type="html"><![CDATA[How to automatically open new octopress post in editor?]]></title>
     <link href="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/"/>
-    <updated>2012-09-03T15:51:00+04:00</updated>
+    <updated>2012-09-03T15:51:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor</id>
     <content type="html"><![CDATA[<p>Recently I discovered <a href="http://octopress.org">Octopress</a> and instead of writing another
 article on how to migrate to it from Wordpress, I decided to do something else. And,
@@ -1169,7 +1167,7 @@ Now the creation of new post can look like this:</p>
   <entry>
     <title type="html"><![CDATA[It is all relative]]></title>
     <link href="http://tech.tulentsev.com/2012/09/it-is-all-relative/"/>
-    <updated>2012-09-03T15:50:00+04:00</updated>
+    <updated>2012-09-03T15:50:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/09/it-is-all-relative</id>
     <content type="html"><![CDATA[<p>I remember reading my first book on Javascript. It was covering Javascript 1.0 and included
 changes in Javascript 1.1 I thought then: &#8220;Wow, that&#8217;s an advanced stuff!&#8221; If I was told
@@ -1183,7 +1181,7 @@ air is still clean. :)</p>
   <entry>
     <title type="html"><![CDATA[Can I haz a gem?]]></title>
     <link href="http://tech.tulentsev.com/2012/04/can-i-haz-a-gem/"/>
-    <updated>2012-04-05T11:23:48+04:00</updated>
+    <updated>2012-04-05T14:23:48+07:00</updated>
     <id>http://tech.tulentsev.com/2012/04/can-i-haz-a-gem</id>
     <content type="html"><![CDATA[<p>Back when I was just starting to program, we used to joke about Delphi coders.</p>
 
@@ -1198,7 +1196,7 @@ air is still clean. :)</p>
   <entry>
     <title type="html"><![CDATA[Connect to multiple MySQL servers]]></title>
     <link href="http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers/"/>
-    <updated>2012-04-05T11:02:36+04:00</updated>
+    <updated>2012-04-05T14:02:36+07:00</updated>
     <id>http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers</id>
     <content type="html"><![CDATA[<p>You know how everyone is obsessed these days with scalability? Well, I am too. There&#8217;s a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
 
@@ -1356,7 +1354,7 @@ air is still clean. :)</p>
   <entry>
     <title type="html"><![CDATA[Define module programmatically]]></title>
     <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
-    <updated>2012-04-02T03:14:50+04:00</updated>
+    <updated>2012-04-02T06:14:50+07:00</updated>
     <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
     <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>

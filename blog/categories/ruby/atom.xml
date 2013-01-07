@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-23T18:33:04+04:00</updated>
+  <updated>2013-01-07T14:05:34+07:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
     <link href="http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/"/>
-    <updated>2012-12-15T18:23:00+04:00</updated>
+    <updated>2012-12-15T18:23:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem</id>
     <content type="html"><![CDATA[<p><a href="http://mperham.github.com/sidekiq/">Sidekiq</a> works pretty well with standard redis client. This is an example of configuring it (<a href="https://github.com/mperham/sidekiq/wiki/Advanced-Options">from official wiki</a>):</p>
 
@@ -60,7 +60,7 @@ end</p>
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
     <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+04:00</updated>
+    <updated>2012-10-21T16:30:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
     <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
 produces this output from this code?</p>
@@ -109,8 +109,8 @@ above it.</p>
 <p><img src="/images/uploads/2012/10/lookup1.png"></p>
 
 <p>It's important to understand that instances in ruby do not hold methods, only classes do.
-At the same time we're able to enhance <strong>specific objects</strong> with additional methods, that
-other objects of the same class will not have. Look:</p>
+At the same time we're able to enhance <strong>specific instances</strong> with additional methods, that
+other instances of the same class will not have. Look:</p>
 
 <p>``` ruby
 module Foo
@@ -133,11 +133,8 @@ bar1.extend Foo</p>
 
 <p>bar1.ancestors #
 bar1.hello # => "foo"
-bar2.hello # =></p>
-
-<h1>~> -:17:in <code>&lt;main&gt;': undefined method</code>hello' for #&lt;Bar:0x007f858210a1d0> (NoMethodError)</h1>
-
-<p>```</p>
+bar2.hello # ~> -:17:in <code>&lt;main&gt;': undefined method</code>hello' for #&lt;Bar:0x007f858210a1d0> (NoMethodError)
+```</p>
 
 <p>Here <code>bar2</code> instance does not have a <code>hello</code> method, while <code>bar1</code> does have it. This means
 that <code>hello</code> method can't be in <code>bar1</code> instance itself (remember, instances don't contain
@@ -146,7 +143,7 @@ where is that method located?</p>
 
 <p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
 class is where all those per-instance methods go. You won't be able to see it in the
-ancestors chain, ruby hides it from you. But it's there. So, in this case the lookup goes
+ancestors chain, ruby hides it from you. But it's there (well, technically speaking, it <em>appears</em> there when you define your first per-instance method). So, in this case the lookup goes
 like this:</p>
 
 <p><img src="/images/uploads/2012/10/lookup2.png"></p>
@@ -199,7 +196,7 @@ eigenclasses.</p>
   <entry>
     <title type="html"><![CDATA[Ruby gem for MurmurHash 3]]></title>
     <link href="http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3/"/>
-    <updated>2012-10-16T20:44:00+04:00</updated>
+    <updated>2012-10-16T20:44:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3</id>
     <content type="html"><![CDATA[<p>Still driven by <a href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">that post</a>,
 I decided to do something about it. So I went and tried to read the original paper. It was
@@ -248,7 +245,7 @@ ints.pack('L*').unpack('H*').first # =&gt; "df65d6d2d12d51f164c5f3a85066322c"
   <entry>
     <title type="html"><![CDATA[Define module programmatically]]></title>
     <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
-    <updated>2012-04-02T03:14:50+04:00</updated>
+    <updated>2012-04-02T06:14:50+07:00</updated>
     <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
     <content type="html"><![CDATA[<p><code>ruby
 module Foo
@@ -304,7 +301,7 @@ Foo.const_set(:Bar, bar)</p>
   <entry>
     <title type="html"><![CDATA[Ruby: for..in loop]]></title>
     <link href="http://tech.tulentsev.com/2012/03/ruby-forin-loop/"/>
-    <updated>2012-03-31T11:19:36+04:00</updated>
+    <updated>2012-03-31T14:19:36+07:00</updated>
     <id>http://tech.tulentsev.com/2012/03/ruby-forin-loop</id>
     <content type="html"><![CDATA[<p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like "Hey, dude, this is ruby, not javascript!" in my head. But, apparently, it's legal ruby :)</p>
 

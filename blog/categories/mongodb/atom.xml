@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mongodb | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/mongodb/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2012-12-23T18:33:04+04:00</updated>
+  <updated>2013-01-07T14:05:34+07:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
     <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
-    <updated>2012-10-28T16:52:00+04:00</updated>
+    <updated>2012-10-28T16:52:00+07:00</updated>
     <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
     <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
 dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start
@@ -149,7 +149,7 @@ completely transparent, but this works for me at the moment. Feedback is welcome
   <entry>
     <title type="html"><![CDATA[How to dump your MongoDB database partially (only selected tables)]]></title>
     <link href="http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/"/>
-    <updated>2012-03-21T19:15:22+04:00</updated>
+    <updated>2012-03-21T22:15:22+07:00</updated>
     <id>http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables</id>
     <content type="html"><![CDATA[<p>Let's say you want to dump your MongoDB database. There's a handy tool that does just that, <strong>mongodump</strong>.</p>
 
@@ -189,7 +189,7 @@ done
   <entry>
     <title type="html"><![CDATA[Mongoid, db.system.namespaces queries]]></title>
     <link href="http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries/"/>
-    <updated>2012-02-03T20:12:54+04:00</updated>
+    <updated>2012-02-03T23:12:54+07:00</updated>
     <id>http://tech.tulentsev.com/2012/02/mongoid-db-system-namespaces-queries</id>
     <content type="html"><![CDATA[<p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
 
@@ -202,7 +202,7 @@ done
   <entry>
     <title type="html"><![CDATA[Atomic updates, part 2]]></title>
     <link href="http://tech.tulentsev.com/2010/06/atomic-updates-part-2/"/>
-    <updated>2010-06-02T15:12:41+04:00</updated>
+    <updated>2010-06-02T18:12:41+07:00</updated>
     <id>http://tech.tulentsev.com/2010/06/atomic-updates-part-2</id>
     <content type="html"><![CDATA[<p>Let's review another common scenario: posts and votes. Mongo's approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let's assume we want to register a new vote on post. This operation consists of three steps:</p>
 

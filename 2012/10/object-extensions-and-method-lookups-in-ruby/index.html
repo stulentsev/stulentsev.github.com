@@ -107,7 +107,7 @@ produces this output from this code? 1
   
 
 
-<time datetime="2012-10-21T16:30:00+04:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+<time datetime="2012-10-21T16:30:00+07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -175,8 +175,8 @@ above it.</p>
 <p><img src="/images/uploads/2012/10/lookup1.png"></p>
 
 <p>It&#8217;s important to understand that instances in ruby do not hold methods, only classes do.
-At the same time we&#8217;re able to enhance <strong>specific objects</strong> with additional methods, that
-other objects of the same class will not have. Look:</p>
+At the same time we&#8217;re able to enhance <strong>specific instances</strong> with additional methods, that
+other instances of the same class will not have. Look:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -196,7 +196,6 @@ other objects of the same class will not have. Look:</p>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
-<span class='line-number'>19</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
 </span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
@@ -214,8 +213,7 @@ other objects of the same class will not have. Look:</p>
 </span><span class='line'>
 </span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1">#</span>
 </span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; &quot;foo&quot;</span>
-</span><span class='line'><span class="n">bar2</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; </span>
-</span><span class='line'><span class="c1"># ~&gt; -:17:in `&lt;main&gt;&#39;: undefined method `hello&#39; for #&lt;Bar:0x007f858210a1d0&gt; (NoMethodError)</span>
+</span><span class='line'><span class="n">bar2</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># ~&gt; -:17:in `&lt;main&gt;&#39;: undefined method `hello&#39; for #&lt;Bar:0x007f858210a1d0&gt; (NoMethodError)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -226,7 +224,7 @@ where is that method located?</p>
 
 <p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
 class is where all those per-instance methods go. You won&#8217;t be able to see it in the
-ancestors chain, ruby hides it from you. But it&#8217;s there. So, in this case the lookup goes
+ancestors chain, ruby hides it from you. But it&#8217;s there (well, technically speaking, it <em>appears</em> there when you define your first per-instance method). So, in this case the lookup goes
 like this:</p>
 
 <p><img src="/images/uploads/2012/10/lookup2.png"></p>
@@ -307,7 +305,7 @@ eigenclasses.</p>
   
 
 
-<time datetime="2012-10-21T16:30:00+04:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+<time datetime="2012-10-21T16:30:00+07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
       
 
 <span class="categories">
@@ -415,7 +413,7 @@ eigenclasses.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Sergio Tulentsev -
+  Copyright &copy; 2013 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
