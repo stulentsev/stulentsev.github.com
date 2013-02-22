@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-01-07T14:05:34+07:00</updated>
+  <updated>2013-02-22T13:01:13+07:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[cap deploy from an arbitrary branch]]></title>
+    <link href="http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch/"/>
+    <updated>2013-02-22T12:34:00+07:00</updated>
+    <id>http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch</id>
+    <content type="html"><![CDATA[<p>As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;develop&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you develop in a single branch, that should do it for you. All commits go to one branch and all deploys are likely served by the same branch. This is a simple model, good enough for small projects.</p>
+
+<p>However, if you adopt <a href="http://nvie.com/posts/a-successful-git-branching-model/">git flow</a>, it encourages you (not to say &#8220;forces&#8221;) to have separate branch for every feature, release or hotfix that you&#8217;re working on. And, naturally, you want to deploy to dev/staging server right from a feature branch, not having to merge it first to develop/master. This is trivial to accomplish, just change the branch name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;feature/my-test-feature&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you have a pending file change. What do you do with it? Commit to source control? That increases file churn rate for absolutely no reason. <code>git checkout</code> that file? This is an extra action, of which you will be tired quite soon (not to mention chance to accidentally commit the file).</p>
+
+<p>Solution? Externalize the setting. When deploying, look in the environment for a branch to use and fallback to default name.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;BRANCH&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;develop&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you do this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">BRANCH</span><span class="o">=</span>feature/my-test-feature cap deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, if you have multistage enabled</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">BRANCH</span><span class="o">=</span>feature/my-test-feature cap staging deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, this requires a bit more typing on each deploy, but at the same time it decreases chances of deploying from a wrong branch.</p>
+
+<p>Happy deploying!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Sorting humanized numbers in tablesorter.js]]></title>
@@ -1348,83 +1398,6 @@ air is still clean. :)</p>
 
 
 <p>Now if we want to use this functionality in some other models, we just include that module. This code can certainly be improved further, post your suggestions :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Define module programmatically]]></title>
-    <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
-    <updated>2012-04-02T06:14:50+07:00</updated>
-    <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
-    <content type="html"><![CDATA[<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Given a module <code>Foo</code>, how do you define a nested module <code>Bar</code>?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'>    <span class="k">module</span> <span class="nn">Bar</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&#8217;s a number of ways. First, most obvious one is to eval a string.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">class_eval</span> <span class="o">&lt;&lt;</span><span class="no">RUBY</span>
-</span><span class='line'><span class="sh">  module #{name}</span>
-</span><span class='line'><span class="sh">  end</span>
-</span><span class='line'><span class="no">RUBY</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While this certainly works and gets job done, it has some flaws. First, it&#8217;s a string, so some editors and IDEs will get confused and lose coloring/completion. Second, there&#8217;s no validation on module name. In best case, you&#8217;ll get compiler error. In worst case, you&#8217;ll get hard to track bugs.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Module</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">const_set</span><span class="p">(</span><span class="ss">:Bar</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This one is better. You clearly state that you&#8217;re going to set a constant, and module name is pretty restricted.</p>
-
-<p>Are there other ways to do this?</p>
 ]]></content>
   </entry>
   

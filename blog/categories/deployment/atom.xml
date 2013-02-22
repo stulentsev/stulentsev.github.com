@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: deployment | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/deployment/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2013-02-22T13:01:13+07:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[cap deploy from an arbitrary branch]]></title>
+    <link href="http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch/"/>
+    <updated>2013-02-22T12:34:00+07:00</updated>
+    <id>http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch</id>
+    <content type="html"><![CDATA[<p>As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it</p>
+
+<p><code>ruby
+set :branch, 'develop'
+</code></p>
+
+<p>If you develop in a single branch, that should do it for you. All commits go to one branch and all deploys are likely served by the same branch. This is a simple model, good enough for small projects.</p>
+
+<p>However, if you adopt <a href="http://nvie.com/posts/a-successful-git-branching-model/">git flow</a>, it encourages you (not to say "forces") to have separate branch for every feature, release or hotfix that you're working on. And, naturally, you want to deploy to dev/staging server right from a feature branch, not having to merge it first to develop/master. This is trivial to accomplish, just change the branch name:</p>
+
+<p><code>ruby
+set :branch, 'feature/my-test-feature'
+</code></p>
+
+<p>Now you have a pending file change. What do you do with it? Commit to source control? That increases file churn rate for absolutely no reason. <code>git checkout</code> that file? This is an extra action, of which you will be tired quite soon (not to mention chance to accidentally commit the file).</p>
+
+<p>Solution? Externalize the setting. When deploying, look in the environment for a branch to use and fallback to default name.</p>
+
+<p><code>ruby
+set :branch, ENV['BRANCH'] || "develop"
+</code></p>
+
+<p>Then you do this</p>
+
+<p><code>bash
+BRANCH=feature/my-test-feature cap deploy
+</code></p>
+
+<p>Or, if you have multistage enabled</p>
+
+<p><code>bash
+BRANCH=feature/my-test-feature cap staging deploy
+</code></p>
+
+<p>Of course, this requires a bit more typing on each deploy, but at the same time it decreases chances of deploying from a wrong branch.</p>
+
+<p>Happy deploying!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -9,7 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Tablesorter is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I &hellip;">
+  <meta name="description" content="As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it 1
+set :branch, &#39;develop&#39; If you &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +77,85 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">Cap Deploy From an Arbitrary Branch</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-22T12:34:00+07:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2013</time>
+        
+         | <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;develop&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you develop in a single branch, that should do it for you. All commits go to one branch and all deploys are likely served by the same branch. This is a simple model, good enough for small projects.</p>
+
+<p>However, if you adopt <a href="http://nvie.com/posts/a-successful-git-branching-model/">git flow</a>, it encourages you (not to say &#8220;forces&#8221;) to have separate branch for every feature, release or hotfix that you&#8217;re working on. And, naturally, you want to deploy to dev/staging server right from a feature branch, not having to merge it first to develop/master. This is trivial to accomplish, just change the branch name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;feature/my-test-feature&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you have a pending file change. What do you do with it? Commit to source control? That increases file churn rate for absolutely no reason. <code>git checkout</code> that file? This is an extra action, of which you will be tired quite soon (not to mention chance to accidentally commit the file).</p>
+
+<p>Solution? Externalize the setting. When deploying, look in the environment for a branch to use and fallback to default name.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;BRANCH&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;develop&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you do this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">BRANCH</span><span class="o">=</span>feature/my-test-feature cap deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, if you have multistage enabled</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">BRANCH</span><span class="o">=</span>feature/my-test-feature cap staging deploy
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, this requires a bit more typing on each deploy, but at the same time it decreases chances of deploying from a wrong branch.</p>
+
+<p>Happy deploying!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -736,100 +816,6 @@ it can be done.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object Extensions and Method Lookups in Ruby</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-21T16:30:00+07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
-        
-         | <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
-produces this output from this code?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">Foo</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;bar&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">hello</span>
-</span><span class='line'><span class="c1"># &gt;&gt; foo</span>
-</span><span class='line'><span class="c1"># &gt;&gt; bar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The algorithm for method lookups can be summarized in one sentence: &#8220;one step to the right,
-then up&#8221;. This is referring a specific visualization of objects and classes relationships,
-where we place object&#8217;s class to the right from the object, and place ancestor of a class
-above it.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -845,6 +831,10 @@ above it.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting humanized numbers in tablesorter.js</a>
       </li>
     
@@ -858,10 +848,6 @@ above it.</p>
     
       <li class="post">
         <a href="/2012/11/my-un-success-story-of-colemak/">My (un)success story of Colemak</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/11/talking-capistrano-is-your-friend/">Talking Capistrano is your friend</a>
       </li>
     
   </ul>
