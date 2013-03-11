@@ -5,14 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Advanced default parameters - Byte Friendly</title>
+  <title>Move Capistrano's log directory - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Today I was quite amazed by one of Ruby features. It is about default values of method parameters. For example you can do something like this: 1
-2
-3 &hellip;">
-  
+  <meta name="description" content="So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries &hellip;">
+  <meta name="keywords" content="capistrano rails ruby deploy deployment log logging directory folder">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -20,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2009/03/advanced-default-parametes/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -81,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Advanced Default Parameters</h1>
+      <h1 class="entry-title">Move Capistrano's Log Directory</h1>
     
     
       <p class="meta">
@@ -97,7 +95,7 @@
   
 
 
-<time datetime="2009-03-10T06:20:29+07:00" pubdate data-updated="true">Mar 10<span>th</span>, 2009</time>
+<time datetime="2013-03-11T14:34:00+07:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -106,18 +104,38 @@
   </header>
 
 
-<div class="entry-content"><p>Today I was quite amazed by one of Ruby features. It is about default values of method parameters. For example you can do something like this:</p>
+<div class="entry-content"><p>So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries with <code>#{rails_root}/log</code> paths hardcoded in them? Fear not, there&#8217;s a simple workaround.</p>
+
+<p>As you probably know, capistrano aliases your rails log dir to a shared dir outside of app folder.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /deploy_path/shared/log /deploy_path/current/log</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This means that, in fact, all your logs turn up at <code>/deploy_path/shared/log/</code>. Now all we need is to symlink that dir as well!</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_current_actions</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">status_id</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:status_id</span><span class="o">]</span> <span class="o">||</span> <span class="no">DEFAULT_STATUS_ID</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># implementation goes here</span>
-</span><span class='line'><span class="k">end</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo mkdir /var/log/yourapp
+</span><span class='line'>
+</span><span class='line'><span class="c"># make it writable to the app</span>
+</span><span class='line'>sudo chown -R youruser:yourgroup /var/log/yourapp/
+</span><span class='line'>
+</span><span class='line'><span class="c"># deal with existing log dir (I back it up, but you can remove it, or copy the files to </span>
+</span><span class='line'><span class="c">#   the new location)</span>
+</span><span class='line'>mv /deploy_path/shared/log /deploy_path/shared/log_
+</span><span class='line'>ln -s /var/log/yourapp /deploy_path/shared/log
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The code is saying basically this: &#8220;if status_id is not passed explicitly, try to take its value from <strong>params</strong> array. If it doesn&#8217;t contain specified key, then fall back to a constant&#8221;. This feature (as almost all the rest of Ruby magic) made avaiable by Ruby&#8217;s nature: it is interpreted language. This type of code is totally unusual to guys like me, who come from the world of static typing and compiled languages. But I think I&#8217;m gonna get used to it :-)</p>
+<p>Hope this helps :)</p>
 </div>
 
 
@@ -140,15 +158,21 @@
   
 
 
-<time datetime="2009-03-10T06:20:29+07:00" pubdate data-updated="true">Mar 10<span>th</span>, 2009</time>
+<time datetime="2013-03-11T14:34:00+07:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/deployment/'>deployment</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2009/03/advanced-default-parametes/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2009/03/advanced-default-parametes/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -159,10 +183,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2009/03/iterations-are-good/" title="Previous Post: Iterations are good">&laquo; Iterations are good</a>
+        <a class="basic-alignment left" href="/2013/02/cap-deploy-from-an-arbitrary-branch/" title="Previous Post: cap deploy from an arbitrary branch">&laquo; cap deploy from an arbitrary branch</a>
       
-      
-        <a class="basic-alignment right" href="/2009/05/intuitive-behaviour/" title="Next Post: Intuitive behaviour">Intuitive behaviour &raquo;</a>
       
     </p>
   </footer>
@@ -254,8 +276,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2009/03/advanced-default-parametes/';
-        var disqus_url = 'http://tech.tulentsev.com/2009/03/advanced-default-parametes/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/';
+        var disqus_url = 'http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/';
         var disqus_script = 'embed.js';
       
     (function () {

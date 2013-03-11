@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Problems with formatting The &#8220;official&#8221; way to format strings in .NET BCL is to use String.Format method (and wrappers for it, like &hellip;">
+  <meta name="description" content="One thing I dislike in my current Vista installation is how it behaves while trying to unmount USB harddrive. I have a 320 gig external drive, which &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2009/01/unmount-this-drive-please/">Unmount This Drive&#8230; Please?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-01-08T17:58:18+07:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
+        
+         | <a href="/2009/01/unmount-this-drive-please/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>One thing I dislike in my current Vista installation is how it behaves while trying to unmount USB harddrive. I have a 320 gig external drive, which serves as a storage for my backups, torrents and videos. Also I store and run different virtual machines from it.</p>
+
+<p>This morning I was about to go to the office. I shut down <a href="http://www.utorrent.com/">uTorrent</a> and clicked &#8220;Safely remove&#8221; on my drive. &#8220;This disk cannot be removed right now. I don&#8217;t know who uses it, but someone surely is.&#8221; was the response. I tried again. The same result. Hmm, maybe some program or explorer window is indeed hanging around. I double-checked all icons on a taskbar, then running processes in Task Manager. Nothing.</p>
+
+<p>&#8220;What&#8217;s wrong with you?&#8221;, I said to the laptop and tried once again. &#8220;Now you can safely remove the hardware&#8221;. Oh, thank you so much! Why couldn&#8217;t you do it the first time I asked you? (And this happens to me on a regular basis, daily. Sometimes, two or three times a day).</p>
+
+<p>As a tech guy I can guess what&#8217;s happening. uTorrent opens a lot of files and it probably takes some time to close them and flush all buffers to the drive (which is not very fast, it is external tiny box). Ok, no problem with that. But couldn&#8217;t it be done synchronously? I think, Windows can easily recognize situations when some program has open file handles on the drive, or just some file buffers need to be flushed. In the latter case it could show a popup &#8220;Removing the drive, please wait&#8230;&#8221; and do its work. That would leave no space for speculations.</p>
+
+<p>In the other case (when a program uses a disk): is it too difficult to point at the culprit? Some installers can do this. And I am pretty sure there is a 3rd party software that does this. This is pure usability issue. I hope they&#8217;ll take care of it in Windows 7.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -473,6 +519,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s log directory</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
       </li>
     
@@ -486,10 +536,6 @@
     
       <li class="post">
         <a href="/2012/12/using-sidekiq-with-redis-failover-gem/">Using Sidekiq with redis_failover gem</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/11/my-un-success-story-of-colemak/">My (un)success story of Colemak</a>
       </li>
     
   </ul>

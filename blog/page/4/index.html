@@ -9,21 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am beginning to fall in love with jQuery. Screw you, bicycle inventors! :-) 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-function next_step() { // note how &hellip;">
+  <meta name="description" content="Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like: 1
+/[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/ It &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,6 +77,162 @@ function next_step() { // note how &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/01/email-validation-done-right/">Email Validation Done Right</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-12T00:48:24+07:00" pubdate data-updated="true">Jan 12<span>th</span>, 2012</time>
+        
+         | <a href="/2012/01/email-validation-done-right/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Let&#8217;s imagine that you have to check if a string is a valid email. You could come up with something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/[a-zA-Z0-9\.]+@[a-z]+\.[a-z]+/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It works, right? WRONG. Sure it&#8217;ll handle a couple of your test examples. But it&#8217;s not ready for real world usage. Here&#8217;s a standards compliant Perl regex.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/(?(DEFINE)</span>
+</span><span class='line'><span class="sr">   (?&lt;address&gt;         (?&amp;mailbox;) | (?&amp;group;))</span>
+</span><span class='line'><span class="sr">   (?&lt;mailbox&gt;         (?&amp;name;_addr) | (?&amp;addr;_spec))</span>
+</span><span class='line'><span class="sr">   (?&lt;name_addr&gt;       (?&amp;display;_name)? (?&amp;angle;_addr))</span>
+</span><span class='line'><span class="sr">   (?&lt;angle_addr&gt;      (?&amp;CFWS;)? &lt; (?&amp;addr;_spec) &gt; (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sr">   (?&lt;group&gt;           (?&amp;display;_name) : (?:(?&amp;mailbox;_list) | (?&amp;CFWS;))? ;</span>
+</span><span class='line'><span class="sr">                                          (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sr">   (?&lt;display_name&gt;    (?&amp;phrase;))</span>
+</span><span class='line'><span class="sr">   (?&lt;mailbox_list&gt;    (?&amp;mailbox;) (?: , (?&amp;mailbox;))*)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">   (?&lt;addr_spec&gt;       (?&amp;local;_part) \@ (?&amp;domain;))</span>
+</span><span class='line'><span class="sr">   (?&lt;local_part&gt;      (?&amp;dot;_atom) | (?&amp;quoted;_string))</span>
+</span><span class='line'><span class="sr">   (?&lt;domain&gt;          (?&amp;dot;_atom) | (?&amp;domain;_literal))</span>
+</span><span class='line'><span class="sr">   (?&lt;domain_literal&gt;  (?&amp;CFWS;)? \[ (?: (?&amp;FWS;)? (?&amp;dcontent;))* (?&amp;FWS;)?</span>
+</span><span class='line'><span class="sr">                                 \] (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sr">   (?&lt;dcontent&gt;        (?&amp;dtext;) | (?&amp;quoted;_pair))</span>
+</span><span class='line'><span class="sr">   (?&lt;dtext&gt;           (?&amp;NO;_WS_CTL) | [\x21-\x5a\x5e-\x7e])</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">   (?&lt;atext&gt;           (?&amp;ALPHA;) | (?&amp;DIGIT;) | [!#\$%&amp;&#39;*+-/</span><span class="o">=</span><span class="p">?</span><span class="o">^</span><span class="n">_</span><span class="sb">`{|}~])</span>
+</span><span class='line'><span class="sb">   (?&lt;atom&gt;            (?&amp;CFWS;)? (?&amp;atext;)+ (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sb">   (?&lt;dot_atom&gt;        (?&amp;CFWS;)? (?&amp;dot;_atom_text) (?&amp;CFWS;)?)</span>
+</span><span class='line'><span class="sb">   (?&lt;dot_atom_text&gt;   (?&amp;atext;)+ (?: \. (?&amp;atext;)+)*)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;text&gt;            [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x09\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x7f</span><span class="sb">])</span>
+</span><span class='line'><span class="sb">   (?&lt;quoted_pair&gt;     </span><span class="se">\\</span><span class="sb"> (?&amp;text;))</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;qtext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21\x23</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
+</span><span class='line'><span class="sb">   (?&lt;qcontent&gt;        (?&amp;qtext;) | (?&amp;quoted;_pair))</span>
+</span><span class='line'><span class="sb">   (?&lt;quoted_string&gt;   (?&amp;CFWS;)? (?&amp;DQUOTE;) (?:(?&amp;FWS;)? (?&amp;qcontent;))*</span>
+</span><span class='line'><span class="sb">                        (?&amp;FWS;)? (?&amp;DQUOTE;) (?&amp;CFWS;)?)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;word&gt;            (?&amp;atom;) | (?&amp;quoted;_string))</span>
+</span><span class='line'><span class="sb">   (?&lt;phrase&gt;          (?&amp;word;)+)</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   # Folding white space</span>
+</span><span class='line'><span class="sb">   (?&lt;fws&gt;             (?: (?&amp;WSP;)* (?&amp;CRLF;))? (?&amp;WSP;)+)</span>
+</span><span class='line'><span class="sb">   (?&lt;ctext&gt;           (?&amp;NO;_WS_CTL) | [</span><span class="se">\x21</span><span class="sb">-</span><span class="se">\x27\x2a</span><span class="sb">-</span><span class="se">\x5b\x5d</span><span class="sb">-</span><span class="se">\x7e</span><span class="sb">])</span>
+</span><span class='line'><span class="sb">   (?&lt;ccontent&gt;        (?&amp;ctext;) | (?&amp;quoted;_pair) | (?&amp;comment;))</span>
+</span><span class='line'><span class="sb">   (?&lt;comment&gt;         \( (?: (?&amp;FWS;)? (?&amp;ccontent;))* (?&amp;FWS;)? \) )</span>
+</span><span class='line'><span class="sb">   (?&lt;cfws&gt;            (?: (?&amp;FWS;)? (?&amp;comment;))*</span>
+</span><span class='line'><span class="sb">                       (?: (?:(?&amp;FWS;)? (?&amp;comment;)) | (?&amp;FWS;)))</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   # No whitespace control</span>
+</span><span class='line'><span class="sb">   (?&lt;no_ws_ctl&gt;       [</span><span class="se">\x01</span><span class="sb">-</span><span class="se">\x08\x0b\x0c\x0e</span><span class="sb">-</span><span class="se">\x1f\x7f</span><span class="sb">])</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb">   (?&lt;alpha&gt;           [A-Za-z])</span>
+</span><span class='line'><span class="sb">   (?&lt;digit&gt;           [0-9])</span>
+</span><span class='line'><span class="sb">   (?&lt;crlf&gt;            </span><span class="se">\x0d</span><span class="sb"> </span><span class="se">\x0a</span><span class="sb">)</span>
+</span><span class='line'><span class="sb">   (?&lt;dquote&gt;          &quot;)</span>
+</span><span class='line'><span class="sb">   (?&lt;wsp&gt;             [</span><span class="se">\x20\x09</span><span class="sb">])</span>
+</span><span class='line'><span class="sb"> )</span>
+</span><span class='line'>
+</span><span class='line'><span class="sb"> (?&amp;address;)/x</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> I couldn&#8217;t even imagine that the matter is <em>this</em> complex.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -561,52 +704,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/01/unmount-this-drive-please/">Unmount This Drive&#8230; Please?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-01-08T17:58:18+07:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
-        
-         | <a href="/2009/01/unmount-this-drive-please/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One thing I dislike in my current Vista installation is how it behaves while trying to unmount USB harddrive. I have a 320 gig external drive, which serves as a storage for my backups, torrents and videos. Also I store and run different virtual machines from it.</p>
-
-<p>This morning I was about to go to the office. I shut down <a href="http://www.utorrent.com/">uTorrent</a> and clicked &#8220;Safely remove&#8221; on my drive. &#8220;This disk cannot be removed right now. I don&#8217;t know who uses it, but someone surely is.&#8221; was the response. I tried again. The same result. Hmm, maybe some program or explorer window is indeed hanging around. I double-checked all icons on a taskbar, then running processes in Task Manager. Nothing.</p>
-
-<p>&#8220;What&#8217;s wrong with you?&#8221;, I said to the laptop and tried once again. &#8220;Now you can safely remove the hardware&#8221;. Oh, thank you so much! Why couldn&#8217;t you do it the first time I asked you? (And this happens to me on a regular basis, daily. Sometimes, two or three times a day).</p>
-
-<p>As a tech guy I can guess what&#8217;s happening. uTorrent opens a lot of files and it probably takes some time to close them and flush all buffers to the drive (which is not very fast, it is external tiny box). Ok, no problem with that. But couldn&#8217;t it be done synchronously? I think, Windows can easily recognize situations when some program has open file handles on the drive, or just some file buffers need to be flushed. In the latter case it could show a popup &#8220;Removing the drive, please wait&#8230;&#8221; and do its work. That would leave no space for speculations.</p>
-
-<p>In the other case (when a program uses a disk): is it too difficult to point at the culprit? Some installers can do this. And I am pretty sure there is a 3rd party software that does this. This is pure usability issue. I hope they&#8217;ll take care of it in Windows 7.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -624,6 +721,10 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s log directory</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
       </li>
     
@@ -637,10 +738,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     
       <li class="post">
         <a href="/2012/12/using-sidekiq-with-redis-failover-gem/">Using Sidekiq with redis_failover gem</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/11/my-un-success-story-of-colemak/">My (un)success story of Colemak</a>
       </li>
     
   </ul>

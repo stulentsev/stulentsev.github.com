@@ -4,7 +4,7 @@
   <title><![CDATA[Category: deployment | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/deployment/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-02-22T13:01:13+07:00</updated>
+  <updated>2013-03-11T14:59:41+07:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Move Capistrano's log directory]]></title>
+    <link href="http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/"/>
+    <updated>2013-03-11T14:34:00+07:00</updated>
+    <id>http://tech.tulentsev.com/2013/03/move-capistranos-log-directory</id>
+    <content type="html"><![CDATA[<p>So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries with <code>#{rails_root}/log</code> paths hardcoded in them? Fear not, there's a simple workaround.</p>
+
+<p>As you probably know, capistrano aliases your rails log dir to a shared dir outside of app folder.</p>
+
+<p><code>
+ln -s /deploy_path/shared/log /deploy_path/current/log
+</code></p>
+
+<p>This means that, in fact, all your logs turn up at <code>/deploy_path/shared/log/</code>. Now all we need is to symlink that dir as well!</p>
+
+<p>``` bash
+sudo mkdir /var/log/yourapp</p>
+
+<h1>make it writable to the app</h1>
+
+<p>sudo chown -R youruser:yourgroup /var/log/yourapp/</p>
+
+<h1>deal with existing log dir (I back it up, but you can remove it, or copy the files to</h1>
+
+<h1>the new location)</h1>
+
+<p>mv /deploy_path/shared/log /deploy_path/shared/log_
+ln -s /var/log/yourapp /deploy_path/shared/log
+```</p>
+
+<p>Hope this helps :)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[cap deploy from an arbitrary branch]]></title>
