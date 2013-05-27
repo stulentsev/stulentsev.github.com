@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="One thing I dislike in my current Vista installation is how it behaves while trying to unmount USB harddrive. I have a 320 gig external drive, which &hellip;">
+  <meta name="description" content="When I was implementing previous issue, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,73 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/2009/02/sugarcrm-more-colors/">SugarCRM: More Colors!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-06T18:24:41+03:00" pubdate data-updated="true">Feb 6<span>th</span>, 2009</time>
+        
+         | <a href="/2009/02/sugarcrm-more-colors/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When I was implementing <a href="http://tech.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: &#8220;Can we also mark meetings with colors, corresponding to users?&#8221;. This way it becomes somewhat easier to identify originator of an event. &#8220;Yeah, it would be cool, but it can be tricky and difficult to implement&#8221;, I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn&#8217;t quite enjoyed the experience.</p>
+
+<p>But later at home I was thinking about it and decided that it may not be as hard as it looks. We can divide the task into two subtasks:</p>
+
+<ul>
+<li>provide a unique color for each user</li>
+<li>use this color when generating markup for an event</li>
+</ul>
+
+
+<p>The latter subtask was quite easy to implement, I already knew a place where the markup was generated. I was more scared by the former one. If done in &#8220;enterprisey&#8221; way, it could involve new property in User entity, new configuration screens, database alterations, etc. But there is a solution almost as good as abovementioned and much more simple. Let&#8217;s define a function that maps user name to color. md5() is a good candidate :-)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">function get_color_by_name($name)</span>
+</span><span class='line'><span class="x">{</span>
+</span><span class='line'><span class="x">    $html_color_string = substr(md5($name), 0, 6);</span>
+</span><span class='line'><span class="x">    return $html_color_string;</span>
+</span><span class='line'><span class="x">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also used RGB&lt;=>HSV transformation functions, because I wanted to get lighter colors. Initially I wanted to highlight event&#8217;s name with the color, but it turned out that text is not always readable. I decided not to write functions that calculate good contrasting colors and put a small color rectangle instead of highlight. This rectangle is essentially a span with several &nbsp; &#8216;s as a body.</p>
+
+<p>So, final result looks like this:<a href="http://tech.tulentsev.com/images/uploads/2009/02/sugar_colors.png"><img src="http://tech.tulentsev.com/images/uploads/2009/02/sugar_colors.png" alt="sugar_colors" /></a></p>
+
+<p>Here is <a href="http://tech.tulentsev.com/images/uploads/2009/02/colors.patch">complete patch</a> (it has too big lines to look good on this page)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/2009/01/unmount-this-drive-please/">Unmount This Drive&#8230; Please?</a></h1>
     
     
@@ -98,7 +165,7 @@
   
 
 
-<time datetime="2009-01-08T17:58:18+07:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
+<time datetime="2009-01-08T13:58:18+03:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
         
          | <a href="/2009/01/unmount-this-drive-please/#disqus_thread">Comments</a>
         
@@ -144,7 +211,7 @@
   
 
 
-<time datetime="2009-01-05T17:45:17+07:00" pubdate data-updated="true">Jan 5<span>th</span>, 2009</time>
+<time datetime="2009-01-05T13:45:17+03:00" pubdate data-updated="true">Jan 5<span>th</span>, 2009</time>
         
          | <a href="/2009/01/formatting-with-named-parameters/#disqus_thread">Comments</a>
         
@@ -212,7 +279,7 @@
   
 
 
-<time datetime="2008-12-19T17:37:48+07:00" pubdate data-updated="true">Dec 19<span>th</span>, 2008</time>
+<time datetime="2008-12-19T13:37:48+03:00" pubdate data-updated="true">Dec 19<span>th</span>, 2008</time>
         
          | <a href="/2008/12/case-sensitivity-and-tools/#disqus_thread">Comments</a>
         
@@ -262,7 +329,7 @@
   
 
 
-<time datetime="2008-12-18T22:53:28+07:00" pubdate data-updated="true">Dec 18<span>th</span>, 2008</time>
+<time datetime="2008-12-18T18:53:28+03:00" pubdate data-updated="true">Dec 18<span>th</span>, 2008</time>
         
          | <a href="/2008/12/creating-ui-mockups-with-balsamiq/#disqus_thread">Comments</a>
         
@@ -326,7 +393,7 @@
   
 
 
-<time datetime="2008-12-03T02:04:42+07:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2008</time>
+<time datetime="2008-12-02T22:04:42+03:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2008</time>
         
          | <a href="/2008/12/entity-framework-sqlexpress-and-remote-connections/#disqus_thread">Comments</a>
         
@@ -376,7 +443,7 @@
   
 
 
-<time datetime="2008-11-24T14:18:17+07:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
+<time datetime="2008-11-24T10:18:17+03:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
         
          | <a href="/2008/11/silverlight-security-error/#disqus_thread">Comments</a>
         
@@ -420,7 +487,7 @@
   
 
 
-<time datetime="2008-11-24T05:04:30+07:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
+<time datetime="2008-11-24T01:04:30+03:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
         
          | <a href="/2008/11/silverlight-2-trouble-with-post-requests/#disqus_thread">Comments</a>
         
@@ -475,7 +542,7 @@
   
 
 
-<time datetime="2008-10-31T04:37:23+07:00" pubdate data-updated="true">Oct 31<span>st</span>, 2008</time>
+<time datetime="2008-10-31T00:37:23+03:00" pubdate data-updated="true">Oct 31<span>st</span>, 2008</time>
         
          | <a href="/2008/10/windows-live-writer-wordpress-problems/#disqus_thread">Comments</a>
         
@@ -519,6 +586,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2013/05/new-post/">new-post</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s log directory</a>
       </li>
     
@@ -532,10 +603,6 @@
     
       <li class="post">
         <a href="/2012/12/queue-prioritization-in-sidekiq/">Queue prioritization in Sidekiq</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/12/using-sidekiq-with-redis-failover-gem/">Using Sidekiq with redis_failover gem</a>
       </li>
     
   </ul>

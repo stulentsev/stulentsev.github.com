@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-03-11T14:59:41+07:00</updated>
+  <updated>2013-05-27T14:03:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[It is all relative]]></title>
     <link href="http://tech.tulentsev.com/2012/09/it-is-all-relative/"/>
-    <updated>2012-09-03T15:50:00+07:00</updated>
+    <updated>2012-09-03T15:50:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/09/it-is-all-relative</id>
     <content type="html"><![CDATA[<p>I remember reading my first book on Javascript. It was covering Javascript 1.0 and included
 changes in Javascript 1.1 I thought then: "Wow, that's an advanced stuff!" If I was told
@@ -30,7 +30,7 @@ air is still clean. :)</p>
   <entry>
     <title type="html"><![CDATA[Can I haz a gem?]]></title>
     <link href="http://tech.tulentsev.com/2012/04/can-i-haz-a-gem/"/>
-    <updated>2012-04-05T14:23:48+07:00</updated>
+    <updated>2012-04-05T11:23:48+04:00</updated>
     <id>http://tech.tulentsev.com/2012/04/can-i-haz-a-gem</id>
     <content type="html"><![CDATA[<p>Back when I was just starting to program, we used to joke about Delphi coders.</p>
 
@@ -45,7 +45,7 @@ air is still clean. :)</p>
   <entry>
     <title type="html"><![CDATA[Ruby: for..in loop]]></title>
     <link href="http://tech.tulentsev.com/2012/03/ruby-forin-loop/"/>
-    <updated>2012-03-31T14:19:36+07:00</updated>
+    <updated>2012-03-31T11:19:36+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/ruby-forin-loop</id>
     <content type="html"><![CDATA[<p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like "Hey, dude, this is ruby, not javascript!" in my head. But, apparently, it's legal ruby :)</p>
 
@@ -79,7 +79,7 @@ end
   <entry>
     <title type="html"><![CDATA[Fun with classes: find which class is the biggest :)]]></title>
     <link href="http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest/"/>
-    <updated>2012-03-30T08:13:27+07:00</updated>
+    <updated>2012-03-30T05:13:27+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/fun-with-classes-find-which-class-is-the-biggest</id>
     <content type="html"><![CDATA[<p>Did you know that in Ruby you can compare classes with 'less-than' and 'greater-than' operators? I did not (until today). Observe:</p>
 
@@ -154,7 +154,7 @@ end</p>
   <entry>
     <title type="html"><![CDATA[Deploying with Sinatra + Capistrano + Unicorn]]></title>
     <link href="http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn/"/>
-    <updated>2012-03-09T23:02:46+07:00</updated>
+    <updated>2012-03-09T20:02:46+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn</id>
     <content type="html"><![CDATA[<p>Today we'll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let's think of a stupid name for this project. What about "sincapun"? Any objections? Good, let's proceed.</p>
 

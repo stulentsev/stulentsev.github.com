@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Entity Framework | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/entity-framework/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-03-11T14:59:41+07:00</updated>
+  <updated>2013-05-27T14:03:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Entity Framework, SQLExpress and remote connections]]></title>
     <link href="http://tech.tulentsev.com/2008/12/entity-framework-sqlexpress-and-remote-connections/"/>
-    <updated>2008-12-03T02:04:42+07:00</updated>
+    <updated>2008-12-02T22:04:42+03:00</updated>
     <id>http://tech.tulentsev.com/2008/12/entity-framework-sqlexpress-and-remote-connections</id>
     <content type="html"><![CDATA[<p>Today I had to fight one small, but highly annoying problem. It is related to Entity Framework and SQL Server connection string. When you create a .edmx file with your model, the wizard automatically inserts proper connection string to your app.config or web.config file. Well, it is not always correct string.</p>
 

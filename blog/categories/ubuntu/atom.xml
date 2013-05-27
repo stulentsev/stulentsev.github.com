@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ubuntu | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-03-11T14:59:41+07:00</updated>
+  <updated>2013-05-27T14:03:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How to keep your system clock synchronized on Ubuntu?]]></title>
     <link href="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/"/>
-    <updated>2012-03-09T15:10:18+07:00</updated>
+    <updated>2012-03-09T12:10:18+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu</id>
     <content type="html"><![CDATA[<p>Your server's hardware clock isn't perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There's a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It's called ntpdate</p>
 

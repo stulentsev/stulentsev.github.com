@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-03-11T14:59:41+07:00</updated>
+  <updated>2013-05-27T14:03:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
     <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
-    <updated>2012-10-29T10:42:00+07:00</updated>
+    <updated>2012-10-29T10:42:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
     <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can't, is deferred posting
 (or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
@@ -48,7 +48,7 @@ profitable startup? :)</p>
   <entry>
     <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
     <link href="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/"/>
-    <updated>2012-09-03T17:00:00+07:00</updated>
+    <updated>2012-09-03T17:00:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects</id>
     <content type="html"><![CDATA[<p>Okay, I probably can't avoid writing the obligatory migration article :) If in the
 migration process you decided to also change the domain name, then this article is for you.
@@ -133,7 +133,7 @@ should work already.</p>
   <entry>
     <title type="html"><![CDATA[How to automatically open new octopress post in editor?]]></title>
     <link href="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/"/>
-    <updated>2012-09-03T15:51:00+07:00</updated>
+    <updated>2012-09-03T15:51:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor</id>
     <content type="html"><![CDATA[<p>Recently I discovered <a href="http://octopress.org">Octopress</a> and instead of writing another
 article on how to migrate to it from Wordpress, I decided to do something else. And,

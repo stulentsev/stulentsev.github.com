@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web development | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/web-development/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-03-11T14:59:41+07:00</updated>
+  <updated>2013-05-27T14:03:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[SugarCRM: More colors!]]></title>
     <link href="http://tech.tulentsev.com/2009/02/sugarcrm-more-colors/"/>
-    <updated>2009-02-06T22:24:41+07:00</updated>
+    <updated>2009-02-06T18:24:41+03:00</updated>
     <id>http://tech.tulentsev.com/2009/02/sugarcrm-more-colors</id>
     <content type="html"><![CDATA[<p>When I was implementing <a href="http://tech.tulentsev.com/2009/02/sugarcrm-really-shared-calendar/">previous issue</a>, my manager asked me: "Can we also mark meetings with colors, corresponding to users?". This way it becomes somewhat easier to identify originator of an event. "Yeah, it would be cool, but it can be tricky and difficult to implement", I said, rejecting the feature request. I said so just to save my ass from potentially frustrating project. Just the day before Marcelo had told me that he has a friend who was working with SugarCRM for a year and he hadn't quite enjoyed the experience.</p>
 

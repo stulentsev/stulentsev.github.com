@@ -4,7 +4,7 @@
   <title><![CDATA[Category: administration | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/administration/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-03-11T14:59:41+07:00</updated>
+  <updated>2013-05-27T14:03:15+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
     <link href="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/"/>
-    <updated>2012-09-03T17:00:00+07:00</updated>
+    <updated>2012-09-03T17:00:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects</id>
     <content type="html"><![CDATA[<p>Okay, I probably can't avoid writing the obligatory migration article :) If in the
 migration process you decided to also change the domain name, then this article is for you.
@@ -101,7 +101,7 @@ should work already.</p>
   <entry>
     <title type="html"><![CDATA[How to dump your MongoDB database partially (only selected tables)]]></title>
     <link href="http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables/"/>
-    <updated>2012-03-21T22:15:22+07:00</updated>
+    <updated>2012-03-21T19:15:22+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/how-to-dump-your-mongodb-database-partially-only-selected-tables</id>
     <content type="html"><![CDATA[<p>Let's say you want to dump your MongoDB database. There's a handy tool that does just that, <strong>mongodump</strong>.</p>
 
@@ -109,7 +109,7 @@ should work already.</p>
 mongodump
 </code></p>
 
-<p>If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you're interested in and it will dump just this database.</p>
+<p>If executed without any arguments it will try to connect to <code>localhost:27017</code> and dump all databases. You can specify a single database that you're interested in and it will dump just this database.</p>
 
 <p><code>bash
 mongodump -d mydb
@@ -141,7 +141,7 @@ done
   <entry>
     <title type="html"><![CDATA[How to keep your system clock synchronized on Ubuntu?]]></title>
     <link href="http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/"/>
-    <updated>2012-03-09T15:10:18+07:00</updated>
+    <updated>2012-03-09T12:10:18+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu</id>
     <content type="html"><![CDATA[<p>Your server's hardware clock isn't perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There's a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It's called ntpdate</p>
 
