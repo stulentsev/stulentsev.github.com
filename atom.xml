@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:03:15+04:00</updated>
+  <updated>2013-05-27T14:04:51+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,15 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[new-post]]></title>
-    <link href="http://tech.tulentsev.com/2013/05/new-post/"/>
-    <updated>2013-05-27T13:26:00+04:00</updated>
-    <id>http://tech.tulentsev.com/2013/05/new-post</id>
-    <content type="html"><![CDATA[<p><a href="http://www.bloglovin.com/blog/5941685/?claim=g8vp64zgauq">Follow my blog with Bloglovin</a></p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Move Capistrano's log directory]]></title>
@@ -1274,6 +1265,21 @@ that things like jQuery or Node.js will someday exist, I wouldn&#8217;t believe 
 tomorrow I fall into a time vortex and travel to 90s, I will probably kill myself. It&#8217;s like
 the stone age of technology. It&#8217;s better to get to a real stone age. At least, the
 air is still clean. :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Can I haz a gem?]]></title>
+    <link href="http://tech.tulentsev.com/2012/04/can-i-haz-a-gem/"/>
+    <updated>2012-04-05T11:23:48+04:00</updated>
+    <id>http://tech.tulentsev.com/2012/04/can-i-haz-a-gem</id>
+    <content type="html"><![CDATA[<p>Back when I was just starting to program, we used to joke about Delphi coders.</p>
+
+<blockquote><p>A Delphi coder wants to build a tool for cheating in games (read/write memory of another process). So, before writing a single line of code he goes to a forum and asks: &#8220;Are there ready-made components for building game cheating tools?&#8221;</p></blockquote>
+
+<p>I guess, this happens to every widely adopted technology that has plugins/libraries. <a href="http://stackoverflow.com/questions/10022215/building-an-auction-with-ruby-on-rails">An example</a>.</p>
+
+<p><img src="http://tech.tulentsev.com/images/uploads/2012/04/screenshot_2012_04_05_071714.png" alt="Screenshot 2012 04 05 07.17.14" /></p>
 ]]></content>
   </entry>
   
