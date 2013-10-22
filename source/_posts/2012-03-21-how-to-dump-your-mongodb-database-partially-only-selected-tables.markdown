@@ -14,7 +14,7 @@ Let's say you want to dump your MongoDB database. There's a handy tool that does
 mongodump
 ```
 
-If executes without any arguments it will try to connect to localhost:27017 and dump all databases. You can specify a single database that you're interested in and it will dump just this database.
+If executed without any arguments it will try to connect to `localhost:27017` and dump all databases. You can specify a single database that you're interested in and it will dump just this database.
 
 ``` bash
 mongodump -d mydb
