@@ -4,7 +4,7 @@
   <title><![CDATA[Category: database | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/database/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Atomic updates, part 2]]></title>
     <link href="http://tech.tulentsev.com/2010/06/atomic-updates-part-2/"/>
-    <updated>2010-06-02T15:12:41+04:00</updated>
+    <updated>2010-06-02T14:12:41+03:00</updated>
     <id>http://tech.tulentsev.com/2010/06/atomic-updates-part-2</id>
     <content type="html"><![CDATA[<p>Let's review another common scenario: posts and votes. Mongo's approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let's assume we want to register a new vote on post. This operation consists of three steps:</p>
 

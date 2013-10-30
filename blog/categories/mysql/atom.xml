@@ -4,7 +4,7 @@
   <title><![CDATA[Category: mysql | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
     <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
-    <updated>2012-10-28T16:52:00+04:00</updated>
+    <updated>2012-10-28T16:52:00+02:00</updated>
     <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
     <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
 dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start
@@ -149,7 +149,7 @@ completely transparent, but this works for me at the moment. Feedback is welcome
   <entry>
     <title type="html"><![CDATA[Connect to multiple MySQL servers]]></title>
     <link href="http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers/"/>
-    <updated>2012-04-05T11:02:36+04:00</updated>
+    <updated>2012-04-05T10:02:36+03:00</updated>
     <id>http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers</id>
     <content type="html"><![CDATA[<p>You know how everyone is obsessed these days with scalability? Well, I am too. There's a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
 

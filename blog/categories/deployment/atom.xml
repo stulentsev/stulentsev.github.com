@@ -4,7 +4,7 @@
   <title><![CDATA[Category: deployment | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/deployment/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Move Capistrano's log directory]]></title>
     <link href="http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/"/>
-    <updated>2013-03-11T14:34:00+04:00</updated>
+    <updated>2013-03-11T14:34:00+02:00</updated>
     <id>http://tech.tulentsev.com/2013/03/move-capistranos-log-directory</id>
     <content type="html"><![CDATA[<p>So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries with <code>#{rails_root}/log</code> paths hardcoded in them? Fear not, there's a simple workaround.</p>
 
@@ -50,7 +50,7 @@ ln -s /var/log/yourapp /deploy_path/shared/log
   <entry>
     <title type="html"><![CDATA[cap deploy from an arbitrary branch]]></title>
     <link href="http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch/"/>
-    <updated>2013-02-22T12:34:00+04:00</updated>
+    <updated>2013-02-22T12:34:00+02:00</updated>
     <id>http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch</id>
     <content type="html"><![CDATA[<p>As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it</p>
 

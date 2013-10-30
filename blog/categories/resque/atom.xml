@@ -4,7 +4,7 @@
   <title><![CDATA[Category: resque | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/resque/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[resque-multi-job-forks is finally updated]]></title>
     <link href="http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated/"/>
-    <updated>2012-09-16T09:00:00+04:00</updated>
+    <updated>2012-09-16T09:00:00+03:00</updated>
     <id>http://tech.tulentsev.com/2012/09/resque-multi-job-forks-is-finally-updated</id>
     <content type="html"><![CDATA[<p>I was using <a href="https://github.com/staugaard/resque-multi-job-forks/">resque-multi-job-forks</a>
 plugin for quite a some time. What was bugging me is that the project seemed to be abandoned.

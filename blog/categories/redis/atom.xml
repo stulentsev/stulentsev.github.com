@@ -4,7 +4,7 @@
   <title><![CDATA[Category: redis | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/redis/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
     <link href="http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/"/>
-    <updated>2012-12-15T18:23:00+04:00</updated>
+    <updated>2012-12-15T18:23:00+02:00</updated>
     <id>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem</id>
     <content type="html"><![CDATA[<p><a href="http://mperham.github.com/sidekiq/">Sidekiq</a> works pretty well with standard redis client. This is an example of configuring it (<a href="https://github.com/mperham/sidekiq/wiki/Advanced-Options">from official wiki</a>):</p>
 
@@ -60,7 +60,7 @@ end</p>
   <entry>
     <title type="html"><![CDATA[Probabilistic sets in Redis (almost magic)]]></title>
     <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
-    <updated>2012-10-16T00:18:00+04:00</updated>
+    <updated>2012-10-16T00:18:00+03:00</updated>
     <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
     <content type="html"><![CDATA[<p>A very interesting topic was posted today in Redis google group, called
 <a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">"Set Sketch Implementation"</a>.</p>

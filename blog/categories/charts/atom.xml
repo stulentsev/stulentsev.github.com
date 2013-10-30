@@ -4,7 +4,7 @@
   <title><![CDATA[Category: charts | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/charts/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[DIY: funnel chart]]></title>
     <link href="http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js/"/>
-    <updated>2012-10-20T20:02:00+04:00</updated>
+    <updated>2012-10-20T20:02:00+03:00</updated>
     <id>http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js</id>
     <content type="html"><![CDATA[<p>Recently I came across this excellent way of visualizing a funnel. It's simple, informative
 and it doesn't look like a freaking funnel (with neck and all).</p>

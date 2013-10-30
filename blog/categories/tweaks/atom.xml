@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tweaks | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/tweaks/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Talking Capistrano is your friend]]></title>
     <link href="http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend/"/>
-    <updated>2012-11-12T22:22:00+04:00</updated>
+    <updated>2012-11-12T22:22:00+02:00</updated>
     <id>http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend</id>
     <content type="html"><![CDATA[<p>I want to share with you a small tweak I came up with a couple of days ago. As some of you
 know, Mac OS X includes a ton of very handy utilities. One of them is <code>say</code>. The name is

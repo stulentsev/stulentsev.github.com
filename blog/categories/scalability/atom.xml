@@ -4,7 +4,7 @@
   <title><![CDATA[Category: scalability | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/scalability/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Connect to multiple MySQL servers]]></title>
     <link href="http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers/"/>
-    <updated>2012-04-05T11:02:36+04:00</updated>
+    <updated>2012-04-05T10:02:36+03:00</updated>
     <id>http://tech.tulentsev.com/2012/04/connect-to-multiple-mysql-servers</id>
     <content type="html"><![CDATA[<p>You know how everyone is obsessed these days with scalability? Well, I am too. There's a project of mine where I need to connect to multiple MySQL servers, depending on the current client id. The simplest implementation looks like this:</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2013-05-27T14:04:51+04:00</updated>
+  <updated>2013-10-30T10:55:16+02:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
     <link href="http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/"/>
-    <updated>2012-12-15T18:23:00+04:00</updated>
+    <updated>2012-12-15T18:23:00+02:00</updated>
     <id>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem</id>
     <content type="html"><![CDATA[<p><a href="http://mperham.github.com/sidekiq/">Sidekiq</a> works pretty well with standard redis client. This is an example of configuring it (<a href="https://github.com/mperham/sidekiq/wiki/Advanced-Options">from official wiki</a>):</p>
 
@@ -60,7 +60,7 @@ end</p>
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
     <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+04:00</updated>
+    <updated>2012-10-21T16:30:00+03:00</updated>
     <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
     <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
 produces this output from this code?</p>
@@ -196,7 +196,7 @@ eigenclasses.</p>
   <entry>
     <title type="html"><![CDATA[Ruby gem for MurmurHash 3]]></title>
     <link href="http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3/"/>
-    <updated>2012-10-16T20:44:00+04:00</updated>
+    <updated>2012-10-16T20:44:00+03:00</updated>
     <id>http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3</id>
     <content type="html"><![CDATA[<p>Still driven by <a href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">that post</a>,
 I decided to do something about it. So I went and tried to read the original paper. It was
@@ -245,7 +245,7 @@ ints.pack('L*').unpack('H*').first # =&gt; "df65d6d2d12d51f164c5f3a85066322c"
   <entry>
     <title type="html"><![CDATA[Define module programmatically]]></title>
     <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
-    <updated>2012-04-02T03:14:50+04:00</updated>
+    <updated>2012-04-02T02:14:50+03:00</updated>
     <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
     <content type="html"><![CDATA[<p><code>ruby
 module Foo
@@ -301,7 +301,7 @@ Foo.const_set(:Bar, bar)</p>
   <entry>
     <title type="html"><![CDATA[Ruby: for..in loop]]></title>
     <link href="http://tech.tulentsev.com/2012/03/ruby-forin-loop/"/>
-    <updated>2012-03-31T11:19:36+04:00</updated>
+    <updated>2012-03-31T10:19:36+03:00</updated>
     <id>http://tech.tulentsev.com/2012/03/ruby-forin-loop</id>
     <content type="html"><![CDATA[<p>You live to learn every day. Today I discovered <code>for..in</code> loop in ruby. When I saw it in a question on <a href="http://stackoverflow.com">stackoverflow</a>, I was like "Hey, dude, this is ruby, not javascript!" in my head. But, apparently, it's legal ruby :)</p>
 
