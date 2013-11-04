@@ -147,7 +147,7 @@
 
 <p><img class="center" src="/images/uploads/2013/11/04/simple_pipeline.png"></p>
 
-<p>Each individual block is complete separate from each other (well, maybe except that &#8220;select unseen&#8221; and &#8220;mark all seen&#8221; might use the same storage). If we were to, say, remove caching (and stop serving cached content), we&#8217;d only have to take out those two segments. If we want to change how content is presented to user (print to terminal, send to text-to-speect engine, &#8230;), we only have to replace the final segment. The rest of the pipeline stays untouched. And the aforementioned tag filtering - we just insert it after fetcher:</p>
+<p>Each individual block is completely separate from each other (well, maybe except that &#8220;select unseen&#8221; and &#8220;mark all seen&#8221; might use the same storage). If we were to, say, remove caching (and stop serving cached content), we&#8217;d only have to take out those two segments. If we want to change how content is presented to user (print to terminal, send to text-to-speect engine, &#8230;), we only have to replace the final segment. The rest of the pipeline stays untouched. And the aforementioned tag filtering - we just insert it after fetcher:</p>
 
 <p><img class="center" src="/images/uploads/2013/11/04/pipeline_with_filter.png"></p>
 
