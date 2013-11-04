@@ -21,7 +21,7 @@ Okay, what's new?
 * "Right margin" is now called "View -> Show Wrap Column"
 * You can specify a default language for new files. 90% of my new files are Ruby 
     scripts, so it is a timesaver for me.
-* New file browser. I'm not if I like it better or not.
+* New file browser. I'm not sure if I like it better or not.
 * When you click on items in the file browser, they don't open automatically. You have to double-click.
 * Awesome new app icon! :)
 
