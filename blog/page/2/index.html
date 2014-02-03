@@ -9,8 +9,8 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
-but I kept hearing about it. Never got to install the app. So, &hellip;">
+  <meta name="description" content="Here&#8217;s what default git log output looks like While it is sure contains the information and is easily parsable by a machine, it&#8217;s
+not the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,67 @@ but I kept hearing about it. Never got to install the app. So, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/11/pretty-log-in-git/">Pretty Log in Git</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-02T17:11:00+02:00" pubdate data-updated="true">Nov 2<span>nd</span>, 2012</time>
+        
+         | <a href="/2012/11/pretty-log-in-git/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here&#8217;s what default <code>git log</code> output looks like</p>
+
+<p><img class="center" src="/images/uploads/2012/11/git-ugly.png"></p>
+
+<p>While it is sure contains the information and is easily parsable by a machine, it&#8217;s
+not the best way to present it to a human. Luckily, the <code>git log</code> commands is quite
+customizable. Try this, for example:</p>
+
+<pre><code>git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+</code></pre>
+
+<p><img class="center" src="/images/uploads/2012/11/git-pretty.png"></p>
+
+<p>You can even set make an alias for it:</p>
+
+<pre><code>git config --global --add alias.plog "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+</code></pre>
+
+<p>And then you just call</p>
+
+<pre><code>git plog
+</code></pre>
+
+<p>Happy gitting!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -625,65 +686,6 @@ Octopress in its stead, then this article is useless to you, move on.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/09/how-to-automatically-open-new-post-in-editor/">How to Automatically Open New Octopress Post in Editor?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-03T15:51:00+03:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2012</time>
-        
-         | <a href="/2012/09/how-to-automatically-open-new-post-in-editor/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Recently I discovered <a href="http://octopress.org">Octopress</a> and instead of writing another
-article on how to migrate to it from Wordpress, I decided to do something else. And,
-fortunately enough, the topic presented itself. :)</p>
-
-<p>So, Octopress is not your conventional blog engine. You create new posts by running
-a command in the terminal. I&#8217;m quite comfortable with creating new posts with a rake task.
-What I didn&#8217;t like is that I needed to run another command to actually open the post in my
-editor. Here&#8217;s my fix to that. It patches the <code>new_post</code> command, by adding new optional
-parameter to it, <code>:open_in_editor</code>. If you pass <code>true</code> (or other truthy value),
-then the post will be opened in
-my default <code>$EDITOR</code> (which is TextMate at this moment).
-Now the creation of new post can look like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>rake new_post<span class="o">[</span><span class="s1">&#39;How to automatically open new post in editor?&#39;</span>,:open<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2012/09/how-to-automatically-open-new-post-in-editor/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -701,6 +703,10 @@ Now the creation of new post can look like this:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/11/pipeline-processing-in-go/">Pipeline processing in Go</a>
       </li>
     
@@ -714,10 +720,6 @@ Now the creation of new post can look like this:</p>
     
       <li class="post">
         <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting humanized numbers in tablesorter.js</a>
       </li>
     
   </ul>
@@ -759,7 +761,7 @@ Now the creation of new post can look like this:</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sergio Tulentsev -
+  Copyright &copy; 2014 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

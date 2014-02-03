@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: basics | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/basics/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2014-02-03T09:44:37+02:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[What is UTF-8 (for the dummies)]]></title>
+    <link href="http://tech.tulentsev.com/2014/02/what-is-utf-8-for-the-dummies/"/>
+    <updated>2014-02-03T09:41:00+02:00</updated>
+    <id>http://tech.tulentsev.com/2014/02/what-is-utf-8-for-the-dummies</id>
+    <content type="html"><![CDATA[<p>I must admit, I didn't really understand what Unicode (and its flavor utf-8) actually is. All I knew was that it's a good encoding and it's compatible with ASCII. Beyond that - no clue. This video has made it crystal clear.</p>
+
+<iframe width="560" height="315" src="http://tech.tulentsev.com//www.youtube.com/embed/MijmeoH9LT4" frameborder="0" allowfullscreen></iframe>
+
+]]></content>
+  </entry>
+  
+</feed>

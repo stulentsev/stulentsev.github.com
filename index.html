@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Pipeline processing is a very powerful design idiom. You have some simple building blocks that you can arrange in different combinations to perform &hellip;">
+  <meta name="description" content="I must admit, I didn&#8217;t really understand what Unicode (and its flavor utf-8) actually is. All I knew was that it&#8217;s a good encoding and it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/02/what-is-utf-8-for-the-dummies/">What Is UTF-8 (for the Dummies)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-03T09:41:00+02:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time>
+        
+         | <a href="/2014/02/what-is-utf-8-for-the-dummies/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I must admit, I didn&#8217;t really understand what Unicode (and its flavor utf-8) actually is. All I knew was that it&#8217;s a good encoding and it&#8217;s compatible with ASCII. Beyond that - no clue. This video has made it crystal clear.</p>
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/MijmeoH9LT4" frameborder="0" allowfullscreen></iframe>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -973,67 +1014,6 @@ and it still make me smile everytime. I should probably come up with more creati
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/11/pretty-log-in-git/">Pretty Log in Git</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-02T17:11:00+02:00" pubdate data-updated="true">Nov 2<span>nd</span>, 2012</time>
-        
-         | <a href="/2012/11/pretty-log-in-git/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Here&#8217;s what default <code>git log</code> output looks like</p>
-
-<p><img class="center" src="/images/uploads/2012/11/git-ugly.png"></p>
-
-<p>While it is sure contains the information and is easily parsable by a machine, it&#8217;s
-not the best way to present it to a human. Luckily, the <code>git log</code> commands is quite
-customizable. Try this, for example:</p>
-
-<pre><code>git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-</code></pre>
-
-<p><img class="center" src="/images/uploads/2012/11/git-pretty.png"></p>
-
-<p>You can even set make an alias for it:</p>
-
-<pre><code>git config --global --add alias.plog "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-</code></pre>
-
-<p>And then you just call</p>
-
-<pre><code>git plog
-</code></pre>
-
-<p>Happy gitting!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1049,6 +1029,10 @@ customizable. Try this, for example:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
+      </li>
+    
+      <li class="post">
         <a href="/2013/11/pipeline-processing-in-go/">Pipeline processing in Go</a>
       </li>
     
@@ -1062,10 +1046,6 @@ customizable. Try this, for example:</p>
     
       <li class="post">
         <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting humanized numbers in tablesorter.js</a>
       </li>
     
   </ul>
@@ -1107,7 +1087,7 @@ customizable. Try this, for example:</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Sergio Tulentsev -
+  Copyright &copy; 2014 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
