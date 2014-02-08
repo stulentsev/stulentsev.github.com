@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="This seems to be a popular interview question. It indeed requires advanced knowledge of ruby. You have a class with a class method. Write a module &hellip;">
+  <meta name="description" content="Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,71 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/">How to Keep Your System Clock Synchronized on Ubuntu?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-09T10:10:18+02:00" pubdate data-updated="true">Mar 9<span>th</span>, 2012</time>
+        
+         | <a href="/2012/03/how-to-keep-your-system-clock-synchronized-on-ubuntu/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Your server&#8217;s hardware clock isn&#8217;t perfectly accurate. It may run faster or slower (in my experience it was always slower). So it is important to synchronize it every so often, or else you might encounter some unexpected bugs. There&#8217;s a command in Ubuntu that synchronizes hardware clock against atomic clock servers. It&#8217;s called ntpdate</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo ntpdate ntp.ubuntu.com
+</span><span class='line'> 9 Mar 03:59:12 ntpdate<span class="o">[</span>7225<span class="o">]</span>: step <span class="nb">time </span>server 91.189.94.4 offset 179.440440 sec
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This one was three minutes behind. Could be worse, though. So, now clock is more or less accurate. To keep it this way, let&#8217;s add an hourly cron job. Create a file called &#8216;ntpdate&#8217; (for example) at &#8216;/etc/cron.hourly&#8217; with this content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#! /bin/sh</span>
+</span><span class='line'>
+</span><span class='line'>ntpdate ntp.ubuntu.com
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We don&#8217;t need sudo here, because these jobs are run with root privileges. Now make that file executable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chmod +x /etc/cron.hourly/ntpdate
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&#8217;re all set now. Come back a few days later and verify that clock doesn&#8217;t deviate as much anymore.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -851,55 +916,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/advanced-default-parametes/">Advanced Default Parameters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-10T01:20:29+02:00" pubdate data-updated="true">Mar 10<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/advanced-default-parametes/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today I was quite amazed by one of Ruby features. It is about default values of method parameters. For example you can do something like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_current_actions</span><span class="p">(</span><span class="n">project_id</span><span class="p">,</span> <span class="n">status_id</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:status_id</span><span class="o">]</span> <span class="o">||</span> <span class="no">DEFAULT_STATUS_ID</span><span class="p">)</span>
-</span><span class='line'>    <span class="c1"># implementation goes here</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The code is saying basically this: &#8220;if status_id is not passed explicitly, try to take its value from <strong>params</strong> array. If it doesn&#8217;t contain specified key, then fall back to a constant&#8221;. This feature (as almost all the rest of Ruby magic) made avaiable by Ruby&#8217;s nature: it is interpreted language. This type of code is totally unusual to guys like me, who come from the world of static typing and compiled languages. But I think I&#8217;m gonna get used to it :-)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -917,6 +933,10 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
       </li>
     
@@ -930,10 +950,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     
       <li class="post">
         <a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s log directory</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
       </li>
     
   </ul>

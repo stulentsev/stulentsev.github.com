@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I installed this copy of Wordpress this evening and decided to add to Live Writer. But I&#8217;ve ran into problem almost immediately. While trying &hellip;">
+  <meta name="description" content="I am trying to make a small Silverlight control that talks to PHP server. Sometimes problems arise and I have to deal with them myself, since there&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,61 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/2008/11/silverlight-2-trouble-with-post-requests/">Silverlight 2: Trouble With POST Requests</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-24T00:04:30+02:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
+        
+         | <a href="/2008/11/silverlight-2-trouble-with-post-requests/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I am trying to make a small Silverlight control that talks to PHP server. Sometimes problems arise and I have to deal with them myself, since there&#8217;s not much information on this topic in the internet. Trouble of the day is:</p>
+
+<p><strong>The remote server returned an error: NotFound</strong></p>
+
+<p>when trying to make simple POST request to a PHP page. I&#8217;ve spent half a day diagnosing this problem. And solution was found entirely by chance, because exception messages weren&#8217;t helping in any way. I mean, I was always getting abovementioned error message, without any details (what host, what page, request parameters, etc). But enough of complaints, let&#8217;s proceed to the solution. The troublesome code was this one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="x">var _request = (HttpWebRequest)WebRequest.Create(_svcUri);</span>
+</span><span class='line'><span class="x">_request.Method = &quot;POST&quot;;</span>
+</span><span class='line'><span class="x">_request.ContentType = &quot;application/json&quot;;</span>
+</span><span class='line'><span class="x">_request.Headers[&quot;sid&quot;] = SessionID ; // &lt;==== this line</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>SessionID was null at the moment and this made HttpWebRequest so pissed off that it even wouldn&#8217;t send request header to the server ! And because of this, Fiddler was completely useless here. After adding necessary check, everything started working like a charm.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/2008/10/windows-live-writer-wordpress-problems/">Windows Live Writer + Wordpress Problems</a></h1>
     
     
@@ -142,6 +197,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
       </li>
     
@@ -155,10 +214,6 @@
     
       <li class="post">
         <a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s log directory</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">cap deploy from an arbitrary branch</a>
       </li>
     
   </ul>
