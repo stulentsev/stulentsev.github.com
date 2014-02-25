@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Here is an interesting problem: write a program that converts numbers into Roman numerals. Roman didn&#8217;t use Arabic numbers. Instead they used &hellip;">
+  <meta name="description" content="MongoDB is becoming even more popular than it is now. More people want to learn about it. So I was preparing a seminar for this company and I had to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-25T13:18:00+02:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
+        
+         | <a href="/2014/02/limitations-of-mongodb/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>MongoDB is becoming even more popular than it is now. More people want to learn about it. So I was preparing a seminar for this company and I had to compile a list of MongoDB limits. I never knew there were so many! Some of them are reasonable, some are weird. Anyway, it&#8217;s good to know them. Here&#8217;s a list of MongoDB limits as of version 2.4.9:</p>
+
+<ul>
+<li>Max document size: 16 MB (we all knew this one, right?)</li>
+<li>Max document nesting level: 100 (documents inside documents inside documents&#8230;)</li>
+<li>Namespace is limited to ~123 chars (namespace is db_name + collection_name (or index_name))</li>
+<li>DB name is limited to 64 chars</li>
+<li>Default .ns file can store about 24000 namespaces (again, a namespace is referring to a collection or an index)</li>
+<li>If you index some field, that field can&#8217;t contain more than 1024 bytes</li>
+<li>Max 64 indexes per collection</li>
+<li>Max 31 fields in a compound index</li>
+<li>fulltext search and geo indexes are mutually exclusive (you can&#8217;t use both in the same query)</li>
+<li>If you set a limit of documents in a capped collection, this limit can&#8217;t be more than 2**32. Otherwise, number of documents is unlimited.</li>
+<li>On linux, one mongod instance can&#8217;t store more than 64 TB of data (128 TB without journal)</li>
+<li>On windows, mongod can&#8217;t store more than 4 TB of data (8 TB without journal)</li>
+<li>Max 12 nodes in a replica set</li>
+<li>Max 7 voting nodes in a replica set</li>
+<li>You can&#8217;t automatically rollback more than 300 MB of data. If you have more than this, manual invervention is needed.</li>
+<li><code>group</code> command doesn&#8217;t work in sharded cluster.</li>
+<li>db.eval() doesn&#8217;t work on sharded collections. Works on unsharded, though.</li>
+<li><code>$isolated</code>, <code>$snapshot</code>, geoSearch don&#8217;t work in a sharded cluster.</li>
+<li>You can&#8217;t refer <code>db</code> object in <code>$where</code> functions.</li>
+<li>If you want to shard a collection, it must be smaller than 256 GB, or else it will likely fail to shard.</li>
+<li>Individual (not multi) updates/removes in a sharded cluster must include shard key. Multi versions of these commands may not include shard key.</li>
+<li>Max 512 bytes for shard key values</li>
+<li>You can&#8217;t change shard key for a collection once it&#8217;s sharded.</li>
+<li>You can&#8217;t change value of a shard key of a document.</li>
+<li>aggregate/$sort produces error if sorting takes more than 10 percent of RAM.</li>
+<li>You can&#8217;t use $or in 2d geo queries</li>
+<li>You better not use queries with multiple $in parts. If this results in more than 4 million combinations - you get error.</li>
+<li>Database names are case-sensitive (even on case-insensitive file systems)</li>
+<li>Forbidden characters in database names: linux - /. &#8220;, windows - /. &#8220;*&lt;>:|?</li>
+<li>Forbidden characters in collection names: $ sign, &#8220;system.&#8221; prefix</li>
+<li>Forbidden characters in field names: .$</li>
+<li>Hashed index can&#8217;t be unique</li>
+<li>Max connection number is hardcoded to 20k.</li>
+</ul>
+
+
+<p>Hope this was useful to you.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1085,73 +1162,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/11/my-un-success-story-of-colemak/">My (Un)success Story of Colemak</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-18T20:29:00+02:00" pubdate data-updated="true">Nov 18<span>th</span>, 2012</time>
-        
-         | <a href="/2012/11/my-un-success-story-of-colemak/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&#8217;ve been hearing a lot about <a href="http://colemak.com/">Colemak</a> recently. It&#8217;s a (relatively) new keyboard layout, specially designed for efficient touch typing in English. Any description
-of Colemak (including this very post) is accompanied by a story, how QWERTY layout was specifically designed to <em>hinder</em> fast typing, so that typewriter bars don&#8217;t get stuck. Ok, cool story, let&#8217;s try this silver <s>bullet</s> layout.</p>
-
-<p>One of the advertised advantages of this layout is that &#8220;most&#8221; common QWERTY hotkeys are the same. Indeed, such hotkeys as select-all/cut/copy/paste didn&#8217;t move. Yes, this is an advantage for people who copy/paste text all day. But for us, coders, this is really a disadvantage, because some hotkeys are on the same keys, and others have moved. And worst of all, most hotkeys have changed their meaning.</p>
-
-<p>Let me illustrate. Most (all?) browsers in Mac OSX understands the same hotkeys:</p>
-
-<ul>
-<li>Cmd-T - open new tab</li>
-<li>Cmd-F - find</li>
-<li>Cmd-G - find next</li>
-<li>Cmd-S - save</li>
-</ul>
-
-
-<p>We&#8217;ve been using these hotkeys for years and now they are burned in our muscle memory. So, with Colemak, when you try to perform an action and you reach for the old key, you get completely different action instead.</p>
-
-<ul>
-<li>You tried Cmd-T (qwerty), you hit Cmd-G (colemak), action - &#8220;find next&#8221;</li>
-<li>Cmd-F, Cmd-E, &#8220;use selection for find&#8221; (chrome)</li>
-<li>Cmd-G, Cmd-D, &#8220;add bookmark&#8221;</li>
-<li>Cmd-S, Cmd-R, &#8220;reload&#8221;</li>
-</ul>
-
-
-<p>This is very, VERY frustrating to try search page content and keep adding bookmarks instead. Combine this with a fact that when you switch to a Russian layout, the hotkeys are the same as in QWERTY. So, essentially, you have to learn a whole new set of hotkeys for every program you use and always keep track of the current layout, or otherwise you&#8217;ll get unexpected results.</p>
-
-<p>Now, is it really worth it? Given the fact that programmer&#8217;s productivity is not based on how fast and for how long he can type, I&#8217;d say &#8220;Not really&#8221;. I average 370-450 CPM on QWERTY. This is far more than sufficient for everyday coding needs.</p>
-
-<p>Goodbye, Colemak. Hello again, QWERTY.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1167,6 +1177,10 @@ of Colemak (including this very post) is accompanied by a story, how QWERTY layo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
       </li>
     
@@ -1180,10 +1194,6 @@ of Colemak (including this very post) is accompanied by a story, how QWERTY layo
     
       <li class="post">
         <a href="/2013/10/hide-slash-exclude-directories-in-textmate-2/">Hide/exclude directories in TextMate 2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s log directory</a>
       </li>
     
   </ul>
