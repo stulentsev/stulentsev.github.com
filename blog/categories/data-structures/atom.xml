@@ -4,7 +4,7 @@
   <title><![CDATA[Category: data-structures | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/data-structures/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Probabilistic sets in Redis (almost magic)]]></title>
     <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
-    <updated>2012-10-16T00:18:00+03:00</updated>
+    <updated>2012-10-16T00:18:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
     <content type="html"><![CDATA[<p>A very interesting topic was posted today in Redis google group, called
 <a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">"Set Sketch Implementation"</a>.</p>

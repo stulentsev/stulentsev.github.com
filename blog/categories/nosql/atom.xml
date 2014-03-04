@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nosql | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/nosql/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
     <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
-    <updated>2012-10-28T16:52:00+02:00</updated>
+    <updated>2012-10-28T16:52:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
     <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
 dealing with "legacy" systems (MySQL, in this instance). How cool it would be to just start

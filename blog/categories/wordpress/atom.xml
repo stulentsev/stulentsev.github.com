@@ -4,7 +4,7 @@
   <title><![CDATA[Category: wordpress | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/wordpress/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
     <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
-    <updated>2012-10-29T10:42:00+02:00</updated>
+    <updated>2012-10-29T10:42:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
     <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can't, is deferred posting
 (or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
@@ -48,7 +48,7 @@ profitable startup? :)</p>
   <entry>
     <title type="html"><![CDATA[Migrating from Wordpress to Octopress - 301 redirects]]></title>
     <link href="http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects/"/>
-    <updated>2012-09-03T17:00:00+03:00</updated>
+    <updated>2012-09-03T17:00:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/09/migrating-from-wordpress-to-octopress-301-redirects</id>
     <content type="html"><![CDATA[<p>Okay, I probably can't avoid writing the obligatory migration article :) If in the
 migration process you decided to also change the domain name, then this article is for you.

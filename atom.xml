@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -14,9 +14,24 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Useful documentation lookup tools]]></title>
+    <link href="http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools/"/>
+    <updated>2014-03-04T23:20:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools</id>
+    <content type="html"><![CDATA[<p>Today I just wanted to share some tools that I use to read documentation.</p>
+
+<p>First one is <a href="http://kapeli.com/dash">Dash</a>. It&#8217;s an offline documentation browser which contains many different topics. It has ruby, rails, CSS, HAML, jQuery, Go, Haskell and everything else you might want. It can also index locally installed rubygems. And did I mention that it is offline? If you&#8217;re anything like me, you need to consult documentation every 30 seconds. And with this tool you can even work on a plane! Can&#8217;t recommend enough.</p>
+
+<p>Another one is for ruby only, <a href="http://www.omniref.com/">OmniRef</a>. These guys have indexed every ruby gem there is and cross-linked the documentation. On the site you can <em>easily</em> switch between version of a gem (or ruby) and see how documented behaviour and/or code changed over time. It also allows leaving notes (user generated content?), but I don&#8217;t see many notes at the moment. Potentially, these comments can be an excellent complement to the official documentation (we see this with, say, MySQL docs).</p>
+
+<p>And, of course, the most important tool for me these days is <a href="http://stackoverflow.com">StackOverflow</a>. More than half of my google searches lead to this chest of collective programming wisdom. The funniest moments are when I struggle with something, then google points me to stackoverflow where I find an answer that <em>I posted myself</em> some time ago. Can you believe this? :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Limitations of MongoDB]]></title>
     <link href="http://tech.tulentsev.com/2014/02/limitations-of-mongodb/"/>
-    <updated>2014-02-25T13:18:00+02:00</updated>
+    <updated>2014-02-25T13:18:00+04:00</updated>
     <id>http://tech.tulentsev.com/2014/02/limitations-of-mongodb</id>
     <content type="html"><![CDATA[<p>MongoDB is becoming even more popular than it is now. More people want to learn about it. So I was preparing a seminar for this company and I had to compile a list of MongoDB limits. I never knew there were so many! Some of them are reasonable, some are weird. Anyway, it&#8217;s good to know them. Here&#8217;s a list of MongoDB limits as of version 2.4.9:</p>
 
@@ -64,7 +79,7 @@
   <entry>
     <title type="html"><![CDATA[Kata: Convert numbers to Roman numerals]]></title>
     <link href="http://tech.tulentsev.com/2014/02/kata-convert-numbers-to-roman-numerals/"/>
-    <updated>2014-02-08T10:24:00+02:00</updated>
+    <updated>2014-02-08T10:24:00+04:00</updated>
     <id>http://tech.tulentsev.com/2014/02/kata-convert-numbers-to-roman-numerals</id>
     <content type="html"><![CDATA[<p>Here is an interesting problem: write a program that converts numbers into <a href="http://en.wikipedia.org/wiki/Roman_numerals">Roman numerals</a>. Roman didn&#8217;t use Arabic numbers. Instead they used symbols of Latin alphabet that represented different values. It&#8217;s a simple system. &#8220;I&#8221; stands for 1, &#8220;V&#8221; stands for 5, &#8220;X&#8221; for 10 and so on. To represent 2 you have to use &#8220;II&#8221; (1 + 1), to represent 7 you use &#8220;VII&#8221; (5 + 1 + 1). Simple, right? Well, no. Here&#8217;s a twist.</p>
 
@@ -241,7 +256,7 @@
   <entry>
     <title type="html"><![CDATA[What is UTF-8 (for the dummies)]]></title>
     <link href="http://tech.tulentsev.com/2014/02/what-is-utf-8-for-the-dummies/"/>
-    <updated>2014-02-03T09:41:00+02:00</updated>
+    <updated>2014-02-03T09:41:00+04:00</updated>
     <id>http://tech.tulentsev.com/2014/02/what-is-utf-8-for-the-dummies</id>
     <content type="html"><![CDATA[<p>I must admit, I didn&#8217;t really understand what Unicode (more specifically, its flavor &#8220;UTF-8&#8221;) actually is. All I knew was that it&#8217;s a good encoding and it&#8217;s compatible with ASCII. Beyond that - no clue. This video has made it crystal clear.</p>
 
@@ -253,7 +268,7 @@
   <entry>
     <title type="html"><![CDATA[Pipeline processing in Go]]></title>
     <link href="http://tech.tulentsev.com/2013/11/pipeline-processing-in-go/"/>
-    <updated>2013-11-04T12:13:00+02:00</updated>
+    <updated>2013-11-04T12:13:00+04:00</updated>
     <id>http://tech.tulentsev.com/2013/11/pipeline-processing-in-go</id>
     <content type="html"><![CDATA[<p>Pipeline processing is a very powerful design idiom. You have some simple building blocks that you can arrange in different combinations to perform complex tasks. A classic example of that is unix command line. Each tool is very simple. It does only job. But it still amazes me regularly, what you can achieve by simply combining those tools into a pipeline and feeding/piping data through it.</p>
 
@@ -479,7 +494,7 @@
   <entry>
     <title type="html"><![CDATA[Hide/exclude directories in TextMate 2]]></title>
     <link href="http://tech.tulentsev.com/2013/10/hide-slash-exclude-directories-in-textmate-2/"/>
-    <updated>2013-10-30T10:24:00+02:00</updated>
+    <updated>2013-10-30T10:24:00+04:00</updated>
     <id>http://tech.tulentsev.com/2013/10/hide-slash-exclude-directories-in-textmate-2</id>
     <content type="html"><![CDATA[<p>I decided to give TextMate 2 another try today. Hopefully it won&#8217;t freeze upon trying to install a bundle like it did last time. Now I don&#8217;t recall which bundle was that, but so far things are going well. Mostly.</p>
 
@@ -512,7 +527,7 @@
   <entry>
     <title type="html"><![CDATA[Move Capistrano's log directory]]></title>
     <link href="http://tech.tulentsev.com/2013/03/move-capistranos-log-directory/"/>
-    <updated>2013-03-11T14:34:00+02:00</updated>
+    <updated>2013-03-11T14:34:00+04:00</updated>
     <id>http://tech.tulentsev.com/2013/03/move-capistranos-log-directory</id>
     <content type="html"><![CDATA[<p>So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries with <code>#{rails_root}/log</code> paths hardcoded in them? Fear not, there&#8217;s a simple workaround.</p>
 
@@ -552,7 +567,7 @@
   <entry>
     <title type="html"><![CDATA[cap deploy from an arbitrary branch]]></title>
     <link href="http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch/"/>
-    <updated>2013-02-22T12:34:00+02:00</updated>
+    <updated>2013-02-22T12:34:00+04:00</updated>
     <id>http://tech.tulentsev.com/2013/02/cap-deploy-from-an-arbitrary-branch</id>
     <content type="html"><![CDATA[<p>As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it</p>
 
@@ -602,7 +617,7 @@
   <entry>
     <title type="html"><![CDATA[Sorting humanized numbers in tablesorter.js]]></title>
     <link href="http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/"/>
-    <updated>2012-12-23T17:48:00+02:00</updated>
+    <updated>2012-12-23T17:48:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js</id>
     <content type="html"><![CDATA[<p><a href="http://tablesorter.com/docs/">Tablesorter</a> is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I went with it when I needed to sort a table a couple of days ago.</p>
 
@@ -717,7 +732,7 @@
   <entry>
     <title type="html"><![CDATA[Queue prioritization in Sidekiq]]></title>
     <link href="http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq/"/>
-    <updated>2012-12-17T04:47:00+02:00</updated>
+    <updated>2012-12-17T04:47:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/12/queue-prioritization-in-sidekiq</id>
     <content type="html"><![CDATA[<p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default config:</p>
 
@@ -754,7 +769,7 @@
   <entry>
     <title type="html"><![CDATA[Using Sidekiq with redis_failover gem]]></title>
     <link href="http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem/"/>
-    <updated>2012-12-15T18:23:00+02:00</updated>
+    <updated>2012-12-15T18:23:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/12/using-sidekiq-with-redis-failover-gem</id>
     <content type="html"><![CDATA[<p><a href="http://mperham.github.com/sidekiq/">Sidekiq</a> works pretty well with standard redis client. This is an example of configuring it (<a href="https://github.com/mperham/sidekiq/wiki/Advanced-Options">from official wiki</a>):</p>
 
@@ -811,7 +826,7 @@
   <entry>
     <title type="html"><![CDATA[My (un)success story of Colemak]]></title>
     <link href="http://tech.tulentsev.com/2012/11/my-un-success-story-of-colemak/"/>
-    <updated>2012-11-18T20:29:00+02:00</updated>
+    <updated>2012-11-18T20:29:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/11/my-un-success-story-of-colemak</id>
     <content type="html"><![CDATA[<p>I&#8217;ve been hearing a lot about <a href="http://colemak.com/">Colemak</a> recently. It&#8217;s a (relatively) new keyboard layout, specially designed for efficient touch typing in English. Any description
 of Colemak (including this very post) is accompanied by a story, how QWERTY layout was specifically designed to <em>hinder</em> fast typing, so that typewriter bars don&#8217;t get stuck. Ok, cool story, let&#8217;s try this silver <s>bullet</s> layout.</p>
@@ -849,7 +864,7 @@ of Colemak (including this very post) is accompanied by a story, how QWERTY layo
   <entry>
     <title type="html"><![CDATA[Talking Capistrano is your friend]]></title>
     <link href="http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend/"/>
-    <updated>2012-11-12T22:22:00+02:00</updated>
+    <updated>2012-11-12T22:22:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/11/talking-capistrano-is-your-friend</id>
     <content type="html"><![CDATA[<p>I want to share with you a small tweak I came up with a couple of days ago. As some of you
 know, Mac OS X includes a ton of very handy utilities. One of them is <code>say</code>. The name is
@@ -888,7 +903,7 @@ and it still make me smile everytime. I should probably come up with more creati
   <entry>
     <title type="html"><![CDATA[Pretty log in Git]]></title>
     <link href="http://tech.tulentsev.com/2012/11/pretty-log-in-git/"/>
-    <updated>2012-11-02T17:11:00+02:00</updated>
+    <updated>2012-11-02T17:11:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/11/pretty-log-in-git</id>
     <content type="html"><![CDATA[<p>Here&#8217;s what default <code>git log</code> output looks like</p>
 
@@ -920,7 +935,7 @@ customizable. Try this, for example:</p>
   <entry>
     <title type="html"><![CDATA[Is TextMate 2 ready for everyday coding? Let's find out.]]></title>
     <link href="http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/"/>
-    <updated>2012-10-30T03:46:00+02:00</updated>
+    <updated>2012-10-30T03:46:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out</id>
     <content type="html"><![CDATA[<p>Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
 but I kept hearing about it. Never got to install the app.</p>
@@ -951,7 +966,7 @@ I won&#8217;t be too surprised tomorrow :)</p>
   <entry>
     <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
     <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
-    <updated>2012-10-29T10:42:00+02:00</updated>
+    <updated>2012-10-29T10:42:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
     <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
 (or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
@@ -983,7 +998,7 @@ profitable startup? :)</p>
   <entry>
     <title type="html"><![CDATA[Dynamic collections a la MongoDB, but with MySQL]]></title>
     <link href="http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb/"/>
-    <updated>2012-10-28T16:52:00+02:00</updated>
+    <updated>2012-10-28T16:52:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/dynamic-collections-a-la-mongodb</id>
     <content type="html"><![CDATA[<p>After having worked with MongoDB for a while, I really miss its dynamic features when
 dealing with &#8220;legacy&#8221; systems (MySQL, in this instance). How cool it would be to just start
@@ -1150,7 +1165,7 @@ completely transparent, but this works for me at the moment. Feedback is welcome
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
     <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+03:00</updated>
+    <updated>2012-10-21T16:30:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
     <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
 produces this output from this code?</p>
@@ -1325,7 +1340,7 @@ eigenclasses.</p>
   <entry>
     <title type="html"><![CDATA[DIY: funnel chart]]></title>
     <link href="http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js/"/>
-    <updated>2012-10-20T20:02:00+03:00</updated>
+    <updated>2012-10-20T20:02:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js</id>
     <content type="html"><![CDATA[<p>Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
 and it doesn&#8217;t look like a freaking funnel (with neck and all).</p>
@@ -1490,7 +1505,7 @@ active development.</p>
   <entry>
     <title type="html"><![CDATA[Ruby gem for MurmurHash 3]]></title>
     <link href="http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3/"/>
-    <updated>2012-10-16T20:44:00+03:00</updated>
+    <updated>2012-10-16T20:44:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/ruby-gem-for-murmurhash-3</id>
     <content type="html"><![CDATA[<p>Still driven by <a href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">that post</a>,
 I decided to do something about it. So I went and tried to read the original paper. It was
@@ -1540,30 +1555,6 @@ is too cumbersome if you ask me, but it works and probably has less bugs than my
 
 
 <p>If you know a better/faster/more idiomatic way, please let me know :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Probabilistic sets in Redis (almost magic)]]></title>
-    <link href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/"/>
-    <updated>2012-10-16T00:18:00+03:00</updated>
-    <id>http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis</id>
-    <content type="html"><![CDATA[<p>A very interesting topic was posted today in Redis google group, called
-<a href="https://groups.google.com/forum/#!msg/redis-db/8Zt_6hJo09k/FJCnrr9OSikJ">&#8220;Set Sketch Implementation&#8221;</a>.</p>
-
-<blockquote><p>One nice application of set sketches is efficient storage and retrieval of analytics-type data: if you want to count the number of distinct users who have performed specific actions in your system (&#8220;visited page X&#8221;, &#8220;pressed button Y&#8221;, &#8220;followed user Z&#8221;, etc.) you&#8217;re quickly overwhelmed with the amount of memory needed to store even bit vectors representing all events for all users. Bloom counters are sometimes used for this sort of thing, but they still require a significant investment in space and the results of individual counters can&#8217;t be easily/efficiently combined.</p>
-
-<p>HyperLogLog is a good alternative when you don&#8217;t need exact counts: with a small, fixed amount of space per counter, it can yield good estimates of set cardinality - usually to within 2% of the actual count. In addition, the counters can be combined and queried at little extra cost, so that you can compute estimates to queries like &#8220;how many users visited page X and pressed button Y&#8221; or &#8220;how many users follow either user W or user Z&#8221; in real time. All of the operations take O(1) time and space in the cardinality of the sets being represented. Adding an element to a set sketch is particularly fast, essentially just the cost of applying a hash function to the element.</p></blockquote>
-
-<p>Now that I know about this technology, I desperately want it. I could really use that
-because my current app has a lot of sets, and some of them can get pretty large. Being
-able to use constant size is a huge relief, because you can correctly estimate amount of
-memory taken by Redis. And being able to combine them (UNION/INTER) is priceless.</p>
-
-<p>The only thing that is not clear to me is how this will play along with upcoming Redis Cluster.
-Single key operations are OK, of course, but what about multiple key ops?</p>
-
-<p>I really hope that Salvatore will not reject this functionality :)</p>
 ]]></content>
   </entry>
   

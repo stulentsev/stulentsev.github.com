@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Pretty log in Git]]></title>
     <link href="http://tech.tulentsev.com/2012/11/pretty-log-in-git/"/>
-    <updated>2012-11-02T17:11:00+02:00</updated>
+    <updated>2012-11-02T17:11:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/11/pretty-log-in-git</id>
     <content type="html"><![CDATA[<p>Here's what default <code>git log</code> output looks like</p>
 

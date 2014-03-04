@@ -4,7 +4,7 @@
   <title><![CDATA[Category: basics | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/basics/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[What is UTF-8 (for the dummies)]]></title>
     <link href="http://tech.tulentsev.com/2014/02/what-is-utf-8-for-the-dummies/"/>
-    <updated>2014-02-03T09:41:00+02:00</updated>
+    <updated>2014-02-03T09:41:00+04:00</updated>
     <id>http://tech.tulentsev.com/2014/02/what-is-utf-8-for-the-dummies</id>
     <content type="html"><![CDATA[<p>I must admit, I didn't really understand what Unicode (more specifically, its flavor "UTF-8") actually is. All I knew was that it's a good encoding and it's compatible with ASCII. Beyond that - no clue. This video has made it crystal clear.</p>
 

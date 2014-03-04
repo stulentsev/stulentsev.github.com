@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tweaking | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/tweaking/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How to automatically open new octopress post in editor?]]></title>
     <link href="http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor/"/>
-    <updated>2012-09-03T15:51:00+03:00</updated>
+    <updated>2012-09-03T15:51:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/09/how-to-automatically-open-new-post-in-editor</id>
     <content type="html"><![CDATA[<p>Recently I discovered <a href="http://octopress.org">Octopress</a> and instead of writing another
 article on how to migrate to it from Wordpress, I decided to do something else. And,

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Problem solving | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/problem-solving/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Silverlight 2: trouble with POST requests]]></title>
     <link href="http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests/"/>
-    <updated>2008-11-24T00:04:30+02:00</updated>
+    <updated>2008-11-24T01:04:30+03:00</updated>
     <id>http://tech.tulentsev.com/2008/11/silverlight-2-trouble-with-post-requests</id>
     <content type="html"><![CDATA[<p>I am trying to make a small Silverlight control that talks to PHP server. Sometimes problems arise and I have to deal with them myself, since there's not much information on this topic in the internet. Trouble of the day is:</p>
 
@@ -38,7 +38,7 @@ _request.Headers["sid"] = SessionID ; // &lt;==== this line
   <entry>
     <title type="html"><![CDATA[Windows Live Writer + Wordpress problems]]></title>
     <link href="http://tech.tulentsev.com/2008/10/windows-live-writer-wordpress-problems/"/>
-    <updated>2008-10-30T23:37:23+02:00</updated>
+    <updated>2008-10-31T00:37:23+03:00</updated>
     <id>http://tech.tulentsev.com/2008/10/windows-live-writer-wordpress-problems</id>
     <content type="html"><![CDATA[<p>I installed this copy of Wordpress this evening and decided to add to Live Writer. But I've ran into problem almost immediately. While trying to auto-detect my editing style, blog name and who knows what else, Live Writer kept annoying me with this message: "<strong>Invalid Server Response - The response to the blogger.getUsersBlogs method received from the weblog server was invalid</strong>".</p>
 

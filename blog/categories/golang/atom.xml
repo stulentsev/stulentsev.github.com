@@ -4,7 +4,7 @@
   <title><![CDATA[Category: golang | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/golang/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Pipeline processing in Go]]></title>
     <link href="http://tech.tulentsev.com/2013/11/pipeline-processing-in-go/"/>
-    <updated>2013-11-04T12:13:00+02:00</updated>
+    <updated>2013-11-04T12:13:00+04:00</updated>
     <id>http://tech.tulentsev.com/2013/11/pipeline-processing-in-go</id>
     <content type="html"><![CDATA[<p>Pipeline processing is a very powerful design idiom. You have some simple building blocks that you can arrange in different combinations to perform complex tasks. A classic example of that is unix command line. Each tool is very simple. It does only job. But it still amazes me regularly, what you can achieve by simply combining those tools into a pipeline and feeding/piping data through it.</p>
 

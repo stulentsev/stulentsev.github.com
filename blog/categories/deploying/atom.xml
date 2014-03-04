@@ -4,7 +4,7 @@
   <title><![CDATA[Category: deploying | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/deploying/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Deploying with Sinatra + Capistrano + Unicorn]]></title>
     <link href="http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn/"/>
-    <updated>2012-03-09T18:02:46+02:00</updated>
+    <updated>2012-03-09T20:02:46+04:00</updated>
     <id>http://tech.tulentsev.com/2012/03/deploying-with-sinatra-capistrano-unicorn</id>
     <content type="html"><![CDATA[<p>Today we'll be deploying a simple Sinatra app with Capistrano, using Unicorn as our web server. First things first: let's think of a stupid name for this project. What about "sincapun"? Any objections? Good, let's proceed.</p>
 

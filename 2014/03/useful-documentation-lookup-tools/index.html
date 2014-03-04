@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Deferred posting with Octopress - Byte Friendly</title>
+  <title>Useful documentation lookup tools - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
-(or scheduled blogging, whatever). I never really &hellip;">
+  <meta name="description" content="Today I just wanted to share some tools that I use to read documentation. First one is Dash. It&#8217;s an offline documentation browser which &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -80,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Deferred Posting With Octopress</h1>
+      <h1 class="entry-title">Useful Documentation Lookup Tools</h1>
     
     
       <p class="meta">
@@ -96,7 +95,7 @@
   
 
 
-<time datetime="2012-10-29T10:42:00+04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+<time datetime="2014-03-04T23:20:00+04:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -105,30 +104,13 @@
   </header>
 
 
-<div class="entry-content"><p>One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
-(or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
-I switched to Octopress without hesitation. But now I could use that feature. In case you
-don&#8217;t know, deferred posting allows you to write a post beforehand and schedule its release
-to some moment in future.</p>
+<div class="entry-content"><p>Today I just wanted to share some tools that I use to read documentation.</p>
 
-<p><img class="center" src="/images/uploads/2012/10/wp-datepicker.png"></p>
+<p>First one is <a href="http://kapeli.com/dash">Dash</a>. It&#8217;s an offline documentation browser which contains many different topics. It has ruby, rails, CSS, HAML, jQuery, Go, Haskell and everything else you might want. It can also index locally installed rubygems. And did I mention that it is offline? If you&#8217;re anything like me, you need to consult documentation every 30 seconds. And with this tool you can even work on a plane! Can&#8217;t recommend enough.</p>
 
-<p>This functionality is kinda trivial if you use dynamic request processing and a database
-(like wordpress does). But with static sites it&#8217;s not at all that easy. So before
-implementing something myself, I decided to google for other works on this topic. Here&#8217;s
-a good article that I&#8217;ve found: <a href="http://instant-thinking.de/2012/08/03/synced-and-scheduled-blogging-with-octopress/#fnref:3">Synced and scheduled blogging with Octopress</a>.
-It also contains some links to other articles.</p>
+<p>Another one is for ruby only, <a href="http://www.omniref.com/">OmniRef</a>. These guys have indexed every ruby gem there is and cross-linked the documentation. On the site you can <em>easily</em> switch between version of a gem (or ruby) and see how documented behaviour and/or code changed over time. It also allows leaving notes (user generated content?), but I don&#8217;t see many notes at the moment. Potentially, these comments can be an excellent complement to the official documentation (we see this with, say, MySQL docs).</p>
 
-<p>In short, people write a daemon (or scheduled script) that checks your drafts from time to
-time. If a draft is due, it is copied to <code>_posts</code> directory and generate/deploy sequence
-is initiated.</p>
-
-<p>This, obviously, requires a computer that is always on and has actual content for the site.
-I don&#8217;t really like the idea of a daemon, but, I guess, this is a price you pay for using
-&#8220;blog engine for hackers&#8221;.</p>
-
-<p>Could this be implemented as an external web service? Is there an opportunity for a
-profitable startup? :)</p>
+<p>And, of course, the most important tool for me these days is <a href="http://stackoverflow.com">StackOverflow</a>. More than half of my google searches lead to this chest of collective programming wisdom. The funniest moments are when I struggle with something, then google points me to stackoverflow where I find an answer that <em>I posted myself</em> some time ago. Can you believe this? :)</p>
 </div>
 
 
@@ -151,12 +133,12 @@ profitable startup? :)</p>
   
 
 
-<time datetime="2012-10-29T10:42:00+04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+<time datetime="2014-03-04T23:20:00+04:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/wordpress/'>wordpress</a>
+    <a class='category' href='/blog/categories/general/'>general</a>, <a class='category' href='/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -165,7 +147,7 @@ profitable startup? :)</p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -176,10 +158,8 @@ profitable startup? :)</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2012/10/dynamic-collections-a-la-mongodb/" title="Previous Post: Dynamic collections a la MongoDB, but with MySQL">&laquo; Dynamic collections a la MongoDB, but with MySQL</a>
+        <a class="basic-alignment left" href="/2014/02/limitations-of-mongodb/" title="Previous Post: Limitations of MongoDB">&laquo; Limitations of MongoDB</a>
       
-      
-        <a class="basic-alignment right" href="/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/" title="Next Post: Is TextMate 2 ready for everyday coding? Let's find out.">Is TextMate 2 ready for everyday coding? Let's find out. &raquo;</a>
       
     </p>
   </footer>
@@ -271,8 +251,8 @@ profitable startup? :)</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/';
-        var disqus_url = 'http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools/';
+        var disqus_url = 'http://tech.tulentsev.com/2014/03/useful-documentation-lookup-tools/';
         var disqus_script = 'embed.js';
       
     (function () {

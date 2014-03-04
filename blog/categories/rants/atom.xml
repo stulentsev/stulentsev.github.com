@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rants | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/rants/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Case sensitivity and tools]]></title>
     <link href="http://tech.tulentsev.com/2008/12/case-sensitivity-and-tools/"/>
-    <updated>2008-12-19T12:37:48+02:00</updated>
+    <updated>2008-12-19T13:37:48+03:00</updated>
     <id>http://tech.tulentsev.com/2008/12/case-sensitivity-and-tools</id>
     <content type="html"><![CDATA[<p>I want to say again that decision to make identifiers case-insensitive is one of the worst design decisions a language author can make. Along with that goes "declare on first usage" decision, but more on this later.</p>
 

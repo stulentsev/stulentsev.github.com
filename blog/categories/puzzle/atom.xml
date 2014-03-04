@@ -4,7 +4,7 @@
   <title><![CDATA[Category: puzzle | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/puzzle/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Kata: Convert numbers to Roman numerals]]></title>
     <link href="http://tech.tulentsev.com/2014/02/kata-convert-numbers-to-roman-numerals/"/>
-    <updated>2014-02-08T10:24:00+02:00</updated>
+    <updated>2014-02-08T10:24:00+04:00</updated>
     <id>http://tech.tulentsev.com/2014/02/kata-convert-numbers-to-roman-numerals</id>
     <content type="html"><![CDATA[<p>Here is an interesting problem: write a program that converts numbers into <a href="http://en.wikipedia.org/wiki/Roman_numerals">Roman numerals</a>. Roman didn't use Arabic numbers. Instead they used symbols of Latin alphabet that represented different values. It's a simple system. "I" stands for 1, "V" stands for 5, "X" for 10 and so on. To represent 2 you have to use "II" (1 + 1), to represent 7 you use "VII" (5 + 1 + 1). Simple, right? Well, no. Here's a twist.</p>
 

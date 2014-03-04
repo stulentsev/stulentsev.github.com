@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Today I was looking at exception stack trace. One of suspicious places was &#8216;&#8230;\reports_controller.rb:129&#8221;. Okay, navigating to this &hellip;">
+  <meta name="description" content="I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +82,60 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/2010/06/mongoid-and-atomic-increment/">MongoId and Atomic Increment</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-02T00:01:26+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
+        
+         | <a href="/2010/06/mongoid-and-atomic-increment/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I am starting to learn this new piece of technology, the MongoDB. It has many sweet features. However, using Ruby driver directly is not too comfortable. Plus we&#8217;re all hooked to ORM sweeteners. So people started developing ORM libraries for MongoDB and Ruby (<a href="http://mongoid.org">MongoId</a>, <a href="http://github.com/mongomapper/mongomapper">MongoMapper</a> to name a few).</p>
+
+<p>I have decided to try MongoId first. It seems to be a quite good library. However, it still has gaps in documentation. Today I was finding out how to perform an atomic increment of a field. In SQL world this would look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">update</span> <span class="n">users</span> <span class="k">set</span> <span class="n">spam_count</span> <span class="o">=</span> <span class="n">spam_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Mongo Ruby driver supports this kind of operation, but MongoId doesn&#8217;t. So I was trying to get down to the driver. And this is what I couldn&#8217;t easily find in the docs. If you&#8217;re like me, I&#8217;ll save you a couple of hours. Here it is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># assume we know object id already</span>
+</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;4c05848e45760182b5000001&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;$inc&#39;</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="s1">&#39;spam_count&#39;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">}})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/2009/05/intuitive-behaviour/">Intuitive Behaviour</a></h1>
     
     
@@ -98,7 +152,7 @@
   
 
 
-<time datetime="2009-05-18T15:19:25+03:00" pubdate data-updated="true">May 18<span>th</span>, 2009</time>
+<time datetime="2009-05-18T16:19:25+04:00" pubdate data-updated="true">May 18<span>th</span>, 2009</time>
         
          | <a href="/2009/05/intuitive-behaviour/#disqus_thread">Comments</a>
         
@@ -137,7 +191,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2009-03-10T01:20:29+02:00" pubdate data-updated="true">Mar 10<span>th</span>, 2009</time>
+<time datetime="2009-03-10T02:20:29+03:00" pubdate data-updated="true">Mar 10<span>th</span>, 2009</time>
         
          | <a href="/2009/03/advanced-default-parametes/#disqus_thread">Comments</a>
         
@@ -186,7 +240,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2009-03-04T18:11:47+02:00" pubdate data-updated="true">Mar 4<span>th</span>, 2009</time>
+<time datetime="2009-03-04T19:11:47+03:00" pubdate data-updated="true">Mar 4<span>th</span>, 2009</time>
         
          | <a href="/2009/03/iterations-are-good/#disqus_thread">Comments</a>
         
@@ -224,7 +278,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2009-03-03T18:29:10+02:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2009</time>
+<time datetime="2009-03-03T19:29:10+03:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2009</time>
         
          | <a href="/2009/03/making-more-mockups/#disqus_thread">Comments</a>
         
@@ -274,7 +328,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2009-02-06T17:24:41+02:00" pubdate data-updated="true">Feb 6<span>th</span>, 2009</time>
+<time datetime="2009-02-06T18:24:41+03:00" pubdate data-updated="true">Feb 6<span>th</span>, 2009</time>
         
          | <a href="/2009/02/sugarcrm-more-colors/#disqus_thread">Comments</a>
         
@@ -341,7 +395,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2009-01-08T12:58:18+02:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
+<time datetime="2009-01-08T13:58:18+03:00" pubdate data-updated="true">Jan 8<span>th</span>, 2009</time>
         
          | <a href="/2009/01/unmount-this-drive-please/#disqus_thread">Comments</a>
         
@@ -387,7 +441,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2009-01-05T12:45:17+02:00" pubdate data-updated="true">Jan 5<span>th</span>, 2009</time>
+<time datetime="2009-01-05T13:45:17+03:00" pubdate data-updated="true">Jan 5<span>th</span>, 2009</time>
         
          | <a href="/2009/01/formatting-with-named-parameters/#disqus_thread">Comments</a>
         
@@ -455,7 +509,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2008-12-19T12:37:48+02:00" pubdate data-updated="true">Dec 19<span>th</span>, 2008</time>
+<time datetime="2008-12-19T13:37:48+03:00" pubdate data-updated="true">Dec 19<span>th</span>, 2008</time>
         
          | <a href="/2008/12/case-sensitivity-and-tools/#disqus_thread">Comments</a>
         
@@ -505,7 +559,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   
 
 
-<time datetime="2008-12-18T17:53:28+02:00" pubdate data-updated="true">Dec 18<span>th</span>, 2008</time>
+<time datetime="2008-12-18T18:53:28+03:00" pubdate data-updated="true">Dec 18<span>th</span>, 2008</time>
         
          | <a href="/2008/12/creating-ui-mockups-with-balsamiq/#disqus_thread">Comments</a>
         
@@ -548,56 +602,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2008/12/entity-framework-sqlexpress-and-remote-connections/">Entity Framework, SQLExpress and Remote Connections</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-12-02T21:04:42+02:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2008</time>
-        
-         | <a href="/2008/12/entity-framework-sqlexpress-and-remote-connections/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today I had to fight one small, but highly annoying problem. It is related to Entity Framework and SQL Server connection string. When you create a .edmx file with your model, the wizard automatically inserts proper connection string to your app.config or web.config file. Well, it is not always correct string.</p>
-
-<p>In my case, I have .edmx file in a class library and it worked fine when I was using it from WinForms application. But then I decided to put it on a web site. And it ceased to work. The only thing I could get from it was</p>
-
-<p>SQL Server 2005 SQLExpress error: &#8230;provider: Named Pipes Provider, error 40 - Could not open connection to SQL Server</p>
-
-<p>I tried many things, but in the end it turned to be some mistreatment of a connection string. Mine looks this way:</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2008/12/image1.png"><img src="http://tech.tulentsev.com/images/uploads/2008/12/image-thumb1.png" alt="image" /></a></p>
-
-<p>The problem goes away when I put a backslash instead of slash in &#8220;./SQLEXPRESS&#8221;. It looks pretty weird, because they always used forward slash in such autogenerated connection strings, didn&#8217;t they?</p>
-
-<p>P.S.: Sorry about connection string being image here. :-)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -615,6 +619,10 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/useful-documentation-lookup-tools/">Useful documentation lookup tools</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a>
       </li>
     
@@ -628,10 +636,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     
       <li class="post">
         <a href="/2013/11/pipeline-processing-in-go/">Pipeline processing in Go</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/10/hide-slash-exclude-directories-in-textmate-2/">Hide/exclude directories in TextMate 2</a>
       </li>
     
   </ul>

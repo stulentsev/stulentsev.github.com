@@ -4,7 +4,7 @@
   <title><![CDATA[Category: metaprogramming | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/metaprogramming/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-02-25T15:53:09+02:00</updated>
+  <updated>2014-03-04T23:43:44+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
     <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+03:00</updated>
+    <updated>2012-10-21T16:30:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
     <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
 produces this output from this code?</p>
@@ -152,7 +152,7 @@ eigenclasses.</p>
   <entry>
     <title type="html"><![CDATA[Define module programmatically]]></title>
     <link href="http://tech.tulentsev.com/2012/04/define-module-programmatically/"/>
-    <updated>2012-04-02T02:14:50+03:00</updated>
+    <updated>2012-04-02T03:14:50+04:00</updated>
     <id>http://tech.tulentsev.com/2012/04/define-module-programmatically</id>
     <content type="html"><![CDATA[<p><code>ruby
 module Foo
@@ -208,7 +208,7 @@ Foo.const_set(:Bar, bar)</p>
   <entry>
     <title type="html"><![CDATA[Ruby: how to override class method with a module]]></title>
     <link href="http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module/"/>
-    <updated>2012-02-03T19:09:00+02:00</updated>
+    <updated>2012-02-03T21:09:00+04:00</updated>
     <id>http://tech.tulentsev.com/2012/02/ruby-how-to-override-class-method-with-a-module</id>
     <content type="html"><![CDATA[<p>This seems to be a popular interview question. It indeed requires advanced knowledge of ruby.</p>
 
