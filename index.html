@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Today I just wanted to share some tools that I use to read documentation. First one is Dash. It&#8217;s an offline documentation browser which &hellip;">
+  <meta name="description" content="Just a couple of days ago I blogged about Dash. And now they have released new major version, with (at least one) new feature: cheatsheets. One of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/03/dash-now-with-cheatsheets/">Dash - Now With Cheatsheets</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-10T21:50:00+04:00" pubdate data-updated="true">Mar 10<span>th</span>, 2014</time>
+        
+         | <a href="/2014/03/dash-now-with-cheatsheets/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Just a couple of days ago I blogged about <a href="http://kapeli.com/dash">Dash</a>. And now they have released new major version, with (at least one) new feature: cheatsheets. One of the things I just can&#8217;t hold in my memory is HTTP status codes. I know 200 and 404, that&#8217;s it. All others I have to look up, every single time. And Dash has a cheatsheet for this, so I am covered here.</p>
+
+<p>There is no cheatsheet for Vim, not even on its movements. But good news is: you can create your own: <a href="https://github.com/Kapeli/cheatset#readme">cheatset</a>.</p>
+
+<p>I shall probably create one for TextMate key shortcuts (I should know most of them by now, I guess). We&#8217;ll see.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1054,72 +1096,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/12/queue-prioritization-in-sidekiq/">Queue Prioritization in Sidekiq</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-17T04:47:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2012</time>
-        
-         | <a href="/2012/12/queue-prioritization-in-sidekiq/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default config:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">often</span><span class="p-Indicator">,</span> <span class="nv">7</span><span class="p-Indicator">]</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">default</span><span class="p-Indicator">,</span> <span class="nv">5</span><span class="p-Indicator">]</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">seldom</span><span class="p-Indicator">,</span> <span class="nv">3</span><span class="p-Indicator">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you want two queues have equal rights, just set the same priorities. However, if you omit priority parameter and define your queues like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">email</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coffee</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">billing</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then queues will be checked in a serial manner. That is, Sidekiq will start making coffee only when all emails are sent. If a new email shows up, it will be processed before any other job. In other words, this is how Resque would handle the queues.</p>
-
-<p>Choose whatever fits your task better. It&#8217;s nice to have some flexibility.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1135,6 +1111,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/useful-documentation-lookup-tools/">Useful documentation lookup tools</a>
       </li>
     
@@ -1148,10 +1128,6 @@
     
       <li class="post">
         <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/11/pipeline-processing-in-go/">Pipeline processing in Go</a>
       </li>
     
   </ul>

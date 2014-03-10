@@ -9,8 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Let&#8217;s say you want to dump your MongoDB database. There&#8217;s a handy tool that does just that, mongodump. 1
-mongodump If executed without &hellip;">
+  <meta name="description" content="Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,153 @@ mongodump If executed without &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/fun-with-classes-find-which-class-is-the-biggest/">Fun With Classes: Find Which Class Is the Biggest :)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-30T05:13:27+04:00" pubdate data-updated="true">Mar 30<span>th</span>, 2012</time>
+        
+         | <a href="/2012/03/fun-with-classes-find-which-class-is-the-biggest/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Did you know that in Ruby you can compare classes with &#8216;less-than&#8217; and &#8216;greater-than&#8217; operators? I did not (until today). Observe:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">A</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># false</span>
+</span><span class='line'><span class="n">A</span> <span class="o">&gt;</span> <span class="n">B</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">A</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">B</span> <span class="c1"># true</span>
+</span><span class='line'><span class="n">D</span> <span class="o">&lt;</span> <span class="n">C</span> <span class="c1"># nil</span>
+</span><span class='line'><span class="n">C</span> <span class="o">&gt;</span> <span class="n">D</span> <span class="c1"># nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This operator returns a boolean value (as one would expect), so you can write code like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;B inherits from A&quot;</span> <span class="k">if</span> <span class="n">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note how it resembles the class definition syntax. I think that this is simply brilliant (not very intuitive, though. I wouldn&#8217;t think of writing this code).</p>
+
+<p>Now that we know this fact, let&#8217;s try to sort the classes :)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">B</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">C</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">D</span> <span class="o">&lt;</span> <span class="n">B</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">E</span> <span class="o">&lt;</span> <span class="n">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Class</span>
+</span><span class='line'>  <span class="c1"># we need to define the spaceship operator for classes, since it&#39;s not defined yet.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">&lt;=&gt;</span> <span class="n">other</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">==</span> <span class="n">other</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="nb">self</span> <span class="o">&lt;</span> <span class="n">other</span>
+</span><span class='line'>    <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">klasses</span> <span class="o">=</span> <span class="o">[</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">E</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">klasses</span><span class="o">.</span><span class="n">sort</span> <span class="c1"># [E, C, D, B, A]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now this class hierarchy is sorted, with children first and parents last. Homework: come up with a practical application for this :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1246,70 +1392,6 @@ mongodump If executed without &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/06/atomic-updates-part-2/">Atomic Updates, Part 2</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-06-02T15:12:41+04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2010</time>
-        
-         | <a href="/2010/06/atomic-updates-part-2/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Let&#8217;s review another common scenario: posts and votes. Mongo&#8217;s approach would be to store vote count in the post itself (caching) and keep voters also in the post, in an array field. Let&#8217;s assume we want to register a new vote on post. This operation consists of three steps:</p>
-
-<blockquote><ol>
-<li>ensure that the voter hasn&#8217;t voted yet, and, if not,</li>
-<li>increment the number of votes and</li>
-<li>add the new voter to the array.</li>
-</ol>
-</blockquote>
-
-<p>MongoDB&#8217;s query and update features allows us to perform all three actions in a single operation. Here&#8217;s what that would look like from the shell:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// Assume that story_id and user_id represent real story and user ids.</span>
-</span><span class='line'><span class="nx">db</span><span class="p">.</span><span class="nx">stories</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span><span class="nx">_id</span><span class="o">:</span> <span class="nx">story_id</span><span class="p">,</span> <span class="nx">voters</span><span class="o">:</span> <span class="p">{</span><span class="s1">&#39;$ne&#39;</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}},</span>
-</span><span class='line'>                  <span class="p">{</span><span class="s1">&#39;$inc&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">votes</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="s1">&#39;$push&#39;</span><span class="o">:</span> <span class="p">{</span><span class="nx">voters</span><span class="o">:</span> <span class="nx">user_id</span><span class="p">}});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What this says is &#8220;get me a story with the given id whose voters array does not contain the given user id and, if you find such a story, perform two atomic updates: first, increment votes by 1 and then push the user id onto the voters array.&#8221;</p>
-
-<p>This operation highly efficient; it&#8217;s also reliable. The one caveat is that, because update operations are &#8220;fire and forget,&#8221; you won&#8217;t get a response from the server. But in most cases, this should be a non-issue.</p>
-
-<p>quote from <a href="http://www.mongodb.org/display/DOCS/MongoDB+Data+Modeling+and+Rails">MongoDB site</a>.</p>
-
-<p>How would you implement this in your regular SQL database?</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -1327,6 +1409,10 @@ mongodump If executed without &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/useful-documentation-lookup-tools/">Useful documentation lookup tools</a>
       </li>
     
@@ -1340,10 +1426,6 @@ mongodump If executed without &hellip;">
     
       <li class="post">
         <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/11/pipeline-processing-in-go/">Pipeline processing in Go</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tools | Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-03-04T23:43:44+04:00</updated>
+  <updated>2014-03-10T22:00:50+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Dash - now with cheatsheets]]></title>
+    <link href="http://tech.tulentsev.com/2014/03/dash-now-with-cheatsheets/"/>
+    <updated>2014-03-10T21:50:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2014/03/dash-now-with-cheatsheets</id>
+    <content type="html"><![CDATA[<p>Just a couple of days ago I blogged about <a href="http://kapeli.com/dash">Dash</a>. And now they have released new major version, with (at least one) new feature: cheatsheets. One of the things I just can't hold in my memory is HTTP status codes. I know 200 and 404, that's it. All others I have to look up, every single time. And Dash has a cheatsheet for this, so I am covered here.</p>
+
+<p>There is no cheatsheet for Vim, not even on its movements. But good news is: you can create your own: <a href="https://github.com/Kapeli/cheatset#readme">cheatset</a>.</p>
+
+<p>I shall probably create one for TextMate key shortcuts (I should know most of them by now, I guess). We'll see.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Useful documentation lookup tools]]></title>

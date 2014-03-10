@@ -9,15 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Sidekiq works pretty well with standard redis client. This is an example of configuring it (from official wiki): 1
-2
-3
-4
-5
-6
-7
-8
-Sidekiq. &hellip;">
+  <meta name="description" content="Unlike Resque, Sidekiq allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +76,72 @@ Sidekiq. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/queue-prioritization-in-sidekiq/">Queue Prioritization in Sidekiq</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-17T04:47:00+04:00" pubdate data-updated="true">Dec 17<span>th</span>, 2012</time>
+        
+         | <a href="/2012/12/queue-prioritization-in-sidekiq/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Unlike <a href="https://github.com/defunkt/resque">Resque</a>, <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default config:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">often</span><span class="p-Indicator">,</span> <span class="nv">7</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">default</span><span class="p-Indicator">,</span> <span class="nv">5</span><span class="p-Indicator">]</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="p-Indicator">[</span><span class="nv">seldom</span><span class="p-Indicator">,</span> <span class="nv">3</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want two queues have equal rights, just set the same priorities. However, if you omit priority parameter and define your queues like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">:queues</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">email</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coffee</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">billing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then queues will be checked in a serial manner. That is, Sidekiq will start making coffee only when all emails are sent. If a new email shows up, it will be processed before any other job. In other words, this is how Resque would handle the queues.</p>
+
+<p>Choose whatever fits your task better. It&#8217;s nice to have some flexibility.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -681,91 +739,6 @@ show you how to make this kind of charts yourself in your charting library (I&#8
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/ruby-gem-for-murmurhash-3/">Ruby Gem for MurmurHash 3</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-16T20:44:00+04:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
-        
-         | <a href="/2012/10/ruby-gem-for-murmurhash-3/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Still driven by <a href="http://tech.tulentsev.com/2012/10/probabilistic-sets-in-redis/">that post</a>,
-I decided to do something about it. So I went and tried to read the original paper. It was
-mind blowing. Not because it was great (I am sure it is), but because it&#8217;s been a while
-since I had to read some serious math.</p>
-
-<p>Then I came across this article, which could also be named &#8220;HyperLogLog for dummies&#8221;:
-<a href="http://metamarkets.com/2012/fast-cheap-and-98-right-cardinality-estimation-for-big-data/">Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data</a>.
-It was much more readable. From it I learned about Murmur hash and was surprised that
-there&#8217;s no ruby gem for this. Fortunately, <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">C++ source code</a>
-was available, so I decided to wrap this as a gem.</p>
-
-<p>It went much smoother than I anticipated and I had working version within 3 or 4 hours.
-I didn&#8217;t have experience with native extensions before, someone experienced probably could
-have done it in 5 minutes, but still I consider this as an achievement! :)</p>
-
-<p>So, only when I tried to push the gem to <a href="http://rubygems.org">RubyGems</a>, I discovered that there IS
-a gem with this name: <a href="http://rubygems.org/gems/murmurhash3">murmurhash3</a>. The public API
-is too cumbersome if you ask me, but it works and probably has less bugs than my version.</p>
-
-<p>Here&#8217;s how you use it:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;murmurhash3&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Hello, world!&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">ints</span> <span class="o">=</span> <span class="no">MurmurHash3</span><span class="o">::</span><span class="no">Native128</span><span class="o">.</span><span class="n">murmur3_128_str_hash</span> <span class="n">s</span>
-</span><span class='line'>
-</span><span class='line'>     <span class="c1">#    produce a 128 bits of hash, in the form of 4 32-bit integers</span>
-</span><span class='line'><span class="n">ints</span> <span class="c1"># =&gt; [3537266143, 4048629201, 2834548068, 741500496]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can turn this array of integers into a hex string like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ints</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;L*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;H*&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span> <span class="c1"># =&gt; &quot;df65d6d2d12d51f164c5f3a85066322c&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you know a better/faster/more idiomatic way, please let me know :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -783,6 +756,10 @@ is too cumbersome if you ask me, but it works and probably has less bugs than my
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/useful-documentation-lookup-tools/">Useful documentation lookup tools</a>
       </li>
     
@@ -796,10 +773,6 @@ is too cumbersome if you ask me, but it works and probably has less bugs than my
     
       <li class="post">
         <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2013/11/pipeline-processing-in-go/">Pipeline processing in Go</a>
       </li>
     
   </ul>
