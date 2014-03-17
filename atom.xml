@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-03-11T10:56:30+04:00</updated>
+  <updated>2014-03-17T21:12:12+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using OSX Notification Center in your programs]]></title>
+    <link href="http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/"/>
+    <updated>2014-03-17T20:50:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs</id>
+    <content type="html"><![CDATA[<p>There is this good feature in OSX, called <a href="http://en.wikipedia.org/wiki/Notification_Center">Notification Center</a> (which Apple may have stolen from Growl, who knows). It has an API, so you can post your events there. If you&#8217;re using Xcode and Apple frameworks, then you can stop reading now. However, if you&#8217;re programming in, say, ruby, you&#8217;re in much less fortunate position. There&#8217;s no official gem or library, so you are left on your own.</p>
+
+<p>But don&#8217;t despair, we have you covered. There&#8217;s a cocoa app called <a href="https://github.com/alloy/terminal-notifier">terminal-notifier</a> that serves as a bridge between Notification Center and your app. It is accessible via command line and is quite configurable. There&#8217;s also a ruby gem that wraps this tool, but the main value is that it is available in command line. Which means that you can use it from whatever language you want. For example, I use it in my stackoverflow question poller which is written in <a href="http://golang.org/">Go</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dash - now with cheatsheets]]></title>
@@ -1347,171 +1358,6 @@ control to <code>Foo#hello</code> which prints &#8220;foo&#8221;.</p>
 
 <p>Now you see, it&#8217;s a simple algorithm. But it can be really puzzling if you don&#8217;t know about
 eigenclasses.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[DIY: funnel chart]]></title>
-    <link href="http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js/"/>
-    <updated>2012-10-20T20:02:00+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/10/diy-funnel-chart-with-highcharts-dot-js</id>
-    <content type="html"><![CDATA[<p>Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
-and it doesn&#8217;t look like a freaking funnel (with neck and all).</p>
-
-<p><img src="http://tech.tulentsev.com/images/uploads/2012/10/funnel1.png"></p>
-
-<p><a href="http://chart.apis.google.com/chart?cht=bhs&amp;chco=ffffff,FF9900&amp;chxt=x,x,y&amp;chxl=1%3a|Percentage%20converting|2%3a|Step%206|Step%205|Step%204|Step%203|Step%202|Step%201&amp;chxp=1,50|3,50&amp;chd=t:0,12.5,28,29,35.5,48.5|100,75,44,42,29,3&amp;chbh=a&amp;chs=800x230&amp;chm=N%2a%2a%,000000,1,-1,11,,c&amp;chds=0,100">link to source</a></p>
-
-<p>The only negative property of it is that it&#8217;s implemented with Google Charts API. Sure,
-it&#8217;s free and pretty, but it&#8217;s also an external service call and a dependency. Today I&#8217;ll
-show you how to make this kind of charts yourself in your charting library (I&#8217;ll be using
-<a href="http://highcharts.com">highcharts.js</a>).</p>
-
-<!-- more -->
-
-
-<p>This can be done with any charting library that supports stacked bar charts. Because that&#8217;s
-what it is, a stacked bar. The trick is that one of the stack parts is invisible and serves
-as a padding. Look:</p>
-
-<p><img src="http://tech.tulentsev.com/images/uploads/2012/10/funnel2.png">
-<a href="http://chart.apis.google.com/chart?cht=bhs&amp;chco=0000ff,FF9900&amp;chxt=x,x,y&amp;chxl=1%3a|Percentage%20converting|2%3a|Step%206|Step%205|Step%204|Step%203|Step%202|Step%201&amp;chxp=1,50|3,50&amp;chd=t:0,12.5,28,29,35.5,48.5|100,75,44,42,29,3&amp;chbh=a&amp;chs=800x230&amp;chm=N%2a%2a%,000000,1,-1,11,,c&amp;chds=0,100">link to source</a></p>
-
-<p>You see, the basic idea is pretty simple. The only hard part is to translate into series
-of commands to your charting lib. I have made a small function for myself that does creates
-a series for highcharts:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">makeSeriesConfig</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">values</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="c1">// we need max value to calculate padding correctly</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">max_value</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-</span><span class='line'>    <span class="nx">values</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">max_value</span> <span class="o">||</span> <span class="nx">max_value</span> <span class="o">&lt;</span> <span class="nx">v</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">max_value</span> <span class="o">=</span> <span class="nx">v</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">padding</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;padding&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">dataLabels</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">enabled</span><span class="o">:</span> <span class="kc">false</span> <span class="c1">// don&#39;t show labels for padding</span>
-</span><span class='line'>        <span class="p">},</span>
-</span><span class='line'>        <span class="nx">data</span><span class="o">:</span> <span class="p">[]</span> <span class="c1">// will fill later</span>
-</span><span class='line'>    <span class="p">};</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">centralPiece</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nx">data</span><span class="o">:</span> <span class="p">[],</span> <span class="c1">// will fill later</span>
-</span><span class='line'>        <span class="nx">dataLabels</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">enabled</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nx">values</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kd">var</span> <span class="nx">w</span> <span class="o">=</span> <span class="p">(</span><span class="nx">max_value</span> <span class="o">-</span> <span class="nx">v</span><span class="p">.</span><span class="nx">value</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
-</span><span class='line'>        <span class="nx">padding</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
-</span><span class='line'>            <span class="nx">y</span><span class="o">:</span> <span class="nx">w</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">color</span><span class="o">:</span> <span class="s1">&#39;white&#39;</span> <span class="c1">// background color</span>
-</span><span class='line'>        <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>        <span class="nx">centralPiece</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
-</span><span class='line'>          <span class="nx">y</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
-</span><span class='line'>          <span class="nx">name</span><span class="o">:</span> <span class="nx">v</span><span class="p">.</span><span class="nx">name</span>
-</span><span class='line'>        <span class="p">});</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">return</span> <span class="p">[</span><span class="nx">centralPiece</span><span class="p">,</span> <span class="nx">padding</span><span class="p">]</span>
-</span><span class='line'><span class="p">};</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Later we use this function in a chart definition:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">chart</span><span class="p">;</span>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">chart</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Highcharts</span><span class="p">.</span><span class="nx">Chart</span><span class="p">({</span>
-</span><span class='line'>        <span class="nx">chart</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="nx">renderTo</span><span class="o">:</span> <span class="s1">&#39;container&#39;</span><span class="p">,</span>
-</span><span class='line'>            <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span>
-</span><span class='line'>        <span class="p">},</span>
-</span><span class='line'>        <span class="c1">// ... other options go here ...</span>
-</span><span class='line'>        <span class="nx">series</span><span class="o">:</span> <span class="nx">makeSeriesConfig</span><span class="p">([</span>
-</span><span class='line'>                                    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Step 1&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">300</span><span class="p">},</span>
-</span><span class='line'>                                    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Step 2&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">240</span><span class="p">},</span>
-</span><span class='line'>                                    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Step 3&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">70</span><span class="p">},</span>
-</span><span class='line'>                                    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Step 4&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">40</span><span class="p">},</span>
-</span><span class='line'>                                    <span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Step 5&#39;</span><span class="p">,</span> <span class="nx">value</span><span class="o">:</span> <span class="mi">10</span><span class="p">}</span>
-</span><span class='line'>                                <span class="p">])</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here&#8217;s my final result which I&#8217;m happy with and which is going from proof-of-concept to
-active development.</p>
-
-<h2>Final result</h2>
-
-<iframe style="width: 100%; height: 300px" src="http://jsfiddle.net/4fpua/embedded/js,resources,html,css,result/light/"></iframe>
-
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Just a couple of days ago I blogged about Dash. And now they have released new major version, with (at least one) new feature: cheatsheets. One of &hellip;">
+  <meta name="description" content="There is this good feature in OSX, called Notification Center (which Apple may have stolen from Growl, who knows). It has an API, so you can post &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,46 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in Your Programs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-17T20:50:00+04:00" pubdate data-updated="true">Mar 17<span>th</span>, 2014</time>
+        
+         | <a href="/2014/03/using-osx-notification-center-in-your-programs/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There is this good feature in OSX, called <a href="http://en.wikipedia.org/wiki/Notification_Center">Notification Center</a> (which Apple may have stolen from Growl, who knows). It has an API, so you can post your events there. If you&#8217;re using Xcode and Apple frameworks, then you can stop reading now. However, if you&#8217;re programming in, say, ruby, you&#8217;re in much less fortunate position. There&#8217;s no official gem or library, so you are left on your own.</p>
+
+<p>But don&#8217;t despair, we have you covered. There&#8217;s a cocoa app called <a href="https://github.com/alloy/terminal-notifier">terminal-notifier</a> that serves as a bridge between Notification Center and your app. It is accessible via command line and is quite configurable. There&#8217;s also a ruby gem that wraps this tool, but the main value is that it is available in command line. Which means that you can use it from whatever language you want. For example, I use it in my stackoverflow question poller which is written in <a href="http://golang.org/">Go</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -952,150 +992,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting Humanized Numbers in tablesorter.js</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-23T17:48:00+04:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time>
-        
-         | <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://tablesorter.com/docs/">Tablesorter</a> is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I went with it when I needed to sort a table a couple of days ago.</p>
-
-<p>It works pretty well out of the box and it even lets you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.</p>
-
-<p>Here&#8217;s <a href="http://tablesorter.com/docs/example-parsers.html">an official example</a></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// add parser through the tablesorter addParser method </span>
-</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">tablesorter</span><span class="p">.</span><span class="nx">addParser</span><span class="p">({</span>
-</span><span class='line'>    <span class="c1">// set a unique id </span>
-</span><span class='line'>    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;grades&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="nx">is</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// return false so this parser is not auto detected </span>
-</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="nx">format</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// format your data for normalization </span>
-</span><span class='line'>        <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/good/</span><span class="p">,</span><span class="mi">2</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/medium/</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/bad/</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="c1">// set type, either numeric or text </span>
-</span><span class='line'>    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;numeric&#39;</span>
-</span><span class='line'><span class="p">});</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">).</span><span class="nx">tablesorter</span><span class="p">({</span>
-</span><span class='line'>        <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>            <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>                <span class="nx">sorter</span><span class="o">:</span><span class="s1">&#39;grades&#39;</span>
-</span><span class='line'>            <span class="p">}</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">});</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this <code>is</code> function is a predicate. It accepts a string and decides whether it can be handled by this parser. Then the <code>format</code> function will make conversion to a normalized textual/numeric form.</p>
-
-<p>In my case I have a table with a lot of numbers. And those numbers are in humanized form. That is, instead of <code>121738</code> I output <code>121.74k</code>. This format is not properly sortable as either number or text, so I wrote a parser.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">tablesorter</span><span class="p">.</span><span class="nx">addParser</span><span class="p">({</span>
-</span><span class='line'>  <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;humannum&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="nx">is</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="sr">/^[\d\.]+[Mk]?$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'>  <span class="nx">format</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">is_m</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">is_k</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">fl</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
-</span><span class='line'>    <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">is_m</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span> <span class="o">*</span> <span class="mi">1000000</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">is_k</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
-</span><span class='line'>  <span class="p">},</span>
-</span><span class='line'>  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;numeric&#39;</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It basically checks if a string consists of a number followed by an optional &#8220;M&#8221; or &#8220;k&#8221; and, if that&#8217;s the case, converts it to a &#8220;full&#8221; number.</p>
-
-<p>I wish this was in the official doc.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1111,6 +1007,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
       </li>
     
@@ -1124,10 +1024,6 @@
     
       <li class="post">
         <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
       </li>
     
   </ul>

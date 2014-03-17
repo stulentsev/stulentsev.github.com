@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: link | Byte Friendly]]></title>
+  <link href="http://tech.tulentsev.com/blog/categories/link/atom.xml" rel="self"/>
+  <link href="http://tech.tulentsev.com/"/>
+  <updated>2014-03-17T21:12:12+04:00</updated>
+  <id>http://tech.tulentsev.com/</id>
+  <author>
+    <name><![CDATA[Sergio Tulentsev]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using OSX Notification Center in your programs]]></title>
+    <link href="http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/"/>
+    <updated>2014-03-17T20:50:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs</id>
+    <content type="html"><![CDATA[<p>There is this good feature in OSX, called <a href="http://en.wikipedia.org/wiki/Notification_Center">Notification Center</a> (which Apple may have stolen from Growl, who knows). It has an API, so you can post your events there. If you're using Xcode and Apple frameworks, then you can stop reading now. However, if you're programming in, say, ruby, you're in much less fortunate position. There's no official gem or library, so you are left on your own.</p>
+
+<p>But don't despair, we have you covered. There's a cocoa app called <a href="https://github.com/alloy/terminal-notifier">terminal-notifier</a> that serves as a bridge between Notification Center and your app. It is accessible via command line and is quite configurable. There's also a ruby gem that wraps this tool, but the main value is that it is available in command line. Which means that you can use it from whatever language you want. For example, I use it in my stackoverflow question poller which is written in <a href="http://golang.org/">Go</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

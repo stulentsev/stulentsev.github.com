@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Unlike Resque, Sidekiq allows you to process several queues at the same time. You can even assign priorities. Here&#8217;s an example from default &hellip;">
+  <meta name="description" content="Tablesorter is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,150 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/">Sorting Humanized Numbers in tablesorter.js</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-23T17:48:00+04:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time>
+        
+         | <a href="/2012/12/sorting-humanized-numbers-in-tablesorter-dot-js/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://tablesorter.com/docs/">Tablesorter</a> is a jQuery plugin for sorting tables. It appeared first in a couple of &#8220;X jquery table sorting plugins&#8221; blog posts, so I went with it when I needed to sort a table a couple of days ago.</p>
+
+<p>It works pretty well out of the box and it even lets you customize some bits. One of those bits is column parser: if you have special data in a column, you need a special way to sort it.</p>
+
+<p>Here&#8217;s <a href="http://tablesorter.com/docs/example-parsers.html">an official example</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// add parser through the tablesorter addParser method </span>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">tablesorter</span><span class="p">.</span><span class="nx">addParser</span><span class="p">({</span>
+</span><span class='line'>    <span class="c1">// set a unique id </span>
+</span><span class='line'>    <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;grades&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">is</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return false so this parser is not auto detected </span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">format</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// format your data for normalization </span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">s</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/good/</span><span class="p">,</span><span class="mi">2</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/medium/</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/bad/</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="c1">// set type, either numeric or text </span>
+</span><span class='line'>    <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;numeric&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">).</span><span class="nx">tablesorter</span><span class="p">({</span>
+</span><span class='line'>        <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>            <span class="mi">6</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>                <span class="nx">sorter</span><span class="o">:</span><span class="s1">&#39;grades&#39;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>However, it leaves much to be desired. Like what to do when I want my parser to be auto-detected. Turns out that this <code>is</code> function is a predicate. It accepts a string and decides whether it can be handled by this parser. Then the <code>format</code> function will make conversion to a normalized textual/numeric form.</p>
+
+<p>In my case I have a table with a lot of numbers. And those numbers are in humanized form. That is, instead of <code>121738</code> I output <code>121.74k</code>. This format is not properly sortable as either number or text, so I wrote a parser.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">tablesorter</span><span class="p">.</span><span class="nx">addParser</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">id</span><span class="o">:</span> <span class="s1">&#39;humannum&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">is</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="sr">/^[\d\.]+[Mk]?$/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">format</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">is_m</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;M&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">is_k</span> <span class="o">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">fl</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">is_m</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span> <span class="o">*</span> <span class="mi">1000000</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">is_k</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span> <span class="o">=</span> <span class="nx">fl</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;numeric&#39;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It basically checks if a string consists of a number followed by an optional &#8220;M&#8221; or &#8220;k&#8221; and, if that&#8217;s the case, converts it to a &#8220;full&#8221; number.</p>
+
+<p>I wish this was in the official doc.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -686,59 +830,6 @@ above it.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">DIY: Funnel Chart</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-20T20:02:00+04:00" pubdate data-updated="true">Oct 20<span>th</span>, 2012</time>
-        
-         | <a href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
-and it doesn&#8217;t look like a freaking funnel (with neck and all).</p>
-
-<p><img src="/images/uploads/2012/10/funnel1.png"></p>
-
-<p><a href="http://chart.apis.google.com/chart?cht=bhs&amp;chco=ffffff,FF9900&amp;chxt=x,x,y&amp;chxl=1%3a|Percentage%20converting|2%3a|Step%206|Step%205|Step%204|Step%203|Step%202|Step%201&amp;chxp=1,50|3,50&amp;chd=t:0,12.5,28,29,35.5,48.5|100,75,44,42,29,3&amp;chbh=a&amp;chs=800x230&amp;chm=N%2a%2a%,000000,1,-1,11,,c&amp;chds=0,100">link to source</a></p>
-
-<p>The only negative property of it is that it&#8217;s implemented with Google Charts API. Sure,
-it&#8217;s free and pretty, but it&#8217;s also an external service call and a dependency. Today I&#8217;ll
-show you how to make this kind of charts yourself in your charting library (I&#8217;ll be using
-<a href="http://highcharts.com">highcharts.js</a>).</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2012/10/diy-funnel-chart-with-highcharts-dot-js/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -756,6 +847,10 @@ show you how to make this kind of charts yourself in your charting library (I&#8
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
       </li>
     
@@ -769,10 +864,6 @@ show you how to make this kind of charts yourself in your charting library (I&#8
     
       <li class="post">
         <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
       </li>
     
   </ul>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: sidekiq - Byte Friendly</title>
+  <title>Using OSX Notification Center in your programs - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Category: sidekiq">
+  <meta name="description" content="There is this good feature in OSX, called Notification Center (which Apple may have stolen from Growl, who knows). It has an API, so you can post &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.comblog/categories/sidekiq/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,36 +75,97 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Sidekiq</h1>
+    
+      <h1 class="entry-title">Using OSX Notification Center in Your Programs</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-17T20:50:00+04:00" pubdate data-updated="true">Mar 17<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>There is this good feature in OSX, called <a href="http://en.wikipedia.org/wiki/Notification_Center">Notification Center</a> (which Apple may have stolen from Growl, who knows). It has an API, so you can post your events there. If you&#8217;re using Xcode and Apple frameworks, then you can stop reading now. However, if you&#8217;re programming in, say, ruby, you&#8217;re in much less fortunate position. There&#8217;s no official gem or library, so you are left on your own.</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/2012/12/queue-prioritization-in-sidekiq/">Queue prioritization in Sidekiq</a></h1>
-<time datetime="2012-12-17T04:47:00+04:00" pubdate><span class='month'>Dec</span> <span class='day'>17</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/sidekiq/'>sidekiq</a></span>
-</footer>
-
-
-</article>
-
+<p>But don&#8217;t despair, we have you covered. There&#8217;s a cocoa app called <a href="https://github.com/alloy/terminal-notifier">terminal-notifier</a> that serves as a bridge between Notification Center and your app. It is accessible via command line and is quite configurable. There&#8217;s also a ruby gem that wraps this tool, but the main value is that it is available in command line. Which means that you can use it from whatever language you want. For example, I use it in my stackoverflow question poller which is written in <a href="http://golang.org/">Go</a>.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-17T20:50:00+04:00" pubdate data-updated="true">Mar 17<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/link/'>link</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2014/03/dash-now-with-cheatsheets/" title="Previous Post: Dash - now with cheatsheets">&laquo; Dash - now with cheatsheets</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -174,7 +235,10 @@
       var disqus_shortname = 'software-and-computers';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/';
+        var disqus_url = 'http://tech.tulentsev.com/2014/03/using-osx-notification-center-in-your-programs/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

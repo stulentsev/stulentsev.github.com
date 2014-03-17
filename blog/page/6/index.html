@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Virtually in every project you have to do some UI mockups. I mean, if you have some methodology, you are a team and you are serious about your &hellip;">
+  <meta name="description" content="I want to say again that decision to make identifiers case-insensitive is one of the worst design decisions a language author can make. Along with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2008/12/case-sensitivity-and-tools/">Case Sensitivity and Tools</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-12-19T13:37:48+03:00" pubdate data-updated="true">Dec 19<span>th</span>, 2008</time>
+        
+         | <a href="/2008/12/case-sensitivity-and-tools/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I want to say again that decision to make identifiers case-insensitive is one of the worst design decisions a language author can make. Along with that goes &#8220;declare on first usage&#8221; decision, but more on this later.</p>
+
+<p>Why is it bad? Because you either have to have proper development tools that support this decision, or assume high professionalism of the developers, letting them use conventional tools. Good professional developer will be consistent with casing of identifiers, because he sticks to some naming convention and case means something there (this is wild assumption, but I believe it is true, hehe).</p>
+
+<p>Recently I had to fix some ancient program. It is written in Turbo Pascal 5. The IDE is even more useless than even Windows Notepad (can you imagine this?), that&#8217;s why I used <a href="http://notepad-plus.sourceforge.net/uk/about.php">Notepad++</a> to edit sources and launch compilation script.</p>
+
+<p>In some recent versions it acquired so-called &#8220;smart highting&#8221;. This feature highlights all occurrences of a word when you select one of them. Very handy. BUT! it is case sensitive.</p>
+
+<p><a href="http://tech.tulentsev.com/images/uploads/2008/12/image3.png"><img src="http://tech.tulentsev.com/images/uploads/2008/12/image-thumb3.png" alt="image" /></a></p>
+
+<p>Take a look at the screenshot. You can see two occurrences of <em>valor</em> highlighted with green color, but another occurrence is not highlighted, it has different casing. This makes analysis of this source code somewhat harder.</p>
+
+<p>Well, we could blame two sides here: lack of &#8220;case sensitivity&#8221; options for Notepad++ and this design decision of Niklaus Wirth. I tend to do the latter :-)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -355,6 +405,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
       </li>
     
@@ -368,10 +422,6 @@
     
       <li class="post">
         <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/what-is-utf-8-for-the-dummies/">What is UTF-8 (for the dummies)</a>
       </li>
     
   </ul>
