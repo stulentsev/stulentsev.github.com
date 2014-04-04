@@ -9,8 +9,19 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Recently I came across this excellent way of visualizing a funnel. It&#8217;s simple, informative
-and it doesn&#8217;t look like a freaking funnel ( &hellip;">
+  <meta name="description" content="Method lookup is an interesting topic in Ruby. For example, exactly what happens that
+produces this output from this code? 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +88,100 @@ and it doesn&#8217;t look like a freaking funnel ( &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Object Extensions and Method Lookups in Ruby</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T16:30:00+04:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+        
+         | <a href="/2012/10/object-extensions-and-method-lookups-in-ruby/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
+produces this output from this code?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Foo</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;bar&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">hello</span>
+</span><span class='line'><span class="c1"># &gt;&gt; foo</span>
+</span><span class='line'><span class="c1"># &gt;&gt; bar</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The algorithm for method lookups can be summarized in one sentence: &#8220;one step to the right,
+then up&#8221;. This is referring a specific visualization of objects and classes relationships,
+where we place object&#8217;s class to the right from the object, and place ancestor of a class
+above it.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/2012/10/object-extensions-and-method-lookups-in-ruby/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -697,112 +802,6 @@ air is still clean. :)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/04/define-module-programmatically/">Define Module Programmatically</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-02T03:14:50+04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2012</time>
-        
-         | <a href="/2012/04/define-module-programmatically/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Given a module <code>Foo</code>, how do you define a nested module <code>Bar</code>?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'>    <span class="k">module</span> <span class="nn">Bar</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>There&#8217;s a number of ways. First, most obvious one is to eval a string.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">name</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">class_eval</span> <span class="o">&lt;&lt;</span><span class="no">RUBY</span>
-</span><span class='line'><span class="sh">  module #{name}</span>
-</span><span class='line'><span class="sh">  end</span>
-</span><span class='line'><span class="no">RUBY</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>While this certainly works and gets job done, it has some flaws. First, it&#8217;s a string, so some editors and IDEs will get confused and lose coloring/completion. Second, there&#8217;s no validation on module name. In best case, you&#8217;ll get compiler error. In worst case, you&#8217;ll get hard to track bugs.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Module</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="no">Foo</span><span class="o">.</span><span class="n">const_set</span><span class="p">(</span><span class="ss">:Bar</span><span class="p">,</span> <span class="n">bar</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Foo</span><span class="o">::</span><span class="no">Bar</span> <span class="c1"># =&gt; Foo::Bar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This one is better. You clearly state that you&#8217;re going to set a constant, and module name is pretty restricted.</p>
-
-<p>Are there other ways to do this?</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -820,6 +819,10 @@ air is still clean. :)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
       </li>
     
@@ -833,10 +836,6 @@ air is still clean. :)</p>
     
       <li class="post">
         <a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
       </li>
     
   </ul>

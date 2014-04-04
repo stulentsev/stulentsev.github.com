@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-03-17T21:12:12+04:00</updated>
+  <updated>2014-04-04T20:40:56+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How To Work with large YAML files and not go crazy]]></title>
+    <link href="http://tech.tulentsev.com/2014/04/work-with-large-yaml-files-and-not-go-crazy/"/>
+    <updated>2014-04-04T20:15:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2014/04/work-with-large-yaml-files-and-not-go-crazy</id>
+    <content type="html"><![CDATA[<p>Large Rails apps have large locale .yml files. Some have files so large that it is not feasible to simply open them in editor and work with them. Sure, you can edit them just fine, but you can&#8217;t efficiently search them.</p>
+
+<p>Say, you&#8217;re implementing a new page. It has &#8220;Balance&#8221; (for example) field on it. You think: &#8220;Hm, we have several other pages with this field. Surely, it had been I18n&#8217;d before. Let&#8217;s look in locale files&#8221;. You open 10 kLOC en-US.yml file, start searching and find 15 entries of &#8220;balance:&#8221; string, with varying levels of indentation. What are the full names of these keys? You have no idea.</p>
+
+<p>I googled for quite a while and, to my surprise, haven&#8217;t found a yaml browser with search, which would show me FQN of a key. Here&#8217;s my little script that I wrote to help me in navigating these ginormous files:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#! /usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;colorize&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="n">pattern_text</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">unless</span> <span class="n">filename</span> <span class="o">&amp;&amp;</span> <span class="n">pattern_text</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Usage: grep_yaml.rb filename pattern&quot;</span>
+</span><span class='line'>  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">pattern</span> <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pattern_text</span><span class="p">,</span> <span class="ss">:nocase</span><span class="p">)</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">pattern</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">current_path</span> <span class="o">=</span> <span class="o">[]</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">path</span> <span class="o">=</span> <span class="n">current_path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">obj</span> <span class="o">=~</span> <span class="n">pattern</span> <span class="o">||</span> <span class="n">path</span> <span class="o">=~</span> <span class="n">pattern</span>
+</span><span class='line'>      <span class="k">yield</span> <span class="o">[</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">Hash</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">obj</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">recurse</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">current_path</span> <span class="o">+</span> <span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">recurse</span><span class="p">(</span><span class="nb">hash</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">:</span><span class="se">\t</span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">match</span><span class="o">|</span> <span class="n">match</span><span class="o">.</span><span class="n">green</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">line</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Example usage (grep one of locale files of <a href="https://github.com/discourse/discourse">Discourse</a> project):</p>
+
+<p><img class="center" src="http://tech.tulentsev.com/images/uploads/2014/04/04/yaml_grep.png"></p>
+
+<p>Much more comfortable, isn&#8217;t it?</p>
+
+<p>The source is uploaded as <a href="https://gist.github.com/stulentsev/9978365">gist</a>, for your copying/forking convenience. I should probably make a proper rubygem out of it. But, you know, when the immediate problem is solved, there are always more important things to work on. :/</p>
+
+<p>Hope you find it useful.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using OSX Notification Center in your programs]]></title>
@@ -1183,181 +1281,6 @@ table is properly set and created (if needed). I admit, this is still far from b
 completely transparent, but this works for me at the moment. Feedback is welcome!</p>
 
 <p>Happy coding!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Object extensions and method lookups in Ruby]]></title>
-    <link href="http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby/"/>
-    <updated>2012-10-21T16:30:00+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/10/object-extensions-and-method-lookups-in-ruby</id>
-    <content type="html"><![CDATA[<p>Method lookup is an interesting topic in Ruby. For example, exactly what happens that
-produces this output from this code?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
-</span><span class='line'>  <span class="kp">include</span> <span class="no">Foo</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;bar&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">bar</span><span class="o">.</span><span class="n">hello</span>
-</span><span class='line'><span class="c1"># &gt;&gt; foo</span>
-</span><span class='line'><span class="c1"># &gt;&gt; bar</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The algorithm for method lookups can be summarized in one sentence: &#8220;one step to the right,
-then up&#8221;. This is referring a specific visualization of objects and classes relationships,
-where we place object&#8217;s class to the right from the object, and place ancestor of a class
-above it.</p>
-
-<!-- more -->
-
-
-<p><img src="http://tech.tulentsev.com/images/uploads/2012/10/lookup1.png"></p>
-
-<p>It&#8217;s important to understand that instances in ruby do not hold methods, only classes do.
-At the same time we&#8217;re able to enhance <strong>specific instances</strong> with additional methods, that
-other instances of the same class will not have. Look:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar1</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">extend</span> <span class="no">Foo</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar2</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">ancestors</span> <span class="c1">#</span>
-</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># =&gt; &quot;foo&quot;</span>
-</span><span class='line'><span class="n">bar2</span><span class="o">.</span><span class="n">hello</span> <span class="c1"># ~&gt; -:17:in `&lt;main&gt;&#39;: undefined method `hello&#39; for #&lt;Bar:0x007f858210a1d0&gt; (NoMethodError)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here <code>bar2</code> instance does not have a <code>hello</code> method, while <code>bar1</code> does have it. This means
-that <code>hello</code> method can&#8217;t be in <code>bar1</code> instance itself (remember, instances don&#8217;t contain
-methods), but it also can&#8217;t be in <code>Bar</code> class, because then <code>bar2</code> would also have it. So,
-where is that method located?</p>
-
-<p>Well, there is a special hidden class for every object <em>instance</em> in ruby. This dynamic
-class is where all those per-instance methods go. You won&#8217;t be able to see it in the
-ancestors chain, ruby hides it from you. But it&#8217;s there (well, technically speaking, it <em>appears</em> there when you define your first per-instance method). So, in this case the lookup goes
-like this:</p>
-
-<p><img src="http://tech.tulentsev.com/images/uploads/2012/10/lookup2.png"></p>
-
-<p>But what happens if <code>Bar</code> also defines a <code>hello</code> method? Which gets found and executed first?
-Can you tell by looking on the pictures above?</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Foo</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;foo&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">Bar</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
-</span><span class='line'>    <span class="k">super</span> <span class="k">if</span> <span class="n">defined?</span> <span class="k">super</span>
-</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;bar&#39;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar1</span> <span class="o">=</span> <span class="no">Bar</span><span class="o">.</span><span class="n">new</span>
-</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">extend</span> <span class="no">Foo</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">bar1</span><span class="o">.</span><span class="n">hello</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&#8217;s right it will print &#8220;bar&#8221;, then &#8220;foo&#8221;. Why? Because <code>Foo#hello</code> will be injected
-<em>before</em> <code>Bar#hello</code> in the ancestors chain. It will go into that dynamic unique class
-(which is called <em>eigenclass</em>, by the way). Here&#8217;s the lookup flow:</p>
-
-<p><img src="http://tech.tulentsev.com/images/uploads/2012/10/lookup3.png"></p>
-
-<p>Method from <code>Foo</code> is found first and it calls super, which is the version in <code>Bar</code> class.
-This version also tries to call <code>super</code> (there isn&#8217;t one), then prints &#8220;bar&#8221; and returns
-control to <code>Foo#hello</code> which prints &#8220;foo&#8221;.</p>
-
-<p>Now you see, it&#8217;s a simple algorithm. But it can be really puzzling if you don&#8217;t know about
-eigenclasses.</p>
 ]]></content>
   </entry>
   

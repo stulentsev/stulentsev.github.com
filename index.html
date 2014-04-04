@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="There is this good feature in OSX, called Notification Center (which Apple may have stolen from Growl, who knows). It has an API, so you can post &hellip;">
+  <meta name="description" content="Large Rails apps have large locale .yml files. Some have files so large that it is not feasible to simply open them in editor and work with them. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,133 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How to Work With Large YAML Files and Not Go Crazy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-04T20:15:00+04:00" pubdate data-updated="true">Apr 4<span>th</span>, 2014</time>
+        
+         | <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Large Rails apps have large locale .yml files. Some have files so large that it is not feasible to simply open them in editor and work with them. Sure, you can edit them just fine, but you can&#8217;t efficiently search them.</p>
+
+<p>Say, you&#8217;re implementing a new page. It has &#8220;Balance&#8221; (for example) field on it. You think: &#8220;Hm, we have several other pages with this field. Surely, it had been I18n&#8217;d before. Let&#8217;s look in locale files&#8221;. You open 10 kLOC en-US.yml file, start searching and find 15 entries of &#8220;balance:&#8221; string, with varying levels of indentation. What are the full names of these keys? You have no idea.</p>
+
+<p>I googled for quite a while and, to my surprise, haven&#8217;t found a yaml browser with search, which would show me FQN of a key. Here&#8217;s my little script that I wrote to help me in navigating these ginormous files:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1">#! /usr/bin/env ruby</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;colorize&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">filename</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="n">pattern_text</span> <span class="o">=</span> <span class="no">ARGV</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">unless</span> <span class="n">filename</span> <span class="o">&amp;&amp;</span> <span class="n">pattern_text</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Usage: grep_yaml.rb filename pattern&quot;</span>
+</span><span class='line'>  <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">pattern</span> <span class="o">=</span> <span class="no">Regexp</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pattern_text</span><span class="p">,</span> <span class="ss">:nocase</span><span class="p">)</span>
+</span><span class='line'><span class="nb">p</span> <span class="n">pattern</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">current_path</span> <span class="o">=</span> <span class="o">[]</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">path</span> <span class="o">=</span> <span class="n">current_path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">obj</span> <span class="o">=~</span> <span class="n">pattern</span> <span class="o">||</span> <span class="n">path</span> <span class="o">=~</span> <span class="n">pattern</span>
+</span><span class='line'>      <span class="k">yield</span> <span class="o">[</span><span class="n">path</span><span class="p">,</span> <span class="n">obj</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="no">Hash</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">obj</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">recurse</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">current_path</span> <span class="o">+</span> <span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">recurse</span><span class="p">(</span><span class="nb">hash</span><span class="p">,</span> <span class="n">pattern</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">path</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">path</span><span class="si">}</span><span class="s2">:</span><span class="se">\t</span><span class="si">#{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">match</span><span class="o">|</span> <span class="n">match</span><span class="o">.</span><span class="n">green</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">line</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Example usage (grep one of locale files of <a href="https://github.com/discourse/discourse">Discourse</a> project):</p>
+
+<p><img class="center" src="/images/uploads/2014/04/04/yaml_grep.png"></p>
+
+<p>Much more comfortable, isn&#8217;t it?</p>
+
+<p>The source is uploaded as <a href="https://gist.github.com/stulentsev/9978365">gist</a>, for your copying/forking convenience. I should probably make a proper rubygem out of it. But, you know, when the immediate problem is solved, there are always more important things to work on. :/</p>
+
+<p>Hope you find it useful.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -913,85 +1040,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/02/cap-deploy-from-an-arbitrary-branch/">Cap Deploy From an Arbitrary Branch</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-22T12:34:00+04:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2013</time>
-        
-         | <a href="/2013/02/cap-deploy-from-an-arbitrary-branch/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;develop&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you develop in a single branch, that should do it for you. All commits go to one branch and all deploys are likely served by the same branch. This is a simple model, good enough for small projects.</p>
-
-<p>However, if you adopt <a href="http://nvie.com/posts/a-successful-git-branching-model/">git flow</a>, it encourages you (not to say &#8220;forces&#8221;) to have separate branch for every feature, release or hotfix that you&#8217;re working on. And, naturally, you want to deploy to dev/staging server right from a feature branch, not having to merge it first to develop/master. This is trivial to accomplish, just change the branch name:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="s1">&#39;feature/my-test-feature&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you have a pending file change. What do you do with it? Commit to source control? That increases file churn rate for absolutely no reason. <code>git checkout</code> that file? This is an extra action, of which you will be tired quite soon (not to mention chance to accidentally commit the file).</p>
-
-<p>Solution? Externalize the setting. When deploying, look in the environment for a branch to use and fallback to default name.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:branch</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;BRANCH&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;develop&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you do this</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">BRANCH</span><span class="o">=</span>feature/my-test-feature cap deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or, if you have multistage enabled</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">BRANCH</span><span class="o">=</span>feature/my-test-feature cap staging deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Of course, this requires a bit more typing on each deploy, but at the same time it decreases chances of deploying from a wrong branch.</p>
-
-<p>Happy deploying!</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1007,6 +1055,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
       </li>
     
@@ -1020,10 +1072,6 @@
     
       <li class="post">
         <a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/kata-convert-numbers-to-roman-numerals/">Kata: Convert numbers to Roman numerals</a>
       </li>
     
   </ul>
