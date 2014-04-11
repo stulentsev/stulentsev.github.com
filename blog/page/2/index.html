@@ -9,8 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="As you know, capistrano can deploy your app from a specific branch in the repo. You just have to specify it 1
-set :branch, &#39;develop&#39; If you &hellip;">
+  <meta name="description" content="So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,7 +49,7 @@ set :branch, &#39;develop&#39; If you &hellip;">
   <header role="banner"><hgroup>
   <h1><a href="/">Byte Friendly</a></h1>
   
-    <h2>Thoughts on programming, scalability and other stuff.</h2>
+    <h2>Random thoughts on programming and related topics.</h2>
   
 </hgroup>
 
@@ -77,6 +76,75 @@ set :branch, &#39;develop&#39; If you &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s Log Directory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-11T14:34:00+04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
+        
+         | <a href="/2013/03/move-capistranos-log-directory/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries with <code>#{rails_root}/log</code> paths hardcoded in them? Fear not, there&#8217;s a simple workaround.</p>
+
+<p>As you probably know, capistrano aliases your rails log dir to a shared dir outside of app folder.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /deploy_path/shared/log /deploy_path/current/log</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This means that, in fact, all your logs turn up at <code>/deploy_path/shared/log/</code>. Now all we need is to symlink that dir as well!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo mkdir /var/log/yourapp
+</span><span class='line'>
+</span><span class='line'><span class="c"># make it writable to the app</span>
+</span><span class='line'>sudo chown -R youruser:yourgroup /var/log/yourapp/
+</span><span class='line'>
+</span><span class='line'><span class="c"># deal with existing log dir (I back it up, but you can remove it, or copy the files to </span>
+</span><span class='line'><span class="c">#   the new location)</span>
+</span><span class='line'>mv /deploy_path/shared/log /deploy_path/shared/log_
+</span><span class='line'>ln -s /var/log/yourapp /deploy_path/shared/log
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Hope this helps :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -770,52 +838,6 @@ profitable startup? :)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/dynamic-collections-a-la-mongodb/">Dynamic Collections a La MongoDB, but With MySQL</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-28T16:52:00+04:00" pubdate data-updated="true">Oct 28<span>th</span>, 2012</time>
-        
-         | <a href="/2012/10/dynamic-collections-a-la-mongodb/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>After having worked with MongoDB for a while, I really miss its dynamic features when
-dealing with &#8220;legacy&#8221; systems (MySQL, in this instance). How cool it would be to just start
-inserting data into random collection and it will magically appear in the DB? <strong>Good news is</strong>:
-it can be done.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2012/10/dynamic-collections-a-la-mongodb/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -833,6 +855,10 @@ it can be done.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/how-to-make-custom-commands-in-atom-extensions/">How to make custom commands in Atom extensions</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
       </li>
     
@@ -846,10 +872,6 @@ it can be done.</p>
     
       <li class="post">
         <a href="/2014/03/useful-documentation-lookup-tools/">Useful documentation lookup tools</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a>
       </li>
     
   </ul>

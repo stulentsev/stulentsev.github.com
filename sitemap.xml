@@ -247,11 +247,17 @@
         <lastmod>2014-04-04T20:40:48+04:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tech.tulentsev.com/2014/04/how-to-make-custom-commands-in-atom-extensions/
+        </loc>
+        <lastmod>2014-04-11T20:14:41+04:00</lastmod>
+    </url>
+    <url>
         <loc>http://tech.tulentsev.com/blog/archives/</loc>
-        <lastmod>2014-04-04T20:40:48+04:00</lastmod>
+        <lastmod>2014-04-11T20:14:41+04:00</lastmod>
     </url>
     <url>
         <loc>http://tech.tulentsev.com/</loc>
-        <lastmod>2014-04-04T20:40:48+04:00</lastmod>
+        <lastmod>2014-04-11T20:14:41+04:00</lastmod>
     </url>
 </urlset>

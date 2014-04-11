@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Large Rails apps have large locale .yml files. Some have files so large that it is not feasible to simply open them in editor and work with them. &hellip;">
+  <meta name="description" content="A couple of days ago I finally got my invite to Atom editor. A bit late, but I still was excited. It makes overall positive impression and has some &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -49,7 +49,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">Byte Friendly</a></h1>
   
-    <h2>Thoughts on programming, scalability and other stuff.</h2>
+    <h2>Random thoughts on programming and related topics.</h2>
   
 </hgroup>
 
@@ -76,6 +76,97 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2014/04/how-to-make-custom-commands-in-atom-extensions/">How to Make Custom Commands in Atom Extensions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-11T19:58:00+04:00" pubdate data-updated="true">Apr 11<span>th</span>, 2014</time>
+        
+         | <a href="/2014/04/how-to-make-custom-commands-in-atom-extensions/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A couple of days ago I finally got my invite to <a href="http://atom.io">Atom editor</a>. A bit late, but I still was excited.</p>
+
+<p>It makes overall positive impression and has some essential things bundled (save on lost focus, trim trailing whitespaces, etc.) But still there are some things lacking. So I decided to check out its praised extensibility.</p>
+
+<p>Again, docs look good and cover some first steps. But I spent a good couple of hours today, trying to invoke my custom command.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">module.exports =</span>
+</span><span class='line'>  <span class="nv">activate: </span><span class="nf">(state) -&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">process: </span><span class="o">-&gt;</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&#39;doing custom action&#39;</span>
+</span><span class='line'>    <span class="nv">editor = </span><span class="nx">atom</span><span class="p">.</span><span class="nx">workspace</span><span class="p">.</span><span class="nx">getActiveEditor</span><span class="p">()</span>
+</span><span class='line'>    <span class="nx">editor</span><span class="p">.</span><span class="nx">insertText</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>process</code> in the listing above is a simple action. It gets current editor and inserts string &#8220;hello&#8221; at the cursor. I defined an editor shortcut, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">&#39;.editor&#39;:</span>
+</span><span class='line'>  <span class="err">&#39;cmd-ctrl-shift-e&#39;:</span> <span class="err">&#39;myext:process&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>where <code>myext</code> is the name of my extension. But upon pressing the hotkey, nothing happened. A couple of hours later I got the solution. My mistake was in assuming that Atom will somehow discover and dynamically call that exported method <code>process</code>. It&#8217;s exported for a reason, right? Well, no. It turns out that you have to bind commands manually.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='coffeescript'><span class='line'><span class="nv">module.exports =</span>
+</span><span class='line'>  <span class="nv">activate: </span><span class="nf">(state) -&gt;</span>
+</span><span class='line'>    <span class="nx">atom</span><span class="p">.</span><span class="nx">workspaceView</span><span class="p">.</span><span class="nx">command</span> <span class="s">&quot;myext:process&quot;</span><span class="p">,</span> <span class="o">=&gt;</span> <span class="nx">@process</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">process: </span><span class="o">-&gt;</span>
+</span><span class='line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&#39;doing custom action&#39;</span>
+</span><span class='line'>    <span class="nv">editor = </span><span class="nx">atom</span><span class="p">.</span><span class="nx">workspace</span><span class="p">.</span><span class="nx">getActiveEditor</span><span class="p">()</span>
+</span><span class='line'>    <span class="nx">editor</span><span class="p">.</span><span class="nx">insertText</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next time, we&#8217;ll do something useful. :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -971,75 +1062,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/03/move-capistranos-log-directory/">Move Capistrano&#8217;s Log Directory</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-03-11T14:34:00+04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2013</time>
-        
-         | <a href="/2013/03/move-capistranos-log-directory/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>So you want to move your log directory? To a separate volume, maybe? But you are afraid that it will break too many things, like all those libraries with <code>#{rails_root}/log</code> paths hardcoded in them? Fear not, there&#8217;s a simple workaround.</p>
-
-<p>As you probably know, capistrano aliases your rails log dir to a shared dir outside of app folder.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ln -s /deploy_path/shared/log /deploy_path/current/log</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This means that, in fact, all your logs turn up at <code>/deploy_path/shared/log/</code>. Now all we need is to symlink that dir as well!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo mkdir /var/log/yourapp
-</span><span class='line'>
-</span><span class='line'><span class="c"># make it writable to the app</span>
-</span><span class='line'>sudo chown -R youruser:yourgroup /var/log/yourapp/
-</span><span class='line'>
-</span><span class='line'><span class="c"># deal with existing log dir (I back it up, but you can remove it, or copy the files to </span>
-</span><span class='line'><span class="c">#   the new location)</span>
-</span><span class='line'>mv /deploy_path/shared/log /deploy_path/shared/log_
-</span><span class='line'>ln -s /var/log/yourapp /deploy_path/shared/log
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Hope this helps :)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1055,6 +1077,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2014/04/how-to-make-custom-commands-in-atom-extensions/">How to make custom commands in Atom extensions</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
       </li>
     
@@ -1068,10 +1094,6 @@
     
       <li class="post">
         <a href="/2014/03/useful-documentation-lookup-tools/">Useful documentation lookup tools</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/02/limitations-of-mongodb/">Limitations of MongoDB</a>
       </li>
     
   </ul>
