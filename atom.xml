@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2014-04-11T20:16:41+04:00</updated>
+  <updated>2014-04-28T21:37:01+04:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to freeze capybara integration/feature spec]]></title>
+    <link href="http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec/"/>
+    <updated>2014-04-28T21:05:00+04:00</updated>
+    <id>http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec</id>
+    <content type="html"><![CDATA[<p>I normally don&#8217;t write feature specs a lot, because usually the process is a bit of a pain. Especially when you&#8217;re trying to cover an existing legacy page with feature specs. Here&#8217;s one little trick that made my work a log easier, hopefully it will help you too :)</p>
+
+<p>The problem is that sometimes the spec fails and you get a vague idea why (element by selector is not found or something like that), but by the time an error is printed, the browser window is long gone (you see the browser if you use selenium capybara driver, for example). So you want to pause a test and dig around, find out what goes wrong.</p>
+
+<p>Capybara provides you with a <code>page</code> object which you can use to interact with the browser (click buttons, find elements, etc.), but I found it very inconvenient for quick poking around. Well, turns out (I didn&#8217;t know this before) that you can pause a test with something like <code>binding.pry</code> or <code>sleep</code>. Then you can inspect the page under test in the browser which will be left open and not frozen (it&#8217;s the separate process, so when main test process sleeps, browser is unaffected). Developer tools of modern browsers are fantastic, so it&#8217;s a shame not to use them.</p>
+
+<p>Oh yes, you can also use this technique to do repeating test setup. Say, the business reports a bug to you, you want to test it, but you don&#8217;t want to keep a permanent feature spec (they&#8217;re dog slow). What you can do is create a temporary test that will set everything up (create three different types of accounts, two projects and what not) and just put a <code>binding.pry</code> at the end. From then you can tail <code>log/test.log</code> and test the site manually. After you&#8217;re done with the bug, you just delete the test and commit the changes.</p>
+
+<p>Anyway, I hope this is googlable and will save somebody some time.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How to make custom commands in Atom extensions]]></title>
@@ -1144,38 +1161,6 @@ I won&#8217;t be too surprised tomorrow :)</p>
 
 
 <p>I will update this post when I find something new.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Deferred posting with Octopress]]></title>
-    <link href="http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress/"/>
-    <updated>2012-10-29T10:42:00+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/10/deferred-posting-with-octopress</id>
-    <content type="html"><![CDATA[<p>One of the powerful things that Wordpress can do and Octopress can&#8217;t, is deferred posting
-(or scheduled blogging, whatever). I never really missed it when I was using Wordpress, so
-I switched to Octopress without hesitation. But now I could use that feature. In case you
-don&#8217;t know, deferred posting allows you to write a post beforehand and schedule its release
-to some moment in future.</p>
-
-<p><img class="center" src="http://tech.tulentsev.com/images/uploads/2012/10/wp-datepicker.png"></p>
-
-<p>This functionality is kinda trivial if you use dynamic request processing and a database
-(like wordpress does). But with static sites it&#8217;s not at all that easy. So before
-implementing something myself, I decided to google for other works on this topic. Here&#8217;s
-a good article that I&#8217;ve found: <a href="http://instant-thinking.de/2012/08/03/synced-and-scheduled-blogging-with-octopress/#fnref:3">Synced and scheduled blogging with Octopress</a>.
-It also contains some links to other articles.</p>
-
-<p>In short, people write a daemon (or scheduled script) that checks your drafts from time to
-time. If a draft is due, it is copied to <code>_posts</code> directory and generate/deploy sequence
-is initiated.</p>
-
-<p>This, obviously, requires a computer that is always on and has actual content for the site.
-I don&#8217;t really like the idea of a daemon, but, I guess, this is a price you pay for using
-&#8220;blog engine for hackers&#8221;.</p>
-
-<p>Could this be implemented as an external web service? Is there an opportunity for a
-profitable startup? :)</p>
 ]]></content>
   </entry>
   

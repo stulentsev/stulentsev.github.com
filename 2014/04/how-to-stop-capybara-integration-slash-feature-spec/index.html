@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>How to quickly lock screen in Mac OS X? - Byte Friendly</title>
+  <title>How to freeze capybara integration/feature spec - Byte Friendly</title>
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am tired of googling the same information over and over, so I am posting it here. To quickly lock your screen, press Ctrl+Shift+Eject. Also, you &hellip;">
+  <meta name="description" content="I normally don&#8217;t write feature specs a lot, because usually the process is a bit of a pain. Especially when you&#8217;re trying to cover an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/">
+  <link rel="canonical" href="http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">How to Quickly Lock Screen in Mac OS X?</h1>
+      <h1 class="entry-title">How to Freeze Capybara Integration/feature Spec</h1>
     
     
       <p class="meta">
@@ -95,7 +95,7 @@
   
 
 
-<time datetime="2012-01-27T21:28:28+04:00" pubdate data-updated="true">Jan 27<span>th</span>, 2012</time>
+<time datetime="2014-04-28T21:05:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2014</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -104,11 +104,15 @@
   </header>
 
 
-<div class="entry-content"><p>I am tired of googling the same information over and over, so I am posting it here.</p>
+<div class="entry-content"><p>I normally don&#8217;t write feature specs a lot, because usually the process is a bit of a pain. Especially when you&#8217;re trying to cover an existing legacy page with feature specs. Here&#8217;s one little trick that made my work a log easier, hopefully it will help you too :)</p>
 
-<p>To quickly lock your screen, press Ctrl+Shift+Eject.</p>
+<p>The problem is that sometimes the spec fails and you get a vague idea why (element by selector is not found or something like that), but by the time an error is printed, the browser window is long gone (you see the browser if you use selenium capybara driver, for example). So you want to pause a test and dig around, find out what goes wrong.</p>
 
-<p>Also, you can press Fn+Ctrl+Eject to quickly restart your Mac, shut it down or put to sleep.</p>
+<p>Capybara provides you with a <code>page</code> object which you can use to interact with the browser (click buttons, find elements, etc.), but I found it very inconvenient for quick poking around. Well, turns out (I didn&#8217;t know this before) that you can pause a test with something like <code>binding.pry</code> or <code>sleep</code>. Then you can inspect the page under test in the browser which will be left open and not frozen (it&#8217;s the separate process, so when main test process sleeps, browser is unaffected). Developer tools of modern browsers are fantastic, so it&#8217;s a shame not to use them.</p>
+
+<p>Oh yes, you can also use this technique to do repeating test setup. Say, the business reports a bug to you, you want to test it, but you don&#8217;t want to keep a permanent feature spec (they&#8217;re dog slow). What you can do is create a temporary test that will set everything up (create three different types of accounts, two projects and what not) and just put a <code>binding.pry</code> at the end. From then you can tail <code>log/test.log</code> and test the site manually. After you&#8217;re done with the bug, you just delete the test and commit the changes.</p>
+
+<p>Anyway, I hope this is googlable and will save somebody some time.</p>
 </div>
 
 
@@ -131,21 +135,15 @@
   
 
 
-<time datetime="2012-01-27T21:28:28+04:00" pubdate data-updated="true">Jan 27<span>th</span>, 2012</time>
+<time datetime="2014-04-28T21:05:00+04:00" pubdate data-updated="true">Apr 28<span>th</span>, 2014</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/mac-osx/'>mac-osx</a>, <a class='category' href='/blog/categories/super-user/'>super-user</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -156,10 +154,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/2012/01/email-validation-done-right/" title="Previous Post: Email validation done right">&laquo; Email validation done right</a>
+        <a class="basic-alignment left" href="/2014/04/how-to-make-custom-commands-in-atom-extensions/" title="Previous Post: How to make custom commands in Atom extensions">&laquo; How to make custom commands in Atom extensions</a>
       
-      
-        <a class="basic-alignment right" href="/2012/02/mongoid-db-system-namespaces-queries/" title="Next Post: Mongoid, db.system.namespaces queries">Mongoid, db.system.namespaces queries &raquo;</a>
       
     </p>
   </footer>
@@ -240,8 +236,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/';
-        var disqus_url = 'http://tech.tulentsev.com/2012/01/how-to-quickly-lock-screen-in-mac-os-x/';
+        var disqus_identifier = 'http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec/';
+        var disqus_url = 'http://tech.tulentsev.com/2014/04/how-to-stop-capybara-integration-slash-feature-spec/';
         var disqus_script = 'embed.js';
       
     (function () {
