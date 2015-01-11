@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I normally don&#8217;t write feature specs a lot, because usually the process is a bit of a pain. Especially when you&#8217;re trying to cover an &hellip;">
+  <meta name="description" content="I had some free time this weekend and wanted to mess around with Google API. Ultimately I wanted to work with Analytics, but decided to start with &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,192 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write Data to Google API on Example of UrlShortener API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-11T19:19:00+03:00" pubdate data-updated="true">Jan 11<span>th</span>, 2015</time>
+        
+         | <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had some free time this weekend and wanted to mess around with Google API. Ultimately I wanted to work with Analytics, but decided to start with something simpler (like UrlShortener) to reduce possible beginner&#8217;s pain. I was fortunate to decide so, because I spent a couple of hours in debugging anyway.</p>
+
+<p>Google API documentation is weird. It has this short <a href="https://developers.google.com/api-client-library/ruby/start/get_started#build">Getting Started</a> guide for Ruby, which contains only a few basic steps. <a href="https://developers.google.com/url-shortener/v1/getting_started?csw=1">Actual documentation</a> is expressed in the universal language of GET/POST requests (to be as language-agnostic as possible). A poor ruby newcomer is basically left to his own devices, there will be little to no help from google.</p>
+
+<p>Let me share some things I learned. Basic consumption of an API looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;google/api_client&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="no">Google</span><span class="o">::</span><span class="no">APIClient</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">urlshortener</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">discovered_api</span><span class="p">(</span><span class="s1">&#39;urlshortener&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">api_method</span><span class="p">:</span> <span class="n">urlshortener</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">parameters</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">shortUrl</span><span class="p">:</span> <span class="s1">&#39;http://goo.gl/fbsS&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looks simple, right? Yeah. It also doesn&#8217;t work. You&#8217;ll get an error when you try to run this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ArgumentError</span><span class="p">:</span> <span class="no">Missing</span> <span class="n">access</span> <span class="n">token</span><span class="o">.</span>
+</span><span class='line'>  <span class="n">from</span> <span class="sr">/Users/se</span><span class="n">rgio</span><span class="o">/.</span><span class="n">gem</span><span class="o">/</span><span class="n">ruby</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">signet</span><span class="o">-</span><span class="mi">0</span><span class="o">.</span><span class="mi">6</span><span class="o">.</span><span class="mi">0</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">signet</span><span class="o">/</span><span class="n">oauth_2</span><span class="o">/</span><span class="n">client</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">1009</span><span class="ss">:in</span> <span class="sb">`generate_authenticated_request&#39;</span>
+</span><span class='line'><span class="sb"> from /Users/sergio/.gem/ruby/2.1.5/gems/google-api-client-0.8.2/lib/google/api_client/request.rb:241:in `</span><span class="n">to_env</span><span class="err">&#39;</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Documentation forgot to mention that you need to disable authorization in the client.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="no">Google</span><span class="o">::</span><span class="no">APIClient</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">authorization</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, let&#8217;s say you want to shorten an url. This is <code>urlshortener.url.insert</code> method. Should be easy.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">client</span> <span class="o">=</span> <span class="no">Google</span><span class="o">::</span><span class="no">APIClient</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">authorization</span><span class="p">:</span> <span class="kp">nil</span><span class="p">,</span>
+</span><span class='line'><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">urlshortener</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">discovered_api</span><span class="p">(</span><span class="s1">&#39;urlshortener&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">api_method</span><span class="p">:</span> <span class="n">urlshortener</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">insert</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">parameters</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">longUrl</span><span class="p">:</span> <span class="s1">&#39;http://google.com&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But, instead of short url, you get this error in <code>result.data</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;error&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>         <span class="s2">&quot;errors&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                      <span class="s2">&quot;domain&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;global&quot;</span><span class="p">,</span>
+</span><span class='line'>                      <span class="s2">&quot;reason&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;required&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Required&quot;</span><span class="p">,</span>
+</span><span class='line'>                <span class="s2">&quot;locationType&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;parameter&quot;</span><span class="p">,</span>
+</span><span class='line'>                    <span class="s2">&quot;location&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;resource.longUrl&quot;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="o">]</span><span class="p">,</span>
+</span><span class='line'>           <span class="s2">&quot;code&quot;</span> <span class="o">=&gt;</span> <span class="mi">400</span><span class="p">,</span>
+</span><span class='line'>        <span class="s2">&quot;message&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Required&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It looks like an error. And it seems to be saying that I somehow did not specify <code>longUrl</code> parameter. But I did! Also, what&#8217;s up with <code>resource</code> in <code>resource.longUrl</code>. After much googling, some more reading of their gem sources and some debugging on top of that, I was able to figure this out.</p>
+
+<p>You see, <code>urlshortener.url.insert</code> is supposed to be a POST request. And it is correctly sent by the client gem. The only problem is with arguments. <code>parameters</code> key is what goes into query string for GET requests. But POST requests expect data in request body. Theoretically speaking, the gem could be smart enough to serialize <code>parameters</code> as a body if request method is &#8220;POST&#8221;. Sadly, it&#8217;s not the case. The secret is to use <code>body_object</code> key.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">execute</span><span class="p">({</span>
+</span><span class='line'>  <span class="n">api_method</span><span class="p">:</span> <span class="n">urlshortener</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">insert</span><span class="p">,</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">body_object</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">longUrl</span><span class="p">:</span> <span class="s1">&#39;http://google.com&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>body_object</code> will be serialized to request body. This will also set a correct &#8220;Content-Type&#8221; request header (&#8220;application/json&#8221;).</p>
+
+<p>I spent several hours and didn&#8217;t find a hint of a hint to this in the docs. I know, maintaining good APIs is hard and maintaining good docs is even harder, but isn&#8217;t google supposed to be example to us all? :)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -791,261 +977,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2013/11/pipeline-processing-in-go/">Pipeline Processing in Go</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-04T12:13:00+04:00" pubdate data-updated="true">Nov 4<span>th</span>, 2013</time>
-        
-         | <a href="/2013/11/pipeline-processing-in-go/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Pipeline processing is a very powerful design idiom. You have some simple building blocks that you can arrange in different combinations to perform complex tasks. A classic example of that is unix command line. Each tool is very simple. It does only job. But it still amazes me regularly, what you can achieve by simply combining those tools into a pipeline and feeding/piping data through it.</p>
-
-<p>Say, you&#8217;re building an RSS reader that shows new posts live. Implementing it in a regular procedural manner is easy. Something like this (pseudo-code):</p>
-
-<pre>
-  loop {
-    fetch posts
-    for each post {
-      if we have not yet seen this post {
-        mark post seen
-        show it to user
-      }
-    }
-  }
-</pre>
-
-
-<p>Say, now we want to do a focused reading. Which means that we only want to see a subset of posts which satisfy some arbitrary criteria (filter by tags, etc.). No problemo, we just add one conditional in there.</p>
-
-<pre>
-  loop {
-    fetch posts
-    for each post {
-      if post is interesting {
-        if we have not yet seen this post {
-          mark post seen
-          show it to user
-        }
-      }
-    }
-  }
-</pre>
-
-
-<p>Now it&#8217;s getting a little bit difficult to read and it will get worse. All business rules are in the same pile of code and it may be difficult to tell them apart.</p>
-
-<p>But if you think about it, there is a pipeline that consists of several primitive segments:</p>
-
-<p><img class="center" src="/images/uploads/2013/11/04/simple_pipeline.png"></p>
-
-<p>Each individual block is completely separate from each other (well, maybe except that &#8220;select unseen&#8221; and &#8220;mark all seen&#8221; might use the same storage). If we were to, say, remove caching (and stop serving cached content), we&#8217;d only have to take out those two segments. If we want to change how content is presented to user (print to terminal, send to text-to-speect engine, &#8230;), we only have to replace the final segment. The rest of the pipeline stays untouched. And the aforementioned tag filtering - we just insert it after fetcher:</p>
-
-<p><img class="center" src="/images/uploads/2013/11/04/pipeline_with_filter.png"></p>
-
-<p>In the pipeline, each segment can either swallow a message or pass it on (after applying some transformation (optional)). Two simple rules, infinite flexibility.</p>
-
-<p>Go language allows for natural expression of this design: goroutines as segments, connected by channels.</p>
-
-<p>Here&#8217;s an intentionally primitive example, which filters and transforms a stream of integers.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="k">package</span> <span class="n">main</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">import</span> <span class="p">(</span>
-</span><span class='line'>  <span class="s">&quot;fmt&quot;</span>
-</span><span class='line'>  <span class="s">&quot;time&quot;</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// type alias for our pipeline segment</span>
-</span><span class='line'><span class="c1">// segment is a function that reads from a stream of integers</span>
-</span><span class='line'><span class="c1">//  and writes to a stream of integers</span>
-</span><span class='line'><span class="k">type</span> <span class="n">pipelineSegment</span> <span class="k">func</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// construct our pipeline. Put generator first, then filters/modifiers</span>
-</span><span class='line'>  <span class="n">out</span> <span class="p">:=</span> <span class="n">makePipeline</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">onlyOdd</span><span class="p">,</span> <span class="n">plusOne</span><span class="p">,</span> <span class="n">squared</span><span class="p">,</span> <span class="n">plusOne</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">for</span> <span class="n">v</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">out</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">&quot;Resulting value: %d\n&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// This simply generates sequential integers in infinite loop.</span>
-</span><span class='line'><span class="k">func</span> <span class="n">generator</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">i</span> <span class="p">:=</span> <span class="mi">0</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">for</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">i</span>
-</span><span class='line'>    <span class="n">i</span> <span class="p">+=</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="n">time</span><span class="p">.</span><span class="n">Sleep</span><span class="p">(</span><span class="mi">100</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Filter. Selects only odd integers. Even integers are swallowed.</span>
-</span><span class='line'><span class="k">func</span> <span class="n">onlyOdd</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">for</span> <span class="n">val</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">in</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">val</span><span class="p">%</span><span class="mi">2</span> <span class="p">==</span> <span class="mi">1</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">val</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Modifier. Adds 1 and passes on.</span>
-</span><span class='line'><span class="k">func</span> <span class="n">plusOne</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">for</span> <span class="n">val</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">in</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">val</span> <span class="p">+</span> <span class="mi">1</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Modifier. Passes a square of incoming integer.</span>
-</span><span class='line'><span class="k">func</span> <span class="n">squared</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">for</span> <span class="n">val</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">in</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">val</span> <span class="p">*</span> <span class="n">val</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Generates pipeline out of individual segments. </span>
-</span><span class='line'><span class="c1">// Returns an &quot;exhaust pipe&quot;, from which fully processed integers can be read.</span>
-</span><span class='line'><span class="k">func</span> <span class="n">makePipeline</span><span class="p">(</span><span class="n">segments</span> <span class="p">...</span><span class="n">pipelineSegment</span><span class="p">)</span> <span class="p">(</span><span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">current_input</span> <span class="p">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="nb">int</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">var</span> <span class="n">current_output</span> <span class="k">chan</span> <span class="nb">int</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">seg</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">segments</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">current_output</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="nb">int</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">go</span> <span class="n">seg</span><span class="p">(</span><span class="n">current_input</span><span class="p">,</span> <span class="n">current_output</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="n">current_input</span> <span class="p">=</span> <span class="n">current_output</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="n">current_output</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Produced output:</p>
-
-<pre>
-  Resulting value: 5
-  Resulting value: 17
-  Resulting value: 37
-  Resulting value: 65
-  Resulting value: 101
-  Resulting value: 145
-  Resulting value: 197
-  ...
-</pre>
-
-
-<p>First generated integer is 0. It&#8217;s even (well, certainly not odd), so it does not make it past filter.</p>
-
-<p>Next one is 1. It passes filter. Then it gets +1, so it&#8217;s now 2. Then it&#8217;s squared and becomes 4. And finally, one more +1 which results in 5. There are no more segments, so this value is read from the output pipe and printed to terminal.</p>
-
-<p>Hope this was useful.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1061,6 +992,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write data to Google API on example of UrlShortener API</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/how-to-stop-capybara-integration-slash-feature-spec/">How to freeze capybara integration/feature spec</a>
       </li>
     
@@ -1074,10 +1009,6 @@
     
       <li class="post">
         <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
       </li>
     
   </ul>
@@ -1108,7 +1039,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Sergio Tulentsev -
+  Copyright &copy; 2015 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I decided to give TextMate 2 another try today. Hopefully it won&#8217;t freeze upon trying to install a bundle like it did last time. Now I don&# &hellip;">
+  <meta name="description" content="Pipeline processing is a very powerful design idiom. You have some simple building blocks that you can arrange in different combinations to perform &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,261 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2013/11/pipeline-processing-in-go/">Pipeline Processing in Go</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-04T12:13:00+04:00" pubdate data-updated="true">Nov 4<span>th</span>, 2013</time>
+        
+         | <a href="/2013/11/pipeline-processing-in-go/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Pipeline processing is a very powerful design idiom. You have some simple building blocks that you can arrange in different combinations to perform complex tasks. A classic example of that is unix command line. Each tool is very simple. It does only job. But it still amazes me regularly, what you can achieve by simply combining those tools into a pipeline and feeding/piping data through it.</p>
+
+<p>Say, you&#8217;re building an RSS reader that shows new posts live. Implementing it in a regular procedural manner is easy. Something like this (pseudo-code):</p>
+
+<pre>
+  loop {
+    fetch posts
+    for each post {
+      if we have not yet seen this post {
+        mark post seen
+        show it to user
+      }
+    }
+  }
+</pre>
+
+
+<p>Say, now we want to do a focused reading. Which means that we only want to see a subset of posts which satisfy some arbitrary criteria (filter by tags, etc.). No problemo, we just add one conditional in there.</p>
+
+<pre>
+  loop {
+    fetch posts
+    for each post {
+      if post is interesting {
+        if we have not yet seen this post {
+          mark post seen
+          show it to user
+        }
+      }
+    }
+  }
+</pre>
+
+
+<p>Now it&#8217;s getting a little bit difficult to read and it will get worse. All business rules are in the same pile of code and it may be difficult to tell them apart.</p>
+
+<p>But if you think about it, there is a pipeline that consists of several primitive segments:</p>
+
+<p><img class="center" src="/images/uploads/2013/11/04/simple_pipeline.png"></p>
+
+<p>Each individual block is completely separate from each other (well, maybe except that &#8220;select unseen&#8221; and &#8220;mark all seen&#8221; might use the same storage). If we were to, say, remove caching (and stop serving cached content), we&#8217;d only have to take out those two segments. If we want to change how content is presented to user (print to terminal, send to text-to-speect engine, &#8230;), we only have to replace the final segment. The rest of the pipeline stays untouched. And the aforementioned tag filtering - we just insert it after fetcher:</p>
+
+<p><img class="center" src="/images/uploads/2013/11/04/pipeline_with_filter.png"></p>
+
+<p>In the pipeline, each segment can either swallow a message or pass it on (after applying some transformation (optional)). Two simple rules, infinite flexibility.</p>
+
+<p>Go language allows for natural expression of this design: goroutines as segments, connected by channels.</p>
+
+<p>Here&#8217;s an intentionally primitive example, which filters and transforms a stream of integers.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="k">package</span> <span class="n">main</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">import</span> <span class="p">(</span>
+</span><span class='line'>  <span class="s">&quot;fmt&quot;</span>
+</span><span class='line'>  <span class="s">&quot;time&quot;</span>
+</span><span class='line'><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// type alias for our pipeline segment</span>
+</span><span class='line'><span class="c1">// segment is a function that reads from a stream of integers</span>
+</span><span class='line'><span class="c1">//  and writes to a stream of integers</span>
+</span><span class='line'><span class="k">type</span> <span class="n">pipelineSegment</span> <span class="k">func</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// construct our pipeline. Put generator first, then filters/modifiers</span>
+</span><span class='line'>  <span class="n">out</span> <span class="p">:=</span> <span class="n">makePipeline</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span> <span class="n">onlyOdd</span><span class="p">,</span> <span class="n">plusOne</span><span class="p">,</span> <span class="n">squared</span><span class="p">,</span> <span class="n">plusOne</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="n">v</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">out</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">fmt</span><span class="p">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">&quot;Resulting value: %d\n&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// This simply generates sequential integers in infinite loop.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">generator</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">i</span> <span class="p">:=</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">i</span>
+</span><span class='line'>    <span class="n">i</span> <span class="p">+=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">time</span><span class="p">.</span><span class="n">Sleep</span><span class="p">(</span><span class="mi">100</span> <span class="p">*</span> <span class="n">time</span><span class="p">.</span><span class="n">Millisecond</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Filter. Selects only odd integers. Even integers are swallowed.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">onlyOdd</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">val</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">in</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">val</span><span class="p">%</span><span class="mi">2</span> <span class="p">==</span> <span class="mi">1</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">val</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Modifier. Adds 1 and passes on.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">plusOne</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">val</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">in</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">val</span> <span class="p">+</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Modifier. Passes a square of incoming integer.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">squared</span><span class="p">(</span><span class="n">in</span><span class="p">,</span> <span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">defer</span> <span class="nb">close</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">for</span> <span class="n">val</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">in</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">out</span> <span class="p">&lt;-</span> <span class="n">val</span> <span class="p">*</span> <span class="n">val</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Generates pipeline out of individual segments. </span>
+</span><span class='line'><span class="c1">// Returns an &quot;exhaust pipe&quot;, from which fully processed integers can be read.</span>
+</span><span class='line'><span class="k">func</span> <span class="n">makePipeline</span><span class="p">(</span><span class="n">segments</span> <span class="p">...</span><span class="n">pipelineSegment</span><span class="p">)</span> <span class="p">(</span><span class="n">out</span> <span class="k">chan</span> <span class="nb">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">current_input</span> <span class="p">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="nb">int</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">var</span> <span class="n">current_output</span> <span class="k">chan</span> <span class="nb">int</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">seg</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">segments</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">current_output</span> <span class="p">=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="nb">int</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">go</span> <span class="n">seg</span><span class="p">(</span><span class="n">current_input</span><span class="p">,</span> <span class="n">current_output</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">current_input</span> <span class="p">=</span> <span class="n">current_output</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="n">current_output</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Produced output:</p>
+
+<pre>
+  Resulting value: 5
+  Resulting value: 17
+  Resulting value: 37
+  Resulting value: 65
+  Resulting value: 101
+  Resulting value: 145
+  Resulting value: 197
+  ...
+</pre>
+
+
+<p>First generated integer is 0. It&#8217;s even (well, certainly not odd), so it does not make it past filter.</p>
+
+<p>Next one is 1. It passes filter. Then it gets +1, so it&#8217;s now 2. Then it&#8217;s squared and becomes 4. And finally, one more +1 which results in 5. There are no more segments, so this value is read from the output pipe and printed to terminal.</p>
+
+<p>Hope this was useful.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -779,66 +1034,6 @@ customizable. Try this, for example:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/">Is TextMate 2 Ready for Everyday Coding? Let&#8217;s Find Out.</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-30T03:46:00+04:00" pubdate data-updated="true">Oct 30<span>th</span>, 2012</time>
-        
-         | <a href="/2012/10/is-textmate-2-ready-for-everyday-coding-lets-find-out/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Oh, the TextMate 2 we all waited for so long. Okay, I wasn&#8217;t really waiting,
-but I kept hearing about it. Never got to install the app.</p>
-
-<p>So, tonight I wasn&#8217;t able to fall asleep. I opened my macbook and started reading
-news. One thing led to another and the next thing I know, I&#8217;m installing alpha
-version of TextMate and a bundle for Go. Really, <a href="http://golang.org">Go</a>? I hope
-I won&#8217;t be too surprised tomorrow :)</p>
-
-<p>Okay, what&#8217;s new?</p>
-
-<ul>
-<li>If you open a file with unknown extension, TextMate will offer to install a
-  bundle for it, if there&#8217;s one.</li>
-<li>&#8220;Right margin&#8221; is now called &#8220;View -> Show Wrap Column&#8221;</li>
-<li>You can specify a default language for new files. 90% of my new files are Ruby
-  scripts, so it is a timesaver for me.</li>
-<li>New file browser. I&#8217;m not sure if I like it better or not.</li>
-<li>When you click on items in the file browser, they don&#8217;t open automatically. You have to double-click.</li>
-<li>Awesome new app icon! :)</li>
-</ul>
-
-
-<p>I will update this post when I find something new.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -856,6 +1051,10 @@ I won&#8217;t be too surprised tomorrow :)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write data to Google API on example of UrlShortener API</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/how-to-stop-capybara-integration-slash-feature-spec/">How to freeze capybara integration/feature spec</a>
       </li>
     
@@ -869,10 +1068,6 @@ I won&#8217;t be too surprised tomorrow :)</p>
     
       <li class="post">
         <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
       </li>
     
   </ul>
@@ -903,7 +1098,7 @@ I won&#8217;t be too surprised tomorrow :)</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Sergio Tulentsev -
+  Copyright &copy; 2015 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

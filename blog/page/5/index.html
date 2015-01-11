@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I am tired of googling the same information over and over, so I am posting it here. To quickly lock your screen, press Ctrl+Shift+Eject. Also, you &hellip;">
+  <meta name="description" content="Recently I faced some issues with Mongoid when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn. There are some Resque workers in the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/02/mongoid-db-system-namespaces-queries/">Mongoid, db.system.namespaces Queries</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-03T20:12:54+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
+        
+         | <a href="/2012/02/mongoid-db-system-namespaces-queries/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I faced some issues with <a href="http://mongoid.org">Mongoid</a> when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn.</p>
+
+<p>There are some Resque workers in the background. After some deploy they started to consume a ton of traffic from MongoDB. After some investigation, I found that they heavily read <code>system.namespaces</code> collection. I tried upgrading to latest versions of <code>mongoid</code>(2.4.3) and <code>mongo</code>(1.5.2) to no avail. This does not happen with normal unicorn workers. This also does not happen if I downgrade <code>mongoid</code> to 2.0.1.</p>
+
+<p>I am still not sure what&#8217;s happening here. I&#8217;ll update this post when I discover something.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -628,56 +670,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/making-more-mockups/">Making More Mockups</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-03T19:29:10+03:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2009</time>
-        
-         | <a href="/2009/03/making-more-mockups/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today Elen, my manager, approached me and asked to make a prototype of a new functionality in our project management system. This is a reimbursement management module: employees spend some money (taxi from airport, for example), then they create requests for reimbursements and if they are lucky and management approves the requests, they get the money back :-)</p>
-
-<p>So, prototype it is. I fired up my <a href="http://balsamiq.com/products/mockups/desktop">Balsamiq for Desktop </a>and in under ten minutes mockups of two pages were ready. This is one of them:</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2009/03/manager_view.png"><img src="http://tech.tulentsev.com/images/uploads/2009/03/manager_view.png" alt="manager_view" /></a></p>
-
-<p>But when I sent them to Elen, I thought that maybe she meant some real code, or HTML stubs in real system, because there was a mockup attached to her original email. Here it is:</p>
-
-<p><a href="http://tech.tulentsev.com/images/uploads/2009/03/reembolso.jpg"><img src="http://tech.tulentsev.com/images/uploads/2009/03/reembolso-300x159.jpg" alt="reembolso" /></a>According to her, she made it in Paint (<strong>duh!</strong>). And it took her approximately 30 minutes to make this one, because she had to printscreen some real pages and cut pieces from them. What a tedious work! :-) And it must be a hell to modify such mockup!</p>
-
-<p>When I told her about <a href="http://balsamiq.com/">Balsamiq Mockups</a>, she became very interested and decided to give it a try. Another happy story. Thank you, Peldi :-)</p>
-
-<p>Related posts: <a href="http://tech.tulentsev.com/2008/12/creating-ui-mockups-with-balsamiq/">Creating UI mockups with Balsamiq</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -695,6 +687,10 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write data to Google API on example of UrlShortener API</a>
+      </li>
+    
+      <li class="post">
         <a href="/2014/04/how-to-stop-capybara-integration-slash-feature-spec/">How to freeze capybara integration/feature spec</a>
       </li>
     
@@ -708,10 +704,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     
       <li class="post">
         <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/03/dash-now-with-cheatsheets/">Dash - now with cheatsheets</a>
       </li>
     
   </ul>
@@ -742,7 +734,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Sergio Tulentsev -
+  Copyright &copy; 2015 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
