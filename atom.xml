@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2016-08-26T14:58:56+03:00</updated>
+  <updated>2016-08-26T15:02:42+03:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -76,6 +76,8 @@ parts.push(padLeft(Math.floor(mod)));
 
 secs = Math.floor(secs / 60);
 }
+
+if(parts.length == 1) { parts.push('00'); }
 
 return parts.reverse().join(':');
 }
