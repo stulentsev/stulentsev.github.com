@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Running calculator in Javascript - Byte Friendly</title>
+  <meta name="author" content="Sergio Tulentsev">
+
+  
+  <meta name="description" content="I&#8217;m into running lately. So quite often I do these calculations in my head &#8220;if I ran 10 secs/km faster, what distance would I have &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tech.tulentsev.com/2016/08/running-calculator-in-javascript/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/ByteFriendly" rel="alternate" title="Byte Friendly" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-203037-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Byte Friendly</a></h1>
+  
+    <h2>Random thoughts on programming and related topics.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/ByteFriendly" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tech.tulentsev.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Running Calculator in Javascript</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-26T14:23:00+03:00" pubdate data-updated="true">Aug 26<span>th</span>, 2016</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;m into running lately. So quite often I do these calculations in my head &#8220;if I ran 10 secs/km faster, what distance would I have covered?&#8221; As the calculation are quite difficult and I am quite lazy, here&#8217;s a calculator that answers most of my questions. Posting it here for personal use, but maybe it&#8217;ll be useful to someone else too.</p>
+
+<div>
+  Time in minutes ([HH:]MM:SS) 
+  <input id='txtTime' type='text' placeholder='How long is the run?' value='48:02' />
+  <button class='calculate-btn' for='txtTime'>Calculate</button>
+</div>
+
+
+<p>x</p>
+
+<div>
+  Pace in mins/km (MM:SS)
+  <input id='txtPace' type='text' placeholder='How fast do you go?' />
+  <button class='calculate-btn' for='txtPace'>Calculate</button>
+</div>
+
+
+<p>=</p>
+
+<div>
+  Distance in kilometers
+  <input id='txtDistance' type='text' placeholder='How far do you go?' value='10' />
+  <button class='calculate-btn' for='txtDistance'>Calculate</button>
+</div>
+
+
+
+
+<script type='text/javascript'>
+$(function() {
+function padLeft(x) {
+var str = "" + x;
+return ('00'+str).substring(str.length);
+}
+
+function timeToSeconds(timestr) {
+var parts = timestr.split(':').reverse();
+
+var result = 0;
+for(var i = 0; i < parts.length; i++) {
+result += (parts[i] * Math.pow(60, i));
+}
+
+return result;
+}
+
+function secondsToTime(secs) {
+var parts = [];
+
+while(secs > 0){
+var mod = secs % 60;
+parts.push(padLeft(Math.floor(mod)));
+
+secs = Math.floor(secs / 60);
+}
+
+return parts.reverse().join(':');
+}
+
+$('.calculate-btn').click(function() {
+var time = timeToSeconds($('#txtTime').val());
+var pace = timeToSeconds($('#txtPace').val());
+var dist = $('#txtDistance').val();
+
+var target = $(this).attr('for');
+var result;
+
+if(target === 'txtTime') {
+result = dist * pace;
+$('#txtTime').val(secondsToTime(result));
+}
+
+if(target === 'txtPace') {
+result = time / dist;
+$('#txtPace').val(secondsToTime(result));
+}
+
+if(target === 'txtDistance') {
+result = time / pace;
+var rounded = Math.round(result * 100) / 100;
+$('#txtDistance').val(rounded);
+}
+})
+});
+</script>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Sergio Tulentsev</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-26T14:23:00+03:00" pubdate data-updated="true">Aug 26<span>th</span>, 2016</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://tech.tulentsev.com/2016/08/running-calculator-in-javascript/" data-via="stulentsev" data-counturl="http://tech.tulentsev.com/2016/08/running-calculator-in-javascript/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/" title="Previous Post: Write data to Google API on example of UrlShortener API">&laquo; Write data to Google API on example of UrlShortener API</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2016/08/running-calculator-in-javascript/">Running calculator in Javascript</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write data to Google API on example of UrlShortener API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/04/how-to-stop-capybara-integration-slash-feature-spec/">How to freeze capybara integration/feature spec</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/04/how-to-make-custom-commands-in-atom-extensions/">How to make custom commands in Atom extensions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Twitter</h1>
+<a class="twitter-timeline" href="https://twitter.com/stulentsev" data-widget-id="443278503488675840">Tweets by @stulentsev</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</section>  
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/115058022574940748667?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Sergio Tulentsev -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'software-and-computers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://tech.tulentsev.com/2016/08/running-calculator-in-javascript/';
+        var disqus_url = 'http://tech.tulentsev.com/2016/08/running-calculator-in-javascript/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

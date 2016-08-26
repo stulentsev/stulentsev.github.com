@@ -4,7 +4,7 @@
   <title><![CDATA[Byte Friendly]]></title>
   <link href="http://tech.tulentsev.com/atom.xml" rel="self"/>
   <link href="http://tech.tulentsev.com/"/>
-  <updated>2015-01-11T20:05:41+03:00</updated>
+  <updated>2016-08-26T14:34:26+03:00</updated>
   <id>http://tech.tulentsev.com/</id>
   <author>
     <name><![CDATA[Sergio Tulentsev]]></name>
@@ -12,6 +12,101 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Running calculator in Javascript]]></title>
+    <link href="http://tech.tulentsev.com/2016/08/running-calculator-in-javascript/"/>
+    <updated>2016-08-26T14:23:00+03:00</updated>
+    <id>http://tech.tulentsev.com/2016/08/running-calculator-in-javascript</id>
+    <content type="html"><![CDATA[<p>I&#8217;m into running lately. So quite often I do these calculations in my head &#8220;if I ran 10 secs/km faster, what distance would I have covered?&#8221; As the calculation are quite difficult and I am quite lazy, here&#8217;s a calculator that answers most of my questions. Posting it here for personal use, but maybe it&#8217;ll be useful to someone else too.</p>
+
+<div>
+  Time in minutes ([HH:]MM:SS) 
+  <input id='txtTime' type='text' placeholder='How long is the run?' value='48:02' />
+  <button class='calculate-btn' for='txtTime'>Calculate</button>
+</div>
+
+
+<p>x</p>
+
+<div>
+  Pace in mins/km (MM:SS)
+  <input id='txtPace' type='text' placeholder='How fast do you go?' />
+  <button class='calculate-btn' for='txtPace'>Calculate</button>
+</div>
+
+
+<p>=</p>
+
+<div>
+  Distance in kilometers
+  <input id='txtDistance' type='text' placeholder='How far do you go?' value='10' />
+  <button class='calculate-btn' for='txtDistance'>Calculate</button>
+</div>
+
+
+
+
+<script type='text/javascript'>
+$(function() {
+function padLeft(x) {
+var str = "" + x;
+return ('00'+str).substring(str.length);
+}
+
+function timeToSeconds(timestr) {
+var parts = timestr.split(':').reverse();
+
+var result = 0;
+for(var i = 0; i < parts.length; i++) {
+result += (parts[i] * Math.pow(60, i));
+}
+
+return result;
+}
+
+function secondsToTime(secs) {
+var parts = [];
+
+while(secs > 0){
+var mod = secs % 60;
+parts.push(padLeft(Math.floor(mod)));
+
+secs = Math.floor(secs / 60);
+}
+
+return parts.reverse().join(':');
+}
+
+$('.calculate-btn').click(function() {
+var time = timeToSeconds($('#txtTime').val());
+var pace = timeToSeconds($('#txtPace').val());
+var dist = $('#txtDistance').val();
+
+var target = $(this).attr('for');
+var result;
+
+if(target === 'txtTime') {
+result = dist * pace;
+$('#txtTime').val(secondsToTime(result));
+}
+
+if(target === 'txtPace') {
+result = time / dist;
+$('#txtPace').val(secondsToTime(result));
+}
+
+if(target === 'txtDistance') {
+result = time / pace;
+var rounded = Math.round(result * 100) / 100;
+$('#txtDistance').val(rounded);
+}
+})
+});
+</script>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Write data to Google API on example of UrlShortener API]]></title>
@@ -1255,38 +1350,6 @@ whatever. I will be told when deploy is finished. I&#8217;m using this for a few
 and it still make me smile everytime. I should probably come up with more creative messages.</p>
 
 <p>Happy tweaking!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Pretty log in Git]]></title>
-    <link href="http://tech.tulentsev.com/2012/11/pretty-log-in-git/"/>
-    <updated>2012-11-02T17:11:00+04:00</updated>
-    <id>http://tech.tulentsev.com/2012/11/pretty-log-in-git</id>
-    <content type="html"><![CDATA[<p>Here&#8217;s what default <code>git log</code> output looks like</p>
-
-<p><img class="center" src="http://tech.tulentsev.com/images/uploads/2012/11/git-ugly.png"></p>
-
-<p>While it is sure contains the information and is easily parsable by a machine, it&#8217;s
-not the best way to present it to a human. Luckily, the <code>git log</code> commands is quite
-customizable. Try this, for example:</p>
-
-<pre><code>git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-</code></pre>
-
-<p><img class="center" src="http://tech.tulentsev.com/images/uploads/2012/11/git-pretty.png"></p>
-
-<p>You can even set make an alias for it:</p>
-
-<pre><code>git config --global --add alias.plog "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
-</code></pre>
-
-<p>And then you just call</p>
-
-<pre><code>git plog
-</code></pre>
-
-<p>Happy gitting!</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="Recently I faced some issues with Mongoid when upgrading my Rails app from REE+Passenger to MRI 1.9.3+Unicorn. There are some Resque workers in the &hellip;">
+  <meta name="description" content="This seems to be a popular interview question. It indeed requires advanced knowledge of ruby. You have a class with a class method. Write a module &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,6 +28,7 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
   
   <script type="text/javascript">
@@ -76,6 +77,274 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/02/ruby-how-to-override-class-method-with-a-module/">Ruby: How to Override Class Method With a Module</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-02-03T21:09:00+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2012</time>
+        
+         | <a href="/2012/02/ruby-how-to-override-class-method-with-a-module/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This seems to be a popular interview question. It indeed requires advanced knowledge of ruby.</p>
+
+<blockquote><p>You have a class with a class method. Write a module that, when included, will override that class method.</p></blockquote>
+
+<h3>Explanation of the problem</h3>
+
+<p>Now classic way of mixing in class methods is this (and it doesn&#8217;t solve the problem, of course).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">FooModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">base</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">extend</span> <span class="no">ClassMethods</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">ClassMethods</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">bar</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;module&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">FooModule</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">bar</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">bar</span> <span class="c1">#=&gt; class</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When modules are included or extended into a class, its methods are placed right above this class&#8217; methods in inheritance chain. This means that if we were to call <code>super</code> in that class method, it would print &#8220;module&#8221;. But we don&#8217;t want to touch original class definition, we want to alter it from outside.</p>
+
+<h3>So, can we do something?</h3>
+
+<p>Good for us, ruby has a concept of <a href="http://www.google.ru/search?ix=hca&amp;sourceid=chrome&amp;ie=UTF-8&amp;q=ruby+open+classes">&#8220;open classes&#8221;</a>. This means that we can change virtually everything in the app, even some 3rd-party libraries. Every class can be &#8220;opened&#8221; and new methods can be added to it, or old methods can be redefined. Let&#8217;s look how it works.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">bar</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">bar</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class 2&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">bar</span> <span class="c1">#=&gt; class 2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The second class definition does not overwrite previous one, it opens and alters it. In this case, it happened to define a method with the same name. This resulted in old method being overwritten by the new one. This works with any classes, even base library classes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; [1, 2, 3]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Array</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="s2">&quot;an array: </span><span class="si">#{</span><span class="n">join</span> <span class="s1">&#39;, &#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; an array: 1, 2, 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or the same code can be rewritten as</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; [1, 2, 3]</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">Array</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_s</span>
+</span><span class='line'>    <span class="s2">&quot;an array: </span><span class="si">#{</span><span class="n">join</span> <span class="s1">&#39;, &#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">].</span><span class="n">to_s</span> <span class="c1">#=&gt; an array: 1, 2, 3</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Applying the knowledge</h3>
+
+<p>Let&#8217;s start with simpler things, like overriding an instance method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">FooModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">base</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">class_eval</span> <span class="k">do</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;module&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">FooModule</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">say</span> <span class="c1">#=&gt; module</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Modules have a special callback that gets called every time a module is included in a class. We can use that to call class_eval on that class and redefine a method.</p>
+
+<p>Replacing a class method is done in a similar way.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Klass</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">say</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s1">&#39;class&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">FooModule</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">included</span> <span class="n">base</span>
+</span><span class='line'>    <span class="n">base</span><span class="o">.</span><span class="n">instance_eval</span> <span class="k">do</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;module&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="no">FooModule</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Klass</span><span class="o">.</span><span class="n">say</span> <span class="c1">#=&gt; module</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The only difference here is that we call instance_eval instead of class_eval. This can be a very confusing part. In short, class_eval creates instance methods and instance_eval creates class methods.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -632,44 +901,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2009/03/iterations-are-good/">Iterations Are Good</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-04T19:11:47+03:00" pubdate data-updated="true">Mar 4<span>th</span>, 2009</time>
-        
-         | <a href="/2009/03/iterations-are-good/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Iterations in software development. Tried to implement proper solution on the first try? I bet you failed. It&#8217;s like in Google Earth zooming in your house from the planet view. To achieve your goal, you&#8217;ve got to advance a little bit, adjust your position, advance further. Iterate until done.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -687,6 +918,10 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2016/08/running-calculator-in-javascript/">Running calculator in Javascript</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write data to Google API on example of UrlShortener API</a>
       </li>
     
@@ -700,10 +935,6 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     
       <li class="post">
         <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
       </li>
     
   </ul>
@@ -734,7 +965,7 @@ RubyMine: +1 to intuitivity, +1 to overall impression.</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Sergio Tulentsev -
+  Copyright &copy; 2016 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

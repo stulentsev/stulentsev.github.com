@@ -9,7 +9,7 @@
   <meta name="author" content="Sergio Tulentsev">
 
   
-  <meta name="description" content="I had some free time this weekend and wanted to mess around with Google API. Ultimately I wanted to work with Analytics, but decided to start with &hellip;">
+  <meta name="description" content="I&#8217;m into running lately. So quite often I do these calculations in my head &#8220;if I ran 10 secs/km faster, what distance would I have &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,6 +28,7 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
 
   
   <script type="text/javascript">
@@ -76,6 +77,130 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2016/08/running-calculator-in-javascript/">Running Calculator in Javascript</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-08-26T14:23:00+03:00" pubdate data-updated="true">Aug 26<span>th</span>, 2016</time>
+        
+         | <a href="/2016/08/running-calculator-in-javascript/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m into running lately. So quite often I do these calculations in my head &#8220;if I ran 10 secs/km faster, what distance would I have covered?&#8221; As the calculation are quite difficult and I am quite lazy, here&#8217;s a calculator that answers most of my questions. Posting it here for personal use, but maybe it&#8217;ll be useful to someone else too.</p>
+
+<div>
+  Time in minutes ([HH:]MM:SS) 
+  <input id='txtTime' type='text' placeholder='How long is the run?' value='48:02' />
+  <button class='calculate-btn' for='txtTime'>Calculate</button>
+</div>
+
+
+<p>x</p>
+
+<div>
+  Pace in mins/km (MM:SS)
+  <input id='txtPace' type='text' placeholder='How fast do you go?' />
+  <button class='calculate-btn' for='txtPace'>Calculate</button>
+</div>
+
+
+<p>=</p>
+
+<div>
+  Distance in kilometers
+  <input id='txtDistance' type='text' placeholder='How far do you go?' value='10' />
+  <button class='calculate-btn' for='txtDistance'>Calculate</button>
+</div>
+
+
+
+
+<script type='text/javascript'>
+$(function() {
+function padLeft(x) {
+var str = "" + x;
+return ('00'+str).substring(str.length);
+}
+
+function timeToSeconds(timestr) {
+var parts = timestr.split(':').reverse();
+
+var result = 0;
+for(var i = 0; i < parts.length; i++) {
+result += (parts[i] * Math.pow(60, i));
+}
+
+return result;
+}
+
+function secondsToTime(secs) {
+var parts = [];
+
+while(secs > 0){
+var mod = secs % 60;
+parts.push(padLeft(Math.floor(mod)));
+
+secs = Math.floor(secs / 60);
+}
+
+return parts.reverse().join(':');
+}
+
+$('.calculate-btn').click(function() {
+var time = timeToSeconds($('#txtTime').val());
+var pace = timeToSeconds($('#txtPace').val());
+var dist = $('#txtDistance').val();
+
+var target = $(this).attr('for');
+var result;
+
+if(target === 'txtTime') {
+result = dist * pace;
+$('#txtTime').val(secondsToTime(result));
+}
+
+if(target === 'txtPace') {
+result = time / dist;
+$('#txtPace').val(secondsToTime(result));
+}
+
+if(target === 'txtDistance') {
+result = time / pace;
+var rounded = Math.round(result * 100) / 100;
+$('#txtDistance').val(rounded);
+}
+})
+});
+</script>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -936,47 +1061,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2014/02/what-is-utf-8-for-the-dummies/">What Is UTF-8 (for the Dummies)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-03T09:41:00+04:00" pubdate data-updated="true">Feb 3<span>rd</span>, 2014</time>
-        
-         | <a href="/2014/02/what-is-utf-8-for-the-dummies/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I must admit, I didn&#8217;t really understand what Unicode (more specifically, its flavor &#8220;UTF-8&#8221;) actually is. All I knew was that it&#8217;s a good encoding and it&#8217;s compatible with ASCII. Beyond that - no clue. This video has made it crystal clear.</p>
-
-<iframe width="560" height="315" src="//www.youtube.com/embed/MijmeoH9LT4" frameborder="0" allowfullscreen></iframe>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -992,6 +1076,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/2016/08/running-calculator-in-javascript/">Running calculator in Javascript</a>
+      </li>
+    
+      <li class="post">
         <a href="/2015/01/write-data-to-google-api-on-example-of-urlshortener-api/">Write data to Google API on example of UrlShortener API</a>
       </li>
     
@@ -1005,10 +1093,6 @@
     
       <li class="post">
         <a href="/2014/04/work-with-large-yaml-files-and-not-go-crazy/">How To Work with large YAML files and not go crazy</a>
-      </li>
-    
-      <li class="post">
-        <a href="/2014/03/using-osx-notification-center-in-your-programs/">Using OSX Notification Center in your programs</a>
       </li>
     
   </ul>
@@ -1039,7 +1123,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2015 - Sergio Tulentsev -
+  Copyright &copy; 2016 - Sergio Tulentsev -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
