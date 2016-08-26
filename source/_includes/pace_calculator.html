@@ -44,6 +44,8 @@ parts.push(padLeft(Math.floor(mod)));
 secs = Math.floor(secs / 60);
 }
 
+if(parts.length == 1) { parts.push('00'); }
+
 return parts.reverse().join(':');
 }
 
