@@ -32,12 +32,13 @@ p pattern
 hash = YAML.load_file(filename)
 
 def recurse(obj, pattern, current_path = [], &block)
-  if obj.is_a?(String)
+  case obj
+  when String
     path = current_path.join('.')
     if obj =~ pattern || path =~ pattern
       yield [path, obj]
     end
-  elsif obj.is_a?(Hash)
+  when Hash
     obj.each do |k, v|
       recurse(v, pattern, current_path + [k], &block)
     end
